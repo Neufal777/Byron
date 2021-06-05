@@ -1,6 +1,8 @@
 package main
 
-import "github.com/Byron/core"
+import (
+	"github.com/Byron/core"
+)
 
 type Yo struct {
 	Name string
@@ -9,20 +11,24 @@ type Yo struct {
 
 func main() {
 
-	Categories := []string{
-		//"machine learning",
-		//"artificial Inteligence",
-		"neurociencia",
-		//"inteligencia artificial",
-		//"math",
-		//"maths",
-		//"biology",
-		//"biologia",
-	}
+	// Categories := []string{
+	// 	"machine learning",
+	// 	"artificial Inteligence",
+	// 	"neurociencia",
+	// 	//"inteligencia artificial",
+	// 	"math",
+	// 	"maths",
+	// 	//"biology",
+	// 	//"biologia",
+	// }
 
-	for _, c := range Categories {
-		core.LIBGENDownloadAll(c)
+	// for _, c := range Categories {
 
-	}
+	// 	fmt.Println(chalk.Magenta.Color("processing " + c))
+	// 	core.LIBGENDownloadAll(c)
+
+	// }
+
+	core.LIBGENDownloadAll("GeneralLibrary")
 
 }
