@@ -83,9 +83,7 @@ func LIBGENDownloadAll(search string) {
 func ProcessUrls(AllUrls []string, search string) {
 
 	processed := 0
-	rand.Seed(time.Now().UnixNano())
-	rand.Shuffle(len(AllUrls), func(i, j int) { AllUrls[i], AllUrls[j] = AllUrls[j], AllUrls[i] })
-
+	
 	for _, u := range AllUrls {
 
 		time.Sleep(1 * time.Second)
@@ -127,7 +125,23 @@ func ProcessUrls(AllUrls []string, search string) {
 			Check language, Only accepted (english, spanish)
 		*/
 
+		log.Println("ID",ArticleId.FindStringSubmatch(articleHtmlFormat)[1])
 		log.Println("Language:", ArticleLang.FindStringSubmatch(articleHtmlFormat)[1])
+
+		log.Println("ArticleDownload",ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ArticleTitle",ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ArticleIsbn",ArticleIsbn.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ArticleYear",ArticleYear.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ArticlePublisher",ArticlePublisher.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ArticleAuthors",ArticleAuthors.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ArticleExtension",ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ArticlePages",ArticlePages.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ArticleSize",ArticleSize.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ArticleTime",ArticleTime.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ArticleCover",ArticleCover.FindStringSubmatch(articleHtmlFormat)[1])
+	
+
+
 		if ArticleLang.FindStringSubmatch(articleHtmlFormat)[1] == "English" || ArticleLang.FindStringSubmatch(articleHtmlFormat)[1] == "Spanish" || ArticleLang.FindStringSubmatch(articleHtmlFormat)[1] == "English " {
 
 			/*
