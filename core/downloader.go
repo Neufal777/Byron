@@ -43,6 +43,7 @@ func LIBGENDownloadAll(search string) {
 	)
 	for i := 1; i < 600; i++ {
 
+		time.Sleep(3 * time.Second)
 		resp, err := http.Get("https://libgen.is/search.php?&res=100&req=" + search + "&phrase=1&view=simple&column=def&sort=def&sortmode=ASC&page=" + strconv.Itoa(i))
 		//resp, err := http.Get("https://libgen.is/search.php?mode=last&view=simple&phrase=0&timefirst=&timelast=&sort=def&sortmode=ASC&page=" + strconv.Itoa(i))
 
@@ -125,7 +126,7 @@ func ProcessUrls(AllUrls []string, search string) {
 		*/
 
 		log.Println("Language:", ArticleLang.FindStringSubmatch(articleHtmlFormat)[1])
-		if ArticleLang.FindStringSubmatch(articleHtmlFormat)[1] == "English" || ArticleLang.FindStringSubmatch(articleHtmlFormat)[1] == "Spanish" {
+		if ArticleLang.FindStringSubmatch(articleHtmlFormat)[1] == "English" || ArticleLang.FindStringSubmatch(articleHtmlFormat)[1] == "Spanish" || ArticleLang.FindStringSubmatch(articleHtmlFormat)[1] == "English " {
 
 			/*
 				Append and download because it's new
