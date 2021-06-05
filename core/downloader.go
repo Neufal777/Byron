@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"regexp"
 	"strconv"
-	"time"
 
 	"github.com/ttacon/chalk"
 )
@@ -42,7 +41,6 @@ func LIBGENDownloadAll(search string) {
 	)
 	for i := 1; i < 120000; i++ {
 
-		time.Sleep(2 * time.Second)
 		//resp, err := http.Get("https://libgen.is/search.php?&res=100&req=" + search + "&phrase=1&view=simple&column=def&sort=def&sortmode=ASC&page=" + strconv.Itoa(i))
 		resp, err := http.Get("https://libgen.is/search.php?mode=last&view=simple&phrase=0&timefirst=&timelast=&sort=def&sortmode=ASC&page=80" + strconv.Itoa(i))
 
