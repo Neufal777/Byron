@@ -4,11 +4,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"math/rand"
 	"net/http"
 	"regexp"
 	"strconv"
-	"time"
 
 	"github.com/ttacon/chalk"
 )
@@ -83,10 +81,9 @@ func LIBGENDownloadAll(search string) {
 func ProcessUrls(AllUrls []string, search string) {
 
 	processed := 0
-	
+
 	for _, u := range AllUrls {
 
-		time.Sleep(1 * time.Second)
 		resp, err := http.Get(u)
 
 		if err != nil {
@@ -116,7 +113,7 @@ func ProcessUrls(AllUrls []string, search string) {
 			ArticleId        = regexp.MustCompile("ID:</font></nobr></td><td>([^<]*)")
 			ArticleExtension = regexp.MustCompile("Extension:</font></nobr></td><td>([^<]*)")
 			ArticleDownload  = regexp.MustCompile("align=.center.><a href=.([^\"']*). title=.Gen.lib.rus.ec.")
-			ArticleCover     = regexp.MustCompile("<img src=./covers/([^\"']*)")
+			//ArticleCover     = regexp.MustCompile("<img src=./covers/([^\"']*)")
 		)
 
 		AllArticles := ReadArticles(search)
@@ -125,22 +122,20 @@ func ProcessUrls(AllUrls []string, search string) {
 			Check language, Only accepted (english, spanish)
 		*/
 
-		log.Println("ID",ArticleId.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ID", ArticleId.FindStringSubmatch(articleHtmlFormat)[1])
 		log.Println("Language:", ArticleLang.FindStringSubmatch(articleHtmlFormat)[1])
 
-		log.Println("ArticleDownload",ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("ArticleTitle",ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("ArticleIsbn",ArticleIsbn.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("ArticleYear",ArticleYear.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("ArticlePublisher",ArticlePublisher.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("ArticleAuthors",ArticleAuthors.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("ArticleExtension",ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("ArticlePages",ArticlePages.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("ArticleSize",ArticleSize.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("ArticleTime",ArticleTime.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("ArticleCover",ArticleCover.FindStringSubmatch(articleHtmlFormat)[1])
-	
-
+		log.Println("ArticleDownload", ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ArticleTitle", ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ArticleIsbn", ArticleIsbn.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ArticleYear", ArticleYear.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ArticlePublisher", ArticlePublisher.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ArticleAuthors", ArticleAuthors.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ArticleExtension", ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ArticlePages", ArticlePages.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ArticleSize", ArticleSize.FindStringSubmatch(articleHtmlFormat)[1])
+		log.Println("ArticleTime", ArticleTime.FindStringSubmatch(articleHtmlFormat)[1])
+		//log.Println("ArticleCover", ArticleCover.FindStringSubmatch(articleHtmlFormat)[1])
 
 		if ArticleLang.FindStringSubmatch(articleHtmlFormat)[1] == "English" || ArticleLang.FindStringSubmatch(articleHtmlFormat)[1] == "Spanish" || ArticleLang.FindStringSubmatch(articleHtmlFormat)[1] == "English " {
 
@@ -162,7 +157,7 @@ func ProcessUrls(AllUrls []string, search string) {
 				Language:    ArticleLang.FindStringSubmatch(articleHtmlFormat)[1],
 				Size:        ArticleSize.FindStringSubmatch(articleHtmlFormat)[1],
 				Time:        ArticleTime.FindStringSubmatch(articleHtmlFormat)[1],
-				Cover:       "https://libgen.is/covers/" + ArticleCover.FindStringSubmatch(articleHtmlFormat)[1],
+				//Cover:       "https://libgen.is/covers/" + ArticleCover.FindStringSubmatch(articleHtmlFormat)[1],
 			})
 
 			fmt.Println(chalk.Green.Color("Added correctly: " + ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1]))
