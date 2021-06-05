@@ -26,6 +26,7 @@ type Article struct {
 	Page        string
 	Language    string
 	Size        string
+	Cover string
 	Time        string
 }
 
@@ -42,8 +43,7 @@ func LIBGENDownloadAll(search string) {
 		count   = 0
 	)
 	for i := 1; i < 101; i++ {
-
-		resp, err := http.Get("https://libgen.is/search.php?&res=100&req=" + search + "&phrase=1&view=simple&column=def&sort=def&sortmode=ASC&page=" + strconv.Itoa(i))
+		resp, err := http.Get("https://libgen.is/search.php?&res=100&req=" + search + "&phrase=1&view=simple&column=def&sort=year&sortmode=DESC&page=" + strconv.Itoa(i))
 		//resp, err := http.Get("https://libgen.is/search.php?mode=last&view=simple&phrase=0&timefirst=&timelast=&sort=def&sortmode=ASC&page=" + strconv.Itoa(i))
 
 		if err != nil {
@@ -116,6 +116,7 @@ func ProcessUrls(AllUrls []string, search string) {
 			ArticleId        = regexp.MustCompile("ID:</font></nobr></td><td>([^<]*)")
 			ArticleExtension = regexp.MustCompile("Extension:</font></nobr></td><td>([^<]*)")
 			ArticleDownload  = regexp.MustCompile("align=.center.><a href=.([^\"']*). title=.Gen.lib.rus.ec.")
+			ArticleCover  = regexp.MustCompile("<img src=./covers/([^\"']*)")
 		)
 
 		AllArticles := ReadArticles(search)
@@ -145,6 +146,7 @@ func ProcessUrls(AllUrls []string, search string) {
 				Language:    ArticleLang.FindStringSubmatch(articleHtmlFormat)[1],
 				Size:        ArticleSize.FindStringSubmatch(articleHtmlFormat)[1],
 				Time:        ArticleTime.FindStringSubmatch(articleHtmlFormat)[1],
+				Cover:        "https://libgen.is/covers/"+ArticleCover.FindStringSubmatch(articleHtmlFormat)[1],
 			})
 
 			fmt.Println(chalk.Green.Color("Added correctly: " + ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1]))
