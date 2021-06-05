@@ -41,7 +41,7 @@ func LIBGENDownloadAll(search string) {
 		AllUrls = []string{}
 		count   = 0
 	)
-	for i := 1; i < 600; i++ {
+	for i := 1; i < 101; i++ {
 
 		resp, err := http.Get("https://libgen.is/search.php?&res=100&req=" + search + "&phrase=1&view=simple&column=def&sort=def&sortmode=ASC&page=" + strconv.Itoa(i))
 		//resp, err := http.Get("https://libgen.is/search.php?mode=last&view=simple&phrase=0&timefirst=&timelast=&sort=def&sortmode=ASC&page=" + strconv.Itoa(i))
