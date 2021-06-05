@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"regexp"
 	"strconv"
+	"time"
 
 	"github.com/ttacon/chalk"
 )
@@ -39,10 +41,10 @@ func LIBGENDownloadAll(search string) {
 		AllUrls = []string{}
 		count   = 0
 	)
-	for i := 1; i < 120000; i++ {
+	for i := 1; i < 600; i++ {
 
-		//resp, err := http.Get("https://libgen.is/search.php?&res=100&req=" + search + "&phrase=1&view=simple&column=def&sort=def&sortmode=ASC&page=" + strconv.Itoa(i))
-		resp, err := http.Get("https://libgen.is/search.php?mode=last&view=simple&phrase=0&timefirst=&timelast=&sort=def&sortmode=ASC&page=80" + strconv.Itoa(i))
+		resp, err := http.Get("https://libgen.is/search.php?&res=100&req=" + search + "&phrase=1&view=simple&column=def&sort=def&sortmode=ASC&page=" + strconv.Itoa(i))
+		//resp, err := http.Get("https://libgen.is/search.php?mode=last&view=simple&phrase=0&timefirst=&timelast=&sort=def&sortmode=ASC&page=" + strconv.Itoa(i))
 
 		if err != nil {
 			panic(err)
@@ -79,11 +81,12 @@ func LIBGENDownloadAll(search string) {
 
 func ProcessUrls(AllUrls []string, search string) {
 
+	processed := 0
+	rand.Seed(time.Now().UnixNano())
+	rand.Shuffle(len(AllUrls), func(i, j int) { AllUrls[i], AllUrls[j] = AllUrls[j], AllUrls[i] })
+
 	for _, u := range AllUrls {
 
-		/*
-			For each Url
-		*/
 		resp, err := http.Get(u)
 
 		if err != nil {
@@ -117,15 +120,12 @@ func ProcessUrls(AllUrls []string, search string) {
 
 		AllArticles := ReadArticles(search)
 
-		active := 0
-		for _, art := range AllArticles {
+		/*
+			Check language, Only accepted (english, spanish)
+		*/
 
-			if art.Id == ArticleId.FindStringSubmatch(articleHtmlFormat)[1] {
-				active = 1
-			}
-		}
-
-		if active != 1 {
+		log.Println("Language:", ArticleLang.FindStringSubmatch(articleHtmlFormat)[1])
+		if ArticleLang.FindStringSubmatch(articleHtmlFormat)[1] == "English" || ArticleLang.FindStringSubmatch(articleHtmlFormat)[1] == "Spanish" {
 
 			/*
 				Append and download because it's new
@@ -158,9 +158,11 @@ func ProcessUrls(AllUrls []string, search string) {
 				ArticleId.FindStringSubmatch(articleHtmlFormat)[1],        //ID
 				ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1], //extension ex. .pdf
 			)
+			processed++
+			log.Println("Processed:", processed)
 
 		} else {
-			fmt.Println(chalk.Magenta.Color("Already Exists in the register"))
+			fmt.Println(chalk.Red.Color(ArticleLang.FindStringSubmatch(articleHtmlFormat)[1] + " Not accepted"))
 		}
 
 	}
@@ -175,13 +177,11 @@ func FileDownload(URL, ID, format string) {
 	*/
 
 	resp, err := http.Get(URL)
-
 	if err != nil {
 		panic(err)
 	}
 
 	defer resp.Body.Close()
-
 	DownloadHtml, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		panic(err)

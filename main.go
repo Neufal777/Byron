@@ -1,29 +1,54 @@
 package main
 
 import (
+	"fmt"
+	"math/rand"
+	"time"
+
 	"github.com/Byron/core"
+	"github.com/ttacon/chalk"
 )
 
 func main() {
 
-	// Categories := []string{
-	// 	"machine learning",
-	// 	"artificial Inteligence",
-	// 	"neurociencia",
-	// 	//"inteligencia artificial",
-	// 	"math",
-	// 	"maths",
-	// 	//"biology",
-	// 	//"biologia",
-	// }
+	Categories := []string{
+		"machine learning",
+		"learn",
+		"aprendizaje",
+		"english",
+		"spanish",
+		"artificial Inteligence",
+		"neurociencia",
+		"inteligencia artificial",
+		"math",
+		"maths",
+		"biology",
+		"medicine",
+		"clinic",
+		"clinical",
+		"biologia",
+		"oxford",
+		"harvard",
+		"stanford",
+		"mit",
+		"bio",
+		"nano",
+		"disease",
+		"genomic",
+		"vitamine",
+		"physics",
+		"chemistry",
+		"nature",
+	}
 
-	// for _, c := range Categories {
+	rand.Seed(time.Now().UnixNano())
+	rand.Shuffle(len(Categories), func(i, j int) { Categories[i], Categories[j] = Categories[j], Categories[i] })
 
-	// 	fmt.Println(chalk.Magenta.Color("processing " + c))
-	// 	core.LIBGENDownloadAll(c)
+	for _, c := range Categories {
 
-	// }
+		fmt.Println(chalk.Magenta.Color("processing " + c))
+		core.LIBGENDownloadAll(c)
 
-	core.LIBGENDownloadAll("GeneralLibrary")
+	}
 
 }
