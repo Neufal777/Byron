@@ -4,11 +4,6 @@ import (
 	"github.com/Byron/core"
 )
 
-type Yo struct {
-	Name string
-	Age  string
-}
-
 func main() {
 
 	// Categories := []string{
