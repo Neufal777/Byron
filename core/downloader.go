@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"regexp"
 	"strconv"
+	"time"
 
 	"github.com/ttacon/chalk"
 )
@@ -24,7 +26,6 @@ type Article struct {
 	Page        string
 	Language    string
 	Size        string
-	Cover       string
 	Time        string
 }
 
@@ -82,8 +83,13 @@ func ProcessUrls(AllUrls []string, search string) {
 
 	processed := 0
 
+	//Shuffle
+	rand.Seed(time.Now().UnixNano())
+	rand.Shuffle(len(AllUrls), func(i, j int) { AllUrls[i], AllUrls[j] = AllUrls[j], AllUrls[i] })
+
 	for _, u := range AllUrls {
 
+		time.Sleep(2 * time.Second)
 		resp, err := http.Get(u)
 
 		if err != nil {
@@ -113,70 +119,61 @@ func ProcessUrls(AllUrls []string, search string) {
 			ArticleId        = regexp.MustCompile("ID:</font></nobr></td><td>([^<]*)")
 			ArticleExtension = regexp.MustCompile("Extension:</font></nobr></td><td>([^<]*)")
 			ArticleDownload  = regexp.MustCompile("align=.center.><a href=.([^\"']*). title=.Gen.lib.rus.ec.")
-			//ArticleCover     = regexp.MustCompile("<img src=./covers/([^\"']*)")
 		)
-
-		AllArticles := ReadArticles(search)
 
 		/*
 			Check language, Only accepted (english, spanish)
 		*/
 
-		log.Println("ID", ArticleId.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("Language:", ArticleLang.FindStringSubmatch(articleHtmlFormat)[1])
+		/*
+			Information Display
+		*/
+		fmt.Println(chalk.White.Color("ID: " + ArticleId.FindStringSubmatch(articleHtmlFormat)[1]))
+		fmt.Println(chalk.White.Color("Language:: " + ArticleLang.FindStringSubmatch(articleHtmlFormat)[1]))
+		fmt.Println(chalk.White.Color("Download: " + ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1]))
+		fmt.Println(chalk.White.Color("Title: " + ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1]))
+		fmt.Println(chalk.White.Color("Isbn: " + ArticleIsbn.FindStringSubmatch(articleHtmlFormat)[1]))
+		fmt.Println(chalk.White.Color("Year: " + ArticleYear.FindStringSubmatch(articleHtmlFormat)[1]))
+		fmt.Println(chalk.White.Color("Publisher: " + ArticlePublisher.FindStringSubmatch(articleHtmlFormat)[1]))
+		fmt.Println(chalk.White.Color("Authors: " + ArticleAuthors.FindStringSubmatch(articleHtmlFormat)[1]))
+		fmt.Println(chalk.White.Color("Extension: " + ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1]))
+		fmt.Println(chalk.White.Color("Pages: " + ArticlePages.FindStringSubmatch(articleHtmlFormat)[1]))
+		fmt.Println(chalk.White.Color("Size: " + ArticleSize.FindStringSubmatch(articleHtmlFormat)[1]))
+		fmt.Println(chalk.White.Color("Time: " + ArticleTime.FindStringSubmatch(articleHtmlFormat)[1]))
 
-		log.Println("ArticleDownload", ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("ArticleTitle", ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("ArticleIsbn", ArticleIsbn.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("ArticleYear", ArticleYear.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("ArticlePublisher", ArticlePublisher.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("ArticleAuthors", ArticleAuthors.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("ArticleExtension", ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("ArticlePages", ArticlePages.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("ArticleSize", ArticleSize.FindStringSubmatch(articleHtmlFormat)[1])
-		log.Println("ArticleTime", ArticleTime.FindStringSubmatch(articleHtmlFormat)[1])
-		//log.Println("ArticleCover", ArticleCover.FindStringSubmatch(articleHtmlFormat)[1])
+		/*
+			Append and download because it's new
+		*/
+		AllArticles := ReadArticles(search)
+		AllArticles = append(AllArticles, Article{
+			Id:          ArticleId.FindStringSubmatch(articleHtmlFormat)[1],
+			Url:         u,
+			DownloadUrl: ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1],
+			Title:       ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1],
+			Isbn:        ArticleIsbn.FindStringSubmatch(articleHtmlFormat)[1],
+			Year:        ArticleYear.FindStringSubmatch(articleHtmlFormat)[1],
+			Publisher:   ArticlePublisher.FindStringSubmatch(articleHtmlFormat)[1],
+			Author:      ArticleAuthors.FindStringSubmatch(articleHtmlFormat)[1],
+			Extension:   ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1],
+			Page:        ArticlePages.FindStringSubmatch(articleHtmlFormat)[1],
+			Language:    ArticleLang.FindStringSubmatch(articleHtmlFormat)[1],
+			Size:        ArticleSize.FindStringSubmatch(articleHtmlFormat)[1],
+			Time:        ArticleTime.FindStringSubmatch(articleHtmlFormat)[1],
+		})
 
-		if ArticleLang.FindStringSubmatch(articleHtmlFormat)[1] == "English" || ArticleLang.FindStringSubmatch(articleHtmlFormat)[1] == "Spanish" || ArticleLang.FindStringSubmatch(articleHtmlFormat)[1] == "English " {
+		fmt.Println(chalk.Green.Color("Added correctly: " + ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1]))
+		WriteInFile(search, AllArticles)
 
-			/*
-				Append and download because it's new
-			*/
-
-			AllArticles = append(AllArticles, Article{
-				Id:          ArticleId.FindStringSubmatch(articleHtmlFormat)[1],
-				Url:         u,
-				DownloadUrl: ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1],
-				Title:       ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1],
-				Isbn:        ArticleIsbn.FindStringSubmatch(articleHtmlFormat)[1],
-				Year:        ArticleYear.FindStringSubmatch(articleHtmlFormat)[1],
-				Publisher:   ArticlePublisher.FindStringSubmatch(articleHtmlFormat)[1],
-				Author:      ArticleAuthors.FindStringSubmatch(articleHtmlFormat)[1],
-				Extension:   ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1],
-				Page:        ArticlePages.FindStringSubmatch(articleHtmlFormat)[1],
-				Language:    ArticleLang.FindStringSubmatch(articleHtmlFormat)[1],
-				Size:        ArticleSize.FindStringSubmatch(articleHtmlFormat)[1],
-				Time:        ArticleTime.FindStringSubmatch(articleHtmlFormat)[1],
-				//Cover:       "https://libgen.is/covers/" + ArticleCover.FindStringSubmatch(articleHtmlFormat)[1],
-			})
-
-			fmt.Println(chalk.Green.Color("Added correctly: " + ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1]))
-			WriteInFile(search, AllArticles)
-
-			/*
-				After that, download the file and save it
-			*/
-			FileDownload(
-				ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1],  //Download url
-				ArticleId.FindStringSubmatch(articleHtmlFormat)[1],        //ID
-				ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1], //extension ex. .pdf
-			)
-			processed++
-			log.Println("Processed:", processed)
-
-		} else {
-			fmt.Println(chalk.Red.Color(ArticleLang.FindStringSubmatch(articleHtmlFormat)[1] + " Not accepted"))
-		}
+		/*
+			After that, download the file and save it
+		*/
+		FileDownload(
+			ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1],  //Download url
+			ArticleId.FindStringSubmatch(articleHtmlFormat)[1],        //ID
+			ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1], //extension ex. .pdf
+		)
+		processed++
+		fmt.Println(chalk.Magenta.Color("Processed: " + strconv.Itoa(processed)))
 
 	}
 
