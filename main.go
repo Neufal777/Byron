@@ -38,7 +38,8 @@ func main() {
 		"vitamine",
 		"physics",
 		"chemistry",
-		"nature",
+		"universe",
+		"galaxy",
 	}
 
 	rand.Seed(time.Now().UnixNano())
