@@ -47,13 +47,13 @@ func LIBGENDownloadAll(search string) {
 		//resp, err := http.Get("https://libgen.is/search.php?mode=last&view=simple&phrase=0&timefirst=&timelast=&sort=def&sortmode=ASC&page=" + strconv.Itoa(i))
 
 		if err != nil {
-			panic(err)
+			log.Println(err)
 		}
 
 		defer resp.Body.Close()
 		html, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
-			panic(err)
+			log.Println(err)
 		}
 
 		htmlFormat := string(html)
@@ -93,14 +93,14 @@ func ProcessUrls(AllUrls []string, search string) {
 		resp, err := http.Get(u)
 
 		if err != nil {
-			panic(err)
+			log.Println(err)
 		}
 
 		defer resp.Body.Close()
 
 		articleHtml, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
-			panic(err)
+			log.Println(err)
 		}
 
 		articleHtmlFormat := string(articleHtml)
@@ -188,13 +188,13 @@ func FileDownload(URL, ID, format string) {
 
 	resp, err := http.Get(URL)
 	if err != nil {
-		panic(err)
+		log.Println(err)
 	}
 
 	defer resp.Body.Close()
 	DownloadHtml, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		panic(err)
+		log.Println(err)
 	}
 
 	DownloadHtmlFormat := string(DownloadHtml)
