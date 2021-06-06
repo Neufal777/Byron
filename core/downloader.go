@@ -1,5 +1,8 @@
 package core
 
+/*
+	SOURCE : Libgen.is
+*/
 import (
 	"fmt"
 	"io/ioutil"
@@ -30,11 +33,6 @@ type Article struct {
 }
 
 func LIBGENDownloadAll(search string) {
-
-	/*
-		Libgen.is
-	*/
-
 	var (
 		r, _    = regexp.Compile("<a href=.book/index.php.md5=([^\"']*)")
 		AllUrls = []string{}
