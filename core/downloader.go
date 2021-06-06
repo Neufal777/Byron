@@ -16,32 +16,45 @@ import (
 	"github.com/ttacon/chalk"
 )
 
+type Size struct {
+	Ammount string
+	Size    string
+}
 type Article struct {
-	Id          string
-	Url         string
-	DownloadUrl string
-	Title       string
-	Isbn        string
-	Year        string
-	Publisher   string
-	Author      string
-	Extension   string
-	Page        string
-	Language    string
-	Size        string
-	Time        string
+	Id           string
+	UniqueID     string
+	Url          string
+	Search       string
+	DownloadUrl  string
+	Title        string
+	Isbn         string
+	IsbnList     []string
+	Year         string
+	Publisher    string
+	Author       string
+	AuthorList   []string
+	Extension    string
+	Page         string
+	Language     string
+	LanguageList []string
+	Size         string
+	FileSize     Size
+	Time         string
 }
 
 func LIBGENDownloadAll(search string) {
+
 	var (
-		r, _    = regexp.Compile("<a href=.book/index.php.md5=([^\"']*)")
-		AllUrls = []string{}
-		count   = 0
+		r, _             = regexp.Compile("<a href=.book/index.php.md5=([^\"']*)")
+		error1Compile, _ = regexp.Compile("503 Service Temporarily Unavailable")
+		error2Compile, _ = regexp.Compile("Could not connect to the database")
+		AllUrls          = []string{}
+		count            = 0
 	)
 
-	for i := 1; i < 102; i++ {
+	for i := 1; i < 2; i++ {
 
-		resp, err := http.Get("https://libgen.is/search.php?&res=100&req=" + search + "&phrase=1&view=simple&column=def&sort=year&sortmode=DESC&page=" + strconv.Itoa(i))
+		resp, err := http.Get("https://libgen.is/search.php?&res=25&req=" + search + "&phrase=1&view=simple&column=def&sort=year&sortmode=DESC&page=" + strconv.Itoa(i))
 		//resp, err := http.Get("https://libgen.is/search.php?mode=last&view=simple&phrase=0&timefirst=&timelast=&sort=def&sortmode=ASC&page=" + strconv.Itoa(i))
 
 		if err != nil {
@@ -55,24 +68,26 @@ func LIBGENDownloadAll(search string) {
 		}
 
 		htmlFormat := string(html)
-		error1, _ := regexp.MatchString(`503 Service Temporarily Unavailable`, htmlFormat)
-		error2, _ := regexp.MatchString(`Could not connect to the database`, htmlFormat)
+
+		/*
+			Check if the website return any kind of error
+		*/
+
+		error1 := error1Compile.MatchString(htmlFormat)
+		error2 := error2Compile.MatchString(htmlFormat)
 
 		if !error1 && !error2 {
 
 			matches := r.FindAllStringSubmatch(htmlFormat, -1)
-
 			fmt.Println(chalk.Green.Color("Processing page " + strconv.Itoa(i)))
 
-			if len(matches) > 1 {
-				for _, m := range matches {
-					fmt.Println(chalk.Green.Color("Saving " + m[1]))
-					AllUrls = append(AllUrls, "https://libgen.is/book/index.php?md5="+m[1])
-					count++
-				}
-			} else {
-				break
+			for _, m := range matches {
+
+				fmt.Println(chalk.Green.Color("Saving " + m[1]))
+				AllUrls = append(AllUrls, "https://libgen.is/book/index.php?md5="+m[1])
+				count++
 			}
+
 		} else {
 			fmt.Println(chalk.Magenta.Color("Given 503. waiting to reconnect"))
 			time.Sleep(10 * time.Second)
@@ -86,13 +101,16 @@ func LIBGENDownloadAll(search string) {
 
 func ProcessUrls(AllUrls []string, search string) {
 
-	processed := 0
+	var (
+		processed        = 0
+		error1Compile, _ = regexp.Compile("503 Service Temporarily Unavailable")
+		error2Compile, _ = regexp.Compile("Could not connect to the database")
+	)
 
 	rand.Seed(time.Now().UnixNano())
 	rand.Shuffle(len(AllUrls), func(i, j int) { AllUrls[i], AllUrls[j] = AllUrls[j], AllUrls[i] })
 
 	for _, u := range AllUrls {
-
 		time.Sleep(3 * time.Second)
 		resp, err := http.Get(u)
 
@@ -109,8 +127,11 @@ func ProcessUrls(AllUrls []string, search string) {
 
 		articleHtmlFormat := string(articleHtml)
 
-		error1, _ := regexp.MatchString(`503 Service Temporarily Unavailable`, articleHtmlFormat)
-		error2, _ := regexp.MatchString(`Could not connect to the database`, articleHtmlFormat)
+		/*
+			Check for any error in the website
+		*/
+		error1 := error1Compile.MatchString(articleHtmlFormat)
+		error2 := error2Compile.MatchString(articleHtmlFormat)
 
 		if !error1 && !error2 {
 
@@ -127,32 +148,15 @@ func ProcessUrls(AllUrls []string, search string) {
 			ArticleExtension, _ := regexp.Compile("Extension:</font></nobr></td><td>([^<]*)")
 			ArticleDownload, _ := regexp.Compile("align=.center.><a href=.([^\"']*). title=.Gen.lib.rus.ec.")
 
-			/*
-				Information Display
-			*/
-			fmt.Println(chalk.White.Color("ID: " + ArticleId.FindStringSubmatch(articleHtmlFormat)[1]))
-			fmt.Println(chalk.White.Color("Language:: " + ArticleLang.FindStringSubmatch(articleHtmlFormat)[1]))
-			fmt.Println(chalk.White.Color("Download: " + ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1]))
-			fmt.Println(chalk.White.Color("Title: " + ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1]))
-			fmt.Println(chalk.White.Color("Isbn: " + ArticleIsbn.FindStringSubmatch(articleHtmlFormat)[1]))
-			fmt.Println(chalk.White.Color("Year: " + ArticleYear.FindStringSubmatch(articleHtmlFormat)[1]))
-			fmt.Println(chalk.White.Color("Publisher: " + ArticlePublisher.FindStringSubmatch(articleHtmlFormat)[1]))
-			fmt.Println(chalk.White.Color("Authors: " + ArticleAuthors.FindStringSubmatch(articleHtmlFormat)[1]))
-			fmt.Println(chalk.White.Color("Extension: " + ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1]))
-			fmt.Println(chalk.White.Color("Pages: " + ArticlePages.FindStringSubmatch(articleHtmlFormat)[1]))
-			fmt.Println(chalk.White.Color("Size: " + ArticleSize.FindStringSubmatch(articleHtmlFormat)[1]))
-			fmt.Println(chalk.White.Color("Time: " + ArticleTime.FindStringSubmatch(articleHtmlFormat)[1]))
-
-			/*
-				Append and download because it's new
-			*/
-			AllArticles := ReadArticles(search)
-			AllArticles = append(AllArticles, Article{
+			newArticle := Article{
 				Id:          ArticleId.FindStringSubmatch(articleHtmlFormat)[1],
 				Url:         u,
+				Search:      search,
+				UniqueID:    "",
 				DownloadUrl: ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1],
 				Title:       ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1],
 				Isbn:        ArticleIsbn.FindStringSubmatch(articleHtmlFormat)[1],
+				IsbnList:    nil,
 				Year:        ArticleYear.FindStringSubmatch(articleHtmlFormat)[1],
 				Publisher:   ArticlePublisher.FindStringSubmatch(articleHtmlFormat)[1],
 				Author:      ArticleAuthors.FindStringSubmatch(articleHtmlFormat)[1],
@@ -161,21 +165,51 @@ func ProcessUrls(AllUrls []string, search string) {
 				Language:    ArticleLang.FindStringSubmatch(articleHtmlFormat)[1],
 				Size:        ArticleSize.FindStringSubmatch(articleHtmlFormat)[1],
 				Time:        ArticleTime.FindStringSubmatch(articleHtmlFormat)[1],
-			})
-
-			fmt.Println(chalk.Green.Color("Added correctly: " + ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1]))
-			WriteInFile(search, AllArticles)
+			}
 
 			/*
-				After that, download the file and save it
+				Append and download because it's new
 			*/
-			// FileDownload(
-			// 	ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1],  //Download url
-			// 	ArticleId.FindStringSubmatch(articleHtmlFormat)[1],        //ID
-			// 	ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1], //extension ex. .pdf
-			// )
-			processed++
-			fmt.Println(chalk.Magenta.Color("Processed: " + strconv.Itoa(processed)))
+
+			AllArticles := ReadArticles(FILENAME)
+
+			newArticleFormatted := newArticle.FormatNewArticle()
+
+			duplicated := 0
+			for i := 0; i < len(AllArticles); i++ {
+
+				if AllArticles[i].Id == newArticleFormatted.Id {
+					duplicated = 1
+					break
+				}
+			}
+
+			if duplicated == 0 {
+
+				AllArticles = append(AllArticles, *newArticleFormatted)
+				WriteInFile(FILENAME, AllArticles)
+
+				/*
+					Display relevant information about the new Document
+				*/
+				newArticle.DisplayInformation()
+				fmt.Println(chalk.Green.Color("Added correctly: " + newArticle.Title))
+				processed++
+				fmt.Println(chalk.Magenta.Color("Processed: " + strconv.Itoa(processed)))
+
+				/*
+					After that, download the file and save it
+				*/
+				// FileDownload(
+				// 	ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1],  //Download url
+				// 	ArticleId.FindStringSubmatch(articleHtmlFormat)[1],        //ID
+				// 	ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1], //extension ex. .pdf
+				// )
+
+			} else {
+				fmt.Println(chalk.Red.Color("This article already exists, nothing to do here"))
+			}
+
 		} else {
 
 			fmt.Println(chalk.Magenta.Color("Given 503. waiting to reconnect"))

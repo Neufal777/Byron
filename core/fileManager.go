@@ -12,17 +12,17 @@ import (
 	"github.com/ttacon/chalk"
 )
 
-func WriteInFile(name string, Struct interface{}) {
+func WriteInFile(inventory string, Struct interface{}) {
 	file, err := json.MarshalIndent(Struct, "", " ")
 
 	if err != nil {
 		log.Panic(err)
 	}
-	_ = ioutil.WriteFile(name+".json", file, 0644)
+	_ = ioutil.WriteFile(inventory+".json", file, 0644)
 }
 
-func ReadArticles(category string) []Article {
-	jsonFile, err := os.Open(category + ".json")
+func ReadArticles(inventory string) []Article {
+	jsonFile, err := os.Open(inventory + ".json")
 
 	if err != nil {
 		fmt.Println(err)
