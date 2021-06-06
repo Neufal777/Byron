@@ -1,5 +1,6 @@
 # BYRON
 ![alt text](https://github.com/Neufal777/Byron/blob/main/img/ezgif.com-gif-maker%20(2).gif?raw=true)
+
 It aims to be an **aggregator of documents** and books and classify them in a way that they are accessible and useful, since there are many academic resources online but sometimes it is a bit difficult to find what you are really looking for.
 
 At the moment there is only 1 source [**Libgen.is**], and all the tests that are being done are with this source.
@@ -14,7 +15,7 @@ what's next?
 
 - Implement **concurrency** for the executions, since at the moment they are done separately, in the case shown below in the image, there are **10 simultaneous executions**, and since there are many categories and duplicate files are detected, there is no problem, and actually the 10 executions work "together" .. but it would be more logical to handle it from the program itself.
 
-![alt text](https://raw.githubusercontent.com/Neufal777/Byron/main/img/Captura%20de%20pantalla%202021-06-06%20a%20las%2013.48.53.png?token=AEXWBB3JX3YXXF66E52AE63AXS4AK)
+![alt text](https://github.com/Neufal777/Byron/blob/main/img/Captura%20de%20pantalla%202021-06-06%20a%20las%2013.48.53.png)
 
 Info: The files are stored in a folder called **"Repository/"** and at the moment there are more than **120.000** files and more than **2TB**, I have not uploaded it to github for obvious reasons :)
 
