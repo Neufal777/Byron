@@ -33,18 +33,13 @@ func LIBGENDownloadAll(search string) {
 
 	/*
 		Libgen.is
-		with a given search, get all the urls from where to download the books
 	*/
 
 	var (
-		r, err  = regexp.Compile("<a href=.book/index.php.md5=([^\"']*)")
+		r, _    = regexp.Compile("<a href=.book/index.php.md5=([^\"']*)")
 		AllUrls = []string{}
 		count   = 0
 	)
-
-	if err != nil {
-		time.Sleep(10 * time.Second)
-	}
 
 	for i := 1; i < 102; i++ {
 
@@ -62,7 +57,6 @@ func LIBGENDownloadAll(search string) {
 		}
 
 		htmlFormat := string(html)
-
 		matched, _ := regexp.MatchString(`503 Service Temporarily Unavailable`, htmlFormat)
 
 		if !matched {
@@ -82,12 +76,12 @@ func LIBGENDownloadAll(search string) {
 			}
 		} else {
 			fmt.Println(chalk.Magenta.Color("Given 503. waiting to reconnect"))
+			time.Sleep(5 * time.Second)
 		}
 
 	}
 
 	log.Println("Total Articles:", count)
-
 	ProcessUrls(AllUrls, search)
 }
 
@@ -95,7 +89,6 @@ func ProcessUrls(AllUrls []string, search string) {
 
 	processed := 0
 
-	//Shuffle
 	rand.Seed(time.Now().UnixNano())
 	rand.Shuffle(len(AllUrls), func(i, j int) { AllUrls[i], AllUrls[j] = AllUrls[j], AllUrls[i] })
 
@@ -117,12 +110,10 @@ func ProcessUrls(AllUrls []string, search string) {
 
 		articleHtmlFormat := string(articleHtml)
 
-		log.Println("Article Html", articleHtmlFormat)
-
 		matched, _ := regexp.MatchString(`503 Service Temporarily Unavailable`, articleHtmlFormat)
 
 		if !matched {
-			//All regex to get the data from
+
 			ArticleTitle, _ := regexp.Compile("<title>Library Genesis:([^<]*)")
 			ArticleAuthors, _ := regexp.Compile("Author.s.:</font></nobr></td><td colspan=3><b>([^<]*)")
 			ArticlePublisher, _ := regexp.Compile("Publisher:</font></nobr></td><td>([^<]*)")
@@ -135,10 +126,6 @@ func ProcessUrls(AllUrls []string, search string) {
 			ArticleId, _ := regexp.Compile("ID:</font></nobr></td><td>([^<]*)")
 			ArticleExtension, _ := regexp.Compile("Extension:</font></nobr></td><td>([^<]*)")
 			ArticleDownload, _ := regexp.Compile("align=.center.><a href=.([^\"']*). title=.Gen.lib.rus.ec.")
-
-			/*
-				Check language, Only accepted (english, spanish)
-			*/
 
 			/*
 				Information Display
@@ -227,6 +214,7 @@ func FileDownload(URL, ID, format string) {
 		DownloadPDF(downloadlink, ID+"."+format)
 	} else {
 		fmt.Println(chalk.Magenta.Color("Given 503. waiting to reconnect"))
+		time.Sleep(5 * time.Second)
 	}
 
 }
