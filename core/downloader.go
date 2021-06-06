@@ -1,7 +1,7 @@
 package core
 
 /*
-	SOURCE : Libgen.is
+	Source : Libgen.is
 */
 import (
 	"fmt"
@@ -55,9 +55,10 @@ func LIBGENDownloadAll(search string) {
 		}
 
 		htmlFormat := string(html)
-		matched, _ := regexp.MatchString(`503 Service Temporarily Unavailable`, htmlFormat)
+		error1, _ := regexp.MatchString(`503 Service Temporarily Unavailable`, htmlFormat)
+		error2, _ := regexp.MatchString(`Could not connect to the database`, htmlFormat)
 
-		if !matched {
+		if !error1 && !error2 {
 
 			matches := r.FindAllStringSubmatch(htmlFormat, -1)
 
@@ -74,7 +75,7 @@ func LIBGENDownloadAll(search string) {
 			}
 		} else {
 			fmt.Println(chalk.Magenta.Color("Given 503. waiting to reconnect"))
-			time.Sleep(5 * time.Second)
+			time.Sleep(10 * time.Second)
 		}
 
 	}
@@ -92,7 +93,7 @@ func ProcessUrls(AllUrls []string, search string) {
 
 	for _, u := range AllUrls {
 
-		time.Sleep(2 * time.Second)
+		time.Sleep(3 * time.Second)
 		resp, err := http.Get(u)
 
 		if err != nil {
@@ -108,9 +109,10 @@ func ProcessUrls(AllUrls []string, search string) {
 
 		articleHtmlFormat := string(articleHtml)
 
-		matched, _ := regexp.MatchString(`503 Service Temporarily Unavailable`, articleHtmlFormat)
+		error1, _ := regexp.MatchString(`503 Service Temporarily Unavailable`, articleHtmlFormat)
+		error2, _ := regexp.MatchString(`Could not connect to the database`, articleHtmlFormat)
 
-		if !matched {
+		if !error1 && !error2 {
 
 			ArticleTitle, _ := regexp.Compile("<title>Library Genesis:([^<]*)")
 			ArticleAuthors, _ := regexp.Compile("Author.s.:</font></nobr></td><td colspan=3><b>([^<]*)")
@@ -167,17 +169,17 @@ func ProcessUrls(AllUrls []string, search string) {
 			/*
 				After that, download the file and save it
 			*/
-			FileDownload(
-				ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1],  //Download url
-				ArticleId.FindStringSubmatch(articleHtmlFormat)[1],        //ID
-				ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1], //extension ex. .pdf
-			)
+			// FileDownload(
+			// 	ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1],  //Download url
+			// 	ArticleId.FindStringSubmatch(articleHtmlFormat)[1],        //ID
+			// 	ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1], //extension ex. .pdf
+			// )
 			processed++
 			fmt.Println(chalk.Magenta.Color("Processed: " + strconv.Itoa(processed)))
 		} else {
 
 			fmt.Println(chalk.Magenta.Color("Given 503. waiting to reconnect"))
-			time.Sleep(5 * time.Second)
+			time.Sleep(10 * time.Second)
 		}
 
 	}
@@ -203,16 +205,17 @@ func FileDownload(URL, ID, format string) {
 	}
 
 	DownloadHtmlFormat := string(DownloadHtml)
-	matched, _ := regexp.MatchString(`503 Service Temporarily Unavailable`, DownloadHtmlFormat)
+	error1, _ := regexp.MatchString(`503 Service Temporarily Unavailable`, DownloadHtmlFormat)
+	error2, _ := regexp.MatchString(`Could not connect to the database`, DownloadHtmlFormat)
 
-	if !matched {
+	if !error1 && !error2 {
 		downloadlinkRegex, _ := regexp.Compile("<h2><a href=.([^\"']*)")
 		downloadlink := downloadlinkRegex.FindStringSubmatch(DownloadHtmlFormat)[1]
 
 		DownloadPDF(downloadlink, ID+"."+format)
 	} else {
-		fmt.Println(chalk.Magenta.Color("Given 503. waiting to reconnect"))
-		time.Sleep(5 * time.Second)
+		fmt.Println(chalk.Magenta.Color("Given connection error, waiting to reconnect"))
+		time.Sleep(10 * time.Second)
 	}
 
 }
