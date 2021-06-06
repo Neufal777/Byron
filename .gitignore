@@ -17,3 +17,4 @@ Byron
 
 *.json
 Repository/
+.DS_Store
