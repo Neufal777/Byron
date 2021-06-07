@@ -18,11 +18,11 @@ func WriteInFile(inventory string, Struct interface{}) {
 	if err != nil {
 		log.Panic(err)
 	}
-	_ = ioutil.WriteFile(inventory+".json", file, 0644)
+	_ = ioutil.WriteFile("Inventory/"+inventory+".json", file, 0644)
 }
 
 func ReadArticles(inventory string) []Article {
-	jsonFile, err := os.Open(inventory + ".json")
+	jsonFile, err := os.Open("Inventory/" + inventory + ".json")
 
 	if err != nil {
 		fmt.Println(err)

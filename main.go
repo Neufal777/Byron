@@ -1,9 +1,8 @@
 package main
 
 import (
+	"flag"
 	"fmt"
-	"math/rand"
-	"time"
 
 	"github.com/Byron/core"
 	"github.com/ttacon/chalk"
@@ -11,32 +10,32 @@ import (
 
 func main() {
 
-	Categories := []string{
-		"machine learning",
-		"artificial Inteligence",
-		"neuroscience",
-		"computer",
-		"hack",
-		"maths",
-		"biology",
-		"medicine",
-		"mit",
-		"genomic",
-		"physics",
-		"fisica",
-		"chemistry",
-		"universe",
-		"paper",
-	}
+	// Categories := []string{
+	// 	"machine learning",
+	// 	"artificial Inteligence",
+	// 	"neuroscience",
+	// 	"computer",
+	// 	"hack",
+	// 	"maths",
+	// 	"biology",
+	// 	"medicine",
+	// 	"mit",
+	// 	"genomic",
+	// 	"physics",
+	// 	"fisica",
+	// 	"chemistry",
+	// 	"universe",
+	// 	"paper",
+	// }
 
-	rand.Seed(time.Now().UnixNano())
-	rand.Shuffle(len(Categories), func(i, j int) { Categories[i], Categories[j] = Categories[j], Categories[i] })
+	category := flag.String("cat", "math", "category")
+	flag.Parse()
 
-	for _, c := range Categories {
+	// for _, c := range Categories {
 
-		fmt.Println(chalk.Magenta.Color("processing " + c))
-		core.LIBGENDownloadAll(c)
+	fmt.Println(chalk.Magenta.Color("processing " + *category))
+	core.LIBGENDownloadAll(*category)
 
-	}
+	// }
 
 }

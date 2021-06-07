@@ -12,6 +12,7 @@ func (art *Article) DisplayInformation() {
 	fmt.Println("ID: " + art.Id)
 	fmt.Println("Unique ID: " + art.UniqueID)
 	fmt.Println("Title: " + art.Title)
+	fmt.Println("Search: " + art.Search)
 	fmt.Println("Language:: " + art.Language)
 	fmt.Println("Download: " + art.DownloadUrl)
 	fmt.Println("Isbn: " + art.Isbn)

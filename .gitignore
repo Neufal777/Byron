@@ -18,3 +18,4 @@ Byron
 *.json
 Repository/
 .DS_Store
+keywords.go

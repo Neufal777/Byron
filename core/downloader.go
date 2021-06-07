@@ -13,6 +13,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/Byron/utils"
 	"github.com/ttacon/chalk"
 )
 
@@ -81,8 +82,11 @@ func LIBGENDownloadAll(search string) {
 			matches := r.FindAllStringSubmatch(htmlFormat, -1)
 			fmt.Println(chalk.Green.Color("Processing page " + strconv.Itoa(i)))
 
-			for _, m := range matches {
+			if len(matches) < 1 {
+				break
+			}
 
+			for _, m := range matches {
 				fmt.Println(chalk.Green.Color("Saving " + m[1]))
 				AllUrls = append(AllUrls, "https://libgen.is/book/index.php?md5="+m[1])
 				count++
@@ -111,7 +115,7 @@ func ProcessUrls(AllUrls []string, search string) {
 	rand.Shuffle(len(AllUrls), func(i, j int) { AllUrls[i], AllUrls[j] = AllUrls[j], AllUrls[i] })
 
 	for _, u := range AllUrls {
-		time.Sleep(2 * time.Second)
+
 		resp, err := http.Get(u)
 
 		if err != nil {
@@ -171,7 +175,7 @@ func ProcessUrls(AllUrls []string, search string) {
 				Append and download because it's new
 			*/
 
-			AllArticles := ReadArticles(FILENAME)
+			AllArticles := ReadArticles(utils.GetMD5Hash(search))
 
 			newArticleFormatted := newArticle.FormatNewArticle()
 
@@ -186,9 +190,9 @@ func ProcessUrls(AllUrls []string, search string) {
 
 			if duplicated == 0 {
 
-				AllArticlesUpdated := ReadArticles(FILENAME)
+				AllArticlesUpdated := ReadArticles(utils.GetMD5Hash(search))
 				AllArticlesUpdated = append(AllArticlesUpdated, *newArticleFormatted)
-				WriteInFile(FILENAME, AllArticlesUpdated)
+				WriteInFile(utils.GetMD5Hash(search), AllArticlesUpdated)
 
 				/*
 					Display relevant information about the new Document
