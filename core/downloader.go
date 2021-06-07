@@ -52,9 +52,9 @@ func LIBGENDownloadAll(search string) {
 		count            = 0
 	)
 
-	for i := 1; i < 2; i++ {
+	for i := 1; i < 103; i++ {
 
-		resp, err := http.Get("https://libgen.is/search.php?&res=25&req=" + search + "&phrase=1&view=simple&column=def&sort=year&sortmode=DESC&page=" + strconv.Itoa(i))
+		resp, err := http.Get("https://libgen.is/search.php?&res=100&req=" + search + "&phrase=1&view=simple&column=def&sort=year&sortmode=DESC&page=" + strconv.Itoa(i))
 		//resp, err := http.Get("https://libgen.is/search.php?mode=last&view=simple&phrase=0&timefirst=&timelast=&sort=def&sortmode=ASC&page=" + strconv.Itoa(i))
 
 		if err != nil {
@@ -111,7 +111,7 @@ func ProcessUrls(AllUrls []string, search string) {
 	rand.Shuffle(len(AllUrls), func(i, j int) { AllUrls[i], AllUrls[j] = AllUrls[j], AllUrls[i] })
 
 	for _, u := range AllUrls {
-		time.Sleep(3 * time.Second)
+		time.Sleep(2 * time.Second)
 		resp, err := http.Get(u)
 
 		if err != nil {
@@ -186,8 +186,9 @@ func ProcessUrls(AllUrls []string, search string) {
 
 			if duplicated == 0 {
 
-				AllArticles = append(AllArticles, *newArticleFormatted)
-				WriteInFile(FILENAME, AllArticles)
+				AllArticlesUpdated := ReadArticles(FILENAME)
+				AllArticlesUpdated = append(AllArticlesUpdated, *newArticleFormatted)
+				WriteInFile(FILENAME, AllArticlesUpdated)
 
 				/*
 					Display relevant information about the new Document
