@@ -1,41 +1,37 @@
 package main
 
 import (
-	"flag"
-	"fmt"
-
-	"github.com/Byron/core"
-	"github.com/ttacon/chalk"
+	"github.com/Byron/sources"
 )
 
 func main() {
 
-	// Categories := []string{
-	// 	"machine learning",
-	// 	"artificial Inteligence",
-	// 	"neuroscience",
-	// 	"computer",
-	// 	"hack",
-	// 	"maths",
-	// 	"biology",
-	// 	"medicine",
-	// 	"mit",
-	// 	"genomic",
-	// 	"physics",
-	// 	"fisica",
-	// 	"chemistry",
-	// 	"universe",
-	// 	"paper",
-	// }
+	// category := flag.String("cat", "math", "category")
+	// flag.Parse()
+	// fmt.Println(chalk.Magenta.Color("processing " + *category))
 
-	category := flag.String("cat", "math", "category")
-	flag.Parse()
+	excat := []string{"salsas", "botas"}
 
-	// for _, c := range Categories {
+	source := sources.Source{
+		SourceName:           "LIBGEN",
+		UrlREGEX:             "<a href=.book/index.php.md5=([^\"']*)",
+		IdREGEX:              "ID:</font></nobr></td><td>([^<]*)",
+		DownloadUrlREGEX:     "align=.center.><a href=.([^\"']*). title=.Gen.lib.rus.ec.",
+		TitleREGEX:           "<title>Library Genesis:([^<]*)",
+		IsbnREGEX:            "ISBN:</font></td><td>([^<]*)",
+		YearREGEX:            "Year:</font></nobr></td><td>([^<]*)",
+		PublisherREGEX:       "Publisher:</font></nobr></td><td>([^<]*)",
+		AuthorREGEX:          "Author.s.:</font></nobr></td><td colspan=3><b>([^<]*)",
+		ExtensionREGEX:       "Extension:</font></nobr></td><td>([^<]*)",
+		PageREGEX:            "Pages .biblio.tech.:</font></nobr></td><td>([^<]*)",
+		LanguageREGEX:        "Language:</font></nobr></td><td>([^<]*)",
+		SizeREGEX:            "Size:</font></nobr></td><td>([^<]*)",
+		TimeREGEX:            "Time modified:</font></nobr></td><td>([^<]*)",
+		CompletePageUrl:      "https://libgen.is/search.php?&res=100&req=" + excat[0] + "&phrase=1&view=simple&column=def&sort=year&sortmode=DESC&page=",
+		IncompleteArticleUrl: "https://libgen.is/book/index.php?md5=",
+		AllUrls:              nil,
+		Search:               excat[0],
+	}
 
-	fmt.Println(chalk.Magenta.Color("processing " + *category))
-	core.LIBGENDownloadAll(*category)
-
-	// }
-
+	source.GetArticles()
 }

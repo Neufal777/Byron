@@ -3,13 +3,9 @@ package core
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
-	"net/http"
 	"os"
-
-	"github.com/ttacon/chalk"
 )
 
 func WriteInFile(inventory string, Struct interface{}) {
@@ -43,34 +39,4 @@ func CheckIfFileExists(ID string) bool {
 		return false
 	}
 	return !info.IsDir()
-}
-
-func DownloadPDF(URL, fileName string) error {
-	exists := CheckIfFileExists(fileName)
-
-	if !exists {
-
-		fmt.Println(chalk.Magenta.Color("Downloading File.. "))
-		response, err := http.Get(URL)
-		if err != nil {
-			return err
-		}
-		defer response.Body.Close()
-
-		file, err := os.Create("Repository/" + fileName)
-		if err != nil {
-			return err
-		}
-		defer file.Close()
-
-		_, err = io.Copy(file, response.Body)
-		if err != nil {
-			return err
-		}
-
-	} else {
-		fmt.Println(chalk.Magenta.Color("This File already exists! :) "))
-	}
-
-	return nil
 }
