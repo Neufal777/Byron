@@ -8,6 +8,7 @@ func ErrorsHandling(html string) bool {
 		"Could not connect to the database",
 		"a database error has occurred",
 		"504 Gateway Time-out",
+		"handshake timeout",
 	}
 
 	for _, e := range errors {
