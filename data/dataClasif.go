@@ -19,7 +19,7 @@ import (
 func FilesOrganizer(folder string) {
 	ArticlesProcessed := 0
 	filesProcessed := 0
-	AllArticles := []core.Article{}
+	//AllArticles := []core.Article{}
 
 	files, _ := ioutil.ReadDir(folder)
 
@@ -30,8 +30,8 @@ func FilesOrganizer(folder string) {
 			file := strings.Replace(f.Name(), ".json", "", -1)
 			articles := core.ReadArticles(file)
 
-			for _, art := range articles {
-				AllArticles = append(AllArticles, art)
+			for range articles {
+				//AllArticles = append(AllArticles, art)
 				ArticlesProcessed++
 			}
 		}
@@ -41,7 +41,7 @@ func FilesOrganizer(folder string) {
 	/*
 		Save all the articles in the same file
 	*/
-	core.WriteInFile("GENERAL", AllArticles)
+	//core.WriteInFile("GENERAL", AllArticles)
 	log.Println("Total Articles:", ArticlesProcessed)
 	log.Println("Total Files:", filesProcessed)
 
