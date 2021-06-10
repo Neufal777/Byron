@@ -17,9 +17,13 @@ import (
 */
 
 func FilesOrganizer(folder string) {
-	ArticlesProcessed := 0
-	filesProcessed := 0
-	//AllArticles := []core.Article{}
+
+	var (
+		ArticlesProcessed = 0
+		filesProcessed    = 0
+		duplicated        = 0
+		AllArticles       = []core.Article{}
+	)
 
 	files, _ := ioutil.ReadDir(folder)
 
@@ -30,9 +34,22 @@ func FilesOrganizer(folder string) {
 			file := strings.Replace(f.Name(), ".json", "", -1)
 			articles := core.ReadArticles(file)
 
-			for range articles {
-				//AllArticles = append(AllArticles, art)
-				ArticlesProcessed++
+			for _, art := range articles {
+				/*
+					Check if already exists on the file, if not, add it
+				*/
+				dup := false
+				for _, each := range AllArticles {
+					if each.Id == art.Id {
+						duplicated++
+						dup = true
+					}
+				}
+
+				if !dup {
+					AllArticles = append(AllArticles, art)
+					ArticlesProcessed++
+				}
 			}
 		}
 		filesProcessed++
@@ -41,8 +58,9 @@ func FilesOrganizer(folder string) {
 	/*
 		Save all the articles in the same file
 	*/
-	//core.WriteInFile("GENERAL", AllArticles)
+	core.WriteInFile("GENERAL", AllArticles)
 	log.Println("Total Articles:", ArticlesProcessed)
 	log.Println("Total Files:", filesProcessed)
+	log.Println("Duplicated:", duplicated)
 
 }

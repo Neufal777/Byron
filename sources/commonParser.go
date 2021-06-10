@@ -43,7 +43,8 @@ func (s *Source) GetArticles() {
 		processed = 0
 	)
 
-	for i := 1; i < 200; i++ {
+	for i := 1; i < 2; i++ {
+		time.Sleep(2 * time.Second)
 		resp, err := http.Get(s.CompletePageUrl + strconv.Itoa(i))
 		if err != nil {
 			log.Println(err)
@@ -91,6 +92,7 @@ func (s *Source) ProcessArticles() {
 	rand.Shuffle(len(s.AllUrls), func(i, j int) { s.AllUrls[i], s.AllUrls[j] = s.AllUrls[j], s.AllUrls[i] })
 
 	for _, u := range s.AllUrls {
+		time.Sleep(1 * time.Second)
 		resp, err := http.Get(u)
 		if err != nil {
 			log.Println(err)
@@ -104,7 +106,7 @@ func (s *Source) ProcessArticles() {
 		}
 
 		articleHtmlFormat := string(articleHtml)
-
+		log.Println(articleHtmlFormat)
 		if !core.ErrorsHandling(articleHtmlFormat) {
 
 			ArticleTitle, _ := regexp.Compile(s.TitleREGEX)

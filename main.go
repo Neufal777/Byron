@@ -10,28 +10,30 @@ func main() {
 
 	// excat := []string{"salsas", "botas"}
 
-	// source := sources.Source{
-	// 	SourceName:           "LIBGEN",
-	// 	UrlREGEX:             "<a href=.book/index.php.md5=([^\"']*)",
-	// 	IdREGEX:              "ID:</font></nobr></td><td>([^<]*)",
-	// 	DownloadUrlREGEX:     "align=.center.><a href=.([^\"']*). title=.Gen.lib.rus.ec.",
-	// 	TitleREGEX:           "<title>Library Genesis:([^<]*)",
-	// 	IsbnREGEX:            "ISBN:</font></td><td>([^<]*)",
-	// 	YearREGEX:            "Year:</font></nobr></td><td>([^<]*)",
-	// 	PublisherREGEX:       "Publisher:</font></nobr></td><td>([^<]*)",
-	// 	AuthorREGEX:          "Author.s.:</font></nobr></td><td colspan=3><b>([^<]*)",
-	// 	ExtensionREGEX:       "Extension:</font></nobr></td><td>([^<]*)",
-	// 	PageREGEX:            "Pages .biblio.tech.:</font></nobr></td><td>([^<]*)",
-	// 	LanguageREGEX:        "Language:</font></nobr></td><td>([^<]*)",
-	// 	SizeREGEX:            "Size:</font></nobr></td><td>([^<]*)",
-	// 	TimeREGEX:            "Time modified:</font></nobr></td><td>([^<]*)",
-	// 	CompletePageUrl:      "https://libgen.is/search.php?&res=100&req=" + excat[0] + "&phrase=1&view=simple&column=def&sort=year&sortmode=DESC&page=",
-	// 	IncompleteArticleUrl: "https://libgen.is/book/index.php?md5=",
-	// 	AllUrls:              nil,
-	// 	Search:               excat[0],
-	// }
+	/*
+		source := sources.Source{
+			SourceName:           "OpenLibra",
+			UrlREGEX:             "<div class=.image-cover.> <a title=.[^<]*href=.([^\"']*)",
+			IdREGEX:              "<div class=.image-cover.> <a title=.[^<]*href=.([^\"']*)",
+			DownloadUrlREGEX:     "><a class=.command-button btn btn-ol-twitter. href=.([^\"']*)",
+			TitleREGEX:           "<h1 itemprop=.name. class[^>]*>([^<]*)",
+			IsbnREGEX:            "<div class=.image-cover.> <a title=.[^<]*href=.([^\"']*)",
+			YearREGEX:            "<td>A.o:</td><td itemprop=.copyrightYear.>([^<]*)",
+			PublisherREGEX:       "<td itemprop=.publisher[^<]*<span itemprop=.name.>([^<]*)",
+			AuthorREGEX:          "<span itemprop=.author.>([^<]*)",
+			ExtensionREGEX:       "pdf",
+			PageREGEX:            "<td itemprop=.numberOfPages.>([^<]*)",
+			LanguageREGEX:        "<td>Idioma:</td><td>([^<]*)",
+			SizeREGEX:            "<td>Tamaño:</td><td>([^<]*)",
+			TimeREGEX:            "<div class=.image-cover.> <a title=.[^<]*href=.([^\"']*)",
+			CompletePageUrl:      "https://openlibra.com/es/collection/pag/",
+			IncompleteArticleUrl: "",
+			AllUrls:              nil,
+			Search:               "OpenLibraAll",
+		}
 
-	// source.GetArticles()
+		source.GetArticles()
+	*/
 
 	data.FilesOrganizer("Inventory/")
 }
