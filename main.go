@@ -34,6 +34,5 @@ func main() {
 
 		source.GetArticles()
 	*/
-
 	data.FilesOrganizer("Inventory/")
 }
