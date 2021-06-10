@@ -57,7 +57,7 @@ func (s *Source) GetArticles() {
 		}
 
 		htmlFormat := string(html)
-
+		log.Println(htmlFormat)
 		if !core.ErrorsHandling(htmlFormat) {
 			matches := r.FindAllStringSubmatch(htmlFormat, -1)
 			fmt.Println(chalk.Green.Color("Processing page " + strconv.Itoa(i)))
@@ -104,7 +104,7 @@ func (s *Source) ProcessArticles() {
 		}
 
 		articleHtmlFormat := string(articleHtml)
-
+		log.Println(articleHtmlFormat)
 		if !core.ErrorsHandling(articleHtmlFormat) {
 
 			ArticleTitle, _ := regexp.Compile(s.TitleREGEX)
