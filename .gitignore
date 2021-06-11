@@ -15,7 +15,8 @@
 # vendor/
 Byron
 
+
 *.json
-Repository/
+Inventory/
 .DS_Store
 keywords.go

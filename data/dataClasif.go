@@ -17,11 +17,16 @@ import (
 */
 
 func FilesOrganizer(folder string) {
-	ArticlesProcessed := 0
-	filesProcessed := 0
-	AllArticles := []core.Article{}
+
+	var (
+		ArticlesProcessed = 0
+		filesProcessed    = 0
+		duplicated        = 0
+		AllArticles       = []core.Article{}
+	)
 
 	files, _ := ioutil.ReadDir(folder)
+	numFiles := len(files)
 
 	for _, f := range files {
 		fmt.Println(chalk.Green.Color("Processing: " + f.Name()))
@@ -31,11 +36,27 @@ func FilesOrganizer(folder string) {
 			articles := core.ReadArticles(file)
 
 			for _, art := range articles {
-				AllArticles = append(AllArticles, art)
-				ArticlesProcessed++
+				/*
+					Check if already exists on the file, if not, add it
+				*/
+				dup := false
+				for _, each := range AllArticles {
+					if each.Id == art.Id {
+						duplicated++
+						dup = true
+					}
+				}
+
+				if !dup {
+					AllArticles = append(AllArticles, art)
+					ArticlesProcessed++
+				}
 			}
 		}
 		filesProcessed++
+
+		log.Println("files left:", numFiles)
+		numFiles--
 	}
 
 	/*
@@ -44,5 +65,6 @@ func FilesOrganizer(folder string) {
 	core.WriteInFile("GENERAL", AllArticles)
 	log.Println("Total Articles:", ArticlesProcessed)
 	log.Println("Total Files:", filesProcessed)
+	log.Println("Duplicated:", duplicated)
 
 }
