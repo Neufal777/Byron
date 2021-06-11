@@ -7,7 +7,7 @@ import (
 func (art *Article) DisplayInformation() {
 
 	/*
-		Displays relevant iformation about the article
+		Displays relevant information about the article
 	*/
 	fmt.Println("ID: " + art.Id)
 	fmt.Println("Unique ID: " + art.UniqueID)

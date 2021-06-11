@@ -1,10 +1,12 @@
 package sources
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"regexp"
 	"strconv"
 	"time"
@@ -37,10 +39,8 @@ type Source struct {
 }
 
 func (s *Source) GetArticles() {
-	var (
-		r, _      = regexp.Compile(s.UrlREGEX)
-		processed = 0
-	)
+	r, _ := regexp.Compile(s.UrlREGEX)
+	processed := 0
 
 	for i := 1; i < 2; i++ {
 		time.Sleep(2 * time.Second)
@@ -48,8 +48,6 @@ func (s *Source) GetArticles() {
 		if err != nil {
 			log.Println(err)
 		}
-
-		defer resp.Body.Close()
 
 		html, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
@@ -76,7 +74,7 @@ func (s *Source) GetArticles() {
 			fmt.Println(chalk.Magenta.Color("Given 503. waiting to reconnect"))
 			time.Sleep(10 * time.Second)
 		}
-
+		resp.Body.Close()
 	}
 	s.ProcessArticles()
 }
@@ -96,8 +94,6 @@ func (s *Source) ProcessArticles() {
 		if err != nil {
 			log.Println(err)
 		}
-
-		defer resp.Body.Close()
 
 		articleHtml, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
@@ -204,7 +200,7 @@ func (s *Source) ProcessArticles() {
 				Append and download because it's new
 			*/
 
-			AllArticles := core.ReadArticles(utils.GetMD5Hash(s.Search))
+			AllArticles := s.ReadArticles(utils.GetMD5Hash(s.Search))
 			newArticleFormatted := newArticle.FormatNewArticle()
 
 			duplicated := 0
@@ -218,7 +214,7 @@ func (s *Source) ProcessArticles() {
 
 			if duplicated == 0 {
 
-				AllArticlesUpdated := core.ReadArticles(utils.GetMD5Hash(s.Search))
+				AllArticlesUpdated := s.ReadArticles(utils.GetMD5Hash(s.Search))
 				AllArticlesUpdated = append(AllArticlesUpdated, *newArticleFormatted)
 				core.WriteInFile(utils.GetMD5Hash(s.Search), AllArticlesUpdated)
 
@@ -248,10 +244,25 @@ func (s *Source) ProcessArticles() {
 			fmt.Println(chalk.Magenta.Color("Given 503. waiting to reconnect"))
 			time.Sleep(5 * time.Second)
 		}
-
+		resp.Body.Close()
 	}
 
 	fmt.Println(chalk.Green.Color("All the documents were Downloaded :) "))
+}
+
+func (s *Source) ReadArticles(inventory string) []core.Article {
+	var Articles []core.Article
+	jsonFile, err := os.Open("Inventory/" + inventory + ".json")
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer jsonFile.Close()
+	fileValue, _ := ioutil.ReadAll(jsonFile)
+
+	json.Unmarshal(fileValue, &Articles)
+	return Articles
 }
 
 func RegexSet(regex string) bool {

@@ -2,6 +2,7 @@ package data
 
 import (
 	"fmt"
+	"github.com/Byron/sources"
 	"io/ioutil"
 	"log"
 	"strings"
@@ -17,13 +18,9 @@ import (
 */
 
 func FilesOrganizer(folder string) {
-
-	var (
-		ArticlesProcessed = 0
-		filesProcessed    = 0
-		duplicated        = 0
-		AllArticles       = []core.Article{}
-	)
+	var s sources.Source
+	var ArticlesProcessed, filesProcessed, duplicated int
+	var AllArticles []core.Article
 
 	files, _ := ioutil.ReadDir(folder)
 	numFiles := len(files)
@@ -33,7 +30,7 @@ func FilesOrganizer(folder string) {
 
 		if strings.Contains(f.Name(), ".json") {
 			file := strings.Replace(f.Name(), ".json", "", -1)
-			articles := core.ReadArticles(file)
+			articles := s.ReadArticles(file)
 
 			for _, art := range articles {
 				/*
