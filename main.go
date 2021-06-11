@@ -1,9 +1,6 @@
 package main
 
 import (
-	"log"
-	"regexp"
-
 	"github.com/Byron/sources"
 )
 
@@ -36,16 +33,4 @@ func main() {
 
 	source.GetArticles()
 
-	//TestingRegex()
-	//data.FilesOrganizer("Inventory/")
-}
-
-func TestingRegex() {
-
-	texto := "</tr><tr><td>Desde:</td><td>28/03/2019</td></tr><tr><td>Tamaño:</td><td>35.06</td></tr><tr><td>Desde:</td><td>28/03/2019</td></tr><tr><td>Tamaño:</td><td>35.06</td>"
-
-	ArticleTitle, _ := regexp.Compile("<td>Tamaño:</td><td>([^<]*)")
-	result := ArticleTitle.FindAllString(texto, -1)[1]
-
-	log.Println(result)
 }

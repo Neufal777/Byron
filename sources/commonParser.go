@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 	"regexp"
@@ -42,7 +43,7 @@ func (s *Source) GetArticles() {
 	r, _ := regexp.Compile(s.UrlREGEX)
 	processed := 0
 
-	for i := 1; i < 200; i++ {
+	for i := 1; i < 400; i++ {
 		time.Sleep(2 * time.Second)
 		resp, err := http.Get(s.CompletePageUrl + strconv.Itoa(i))
 		if err != nil {
@@ -55,7 +56,7 @@ func (s *Source) GetArticles() {
 		}
 
 		htmlFormat := string(html)
-		log.Println(htmlFormat)
+
 		if !core.ErrorsHandling(htmlFormat) {
 			matches := r.FindAllStringSubmatch(htmlFormat, -1)
 			fmt.Println(chalk.Green.Color("Processing page " + strconv.Itoa(i)))
@@ -85,8 +86,8 @@ func (s *Source) ProcessArticles() {
 	processed := 0
 
 	//randomize urls processing
-	//rand.Seed(time.Now().UnixNano())
-	//rand.Shuffle(len(s.AllUrls), func(i, j int) { s.AllUrls[i], s.AllUrls[j] = s.AllUrls[j], s.AllUrls[i] })
+	rand.Seed(time.Now().UnixNano())
+	rand.Shuffle(len(s.AllUrls), func(i, j int) { s.AllUrls[i], s.AllUrls[j] = s.AllUrls[j], s.AllUrls[i] })
 
 	for _, u := range s.AllUrls {
 		time.Sleep(2 * time.Second)
@@ -101,7 +102,7 @@ func (s *Source) ProcessArticles() {
 		}
 
 		articleHtmlFormat := string(articleHtml)
-		log.Println(articleHtmlFormat)
+
 		if !core.ErrorsHandling(articleHtmlFormat) {
 
 			newArticle := core.Article{
@@ -111,7 +112,7 @@ func (s *Source) ProcessArticles() {
 			}
 
 			log.Println("Article:", u)
-			checkRegex(s, newArticle, articleHtmlFormat)
+			newArticle = CheckRegex(s, newArticle, articleHtmlFormat)
 
 			/*
 				Append and download because it's new
@@ -185,11 +186,12 @@ func (s *Source) ReadArticles(inventory string) []core.Article {
 	return Articles
 }
 
-func checkRegex(s *Source, newArticle core.Article, articleHtmlFormat string) {
+func CheckRegex(s *Source, newArticle core.Article, articleHtmlFormat string) core.Article {
 	if regexSet(s.TitleREGEX) {
 		ArticleTitle, _ := regexp.Compile(s.TitleREGEX)
 		newArticle.Title = ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1]
 	}
+
 	if regexSet(s.AuthorREGEX) {
 		ArticleAuthors, _ := regexp.Compile(s.AuthorREGEX)
 		newArticle.Author = ArticleAuthors.FindStringSubmatch(articleHtmlFormat)[1]
@@ -234,6 +236,8 @@ func checkRegex(s *Source, newArticle core.Article, articleHtmlFormat string) {
 		ArticleDownload, _ := regexp.Compile(s.DownloadUrlREGEX)
 		newArticle.DownloadUrl = ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1]
 	}
+
+	return newArticle
 }
 
 func regexSet(regex string) bool {
