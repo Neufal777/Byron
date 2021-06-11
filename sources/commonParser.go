@@ -17,6 +17,8 @@ import (
 	"github.com/ttacon/chalk"
 )
 
+const PAGE_LIMIT = 200
+
 type Source struct {
 	SourceName           string
 	UrlREGEX             string
@@ -43,7 +45,7 @@ func (s *Source) GetArticles() {
 	r, _ := regexp.Compile(s.UrlREGEX)
 	processed := 0
 
-	for i := 1; i < 400; i++ {
+	for i := 1; i < PAGE_LIMIT; i++ {
 		time.Sleep(2 * time.Second)
 		resp, err := http.Get(s.CompletePageUrl + strconv.Itoa(i))
 		if err != nil {
@@ -118,15 +120,15 @@ func (s *Source) ProcessArticles() {
 				Append and download because it's new
 			*/
 
-			AllArticles := s.ReadArticles(utils.GetMD5Hash(s.Search))
+			AllArticles := ReadArticles("Inventory/" + utils.GetMD5Hash(s.Search) + ".json")
 			newArticleFormatted := newArticle.FormatNewArticle()
 
-			dup := countDuplicates(AllArticles, newArticleFormatted)
+			dup := CountDuplicates(AllArticles, newArticleFormatted)
 
 			if dup == 0 {
-				AllArticlesUpdated := s.ReadArticles(utils.GetMD5Hash(s.Search))
+				AllArticlesUpdated := ReadArticles("Inventory/" + utils.GetMD5Hash(s.Search) + ".json")
 				AllArticlesUpdated = append(AllArticlesUpdated, *newArticleFormatted)
-				core.WriteInFile(utils.GetMD5Hash(s.Search), AllArticlesUpdated)
+				core.WriteInFile("Inventory/"+utils.GetMD5Hash(s.Search)+".json", AllArticlesUpdated)
 
 				/*
 					Display relevant information about the new Document
@@ -160,7 +162,7 @@ func (s *Source) ProcessArticles() {
 	fmt.Println(chalk.Green.Color("All the documents were Downloaded :) "))
 }
 
-func countDuplicates(AllArticles []core.Article, newArticleFormatted *core.Article) int {
+func CountDuplicates(AllArticles []core.Article, newArticleFormatted *core.Article) int {
 	duplicated := 0
 	for i := 0; i < len(AllArticles); i++ {
 		if AllArticles[i].Url == newArticleFormatted.Url {
@@ -171,10 +173,9 @@ func countDuplicates(AllArticles []core.Article, newArticleFormatted *core.Artic
 	return duplicated
 }
 
-func (s *Source) ReadArticles(inventory string) []core.Article {
+func ReadArticles(file string) []core.Article {
 	var Articles []core.Article
-	jsonFile, err := os.Open("Inventory/" + inventory + ".json")
-
+	jsonFile, err := os.Open(file)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -187,11 +188,11 @@ func (s *Source) ReadArticles(inventory string) []core.Article {
 }
 
 func CheckRegex(s *Source, newArticle core.Article, articleHtmlFormat string) core.Article {
+
 	if regexSet(s.TitleREGEX) {
 		ArticleTitle, _ := regexp.Compile(s.TitleREGEX)
 		newArticle.Title = ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1]
 	}
-
 	if regexSet(s.AuthorREGEX) {
 		ArticleAuthors, _ := regexp.Compile(s.AuthorREGEX)
 		newArticle.Author = ArticleAuthors.FindStringSubmatch(articleHtmlFormat)[1]

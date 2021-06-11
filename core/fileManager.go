@@ -7,13 +7,13 @@ import (
 	"os"
 )
 
-func WriteInFile(inventory string, Struct interface{}) {
+func WriteInFile(File string, Struct interface{}) {
 	file, err := json.MarshalIndent(Struct, "", " ")
 
 	if err != nil {
 		log.Panic(err)
 	}
-	_ = ioutil.WriteFile("Inventory/"+inventory+".json", file, 0644)
+	_ = ioutil.WriteFile(File, file, 0644)
 }
 
 func CheckIfFileExists(ID string) bool {

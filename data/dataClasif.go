@@ -2,10 +2,11 @@ package data
 
 import (
 	"fmt"
-	"github.com/Byron/sources"
 	"io/ioutil"
 	"log"
 	"strings"
+
+	"github.com/Byron/sources"
 
 	"github.com/Byron/core"
 	"github.com/ttacon/chalk"
@@ -17,51 +18,46 @@ import (
 	3- delete duplicates
 */
 
-func FilesOrganizer(folder string) {
-	var s sources.Source
-	var ArticlesProcessed, filesProcessed, duplicated int
-	var AllArticles []core.Article
+func DeleteDuplicates(folder string) {
+	FreshArticles := map[string]core.Article{}
+	var FreshArticlesReady []core.Article
+
+	var duplicates, processed int
 
 	files, _ := ioutil.ReadDir(folder)
-	numFiles := len(files)
-
+	left := len(files)
 	for _, f := range files {
+
 		fmt.Println(chalk.Green.Color("Processing: " + f.Name()))
 
 		if strings.Contains(f.Name(), ".json") {
-			file := strings.Replace(f.Name(), ".json", "", -1)
-			articles := s.ReadArticles(file)
+			articles := sources.ReadArticles(folder + f.Name())
 
-			for _, art := range articles {
-				/*
-					Check if already exists on the file, if not, add it
-				*/
-				dup := false
-				for _, each := range AllArticles {
-					if each.Id == art.Id {
-						duplicated++
-						dup = true
-					}
-				}
+			for _, a := range articles {
 
-				if !dup {
-					AllArticles = append(AllArticles, art)
-					ArticlesProcessed++
+				_, ok := FreshArticles[a.Url]
+
+				if !ok {
+					FreshArticles[a.Url] = a
+					processed++
+				} else {
+					duplicates++
 				}
 			}
 		}
-		filesProcessed++
-
-		log.Println("files left:", numFiles)
-		numFiles--
+		left--
+		log.Println("Articles Left:", left)
 	}
 
 	/*
-		Save all the articles in the same file
+		Map to []Article and insert into new file.
 	*/
-	core.WriteInFile("GENERAL", AllArticles)
-	log.Println("Total Articles:", ArticlesProcessed)
-	log.Println("Total Files:", filesProcessed)
-	log.Println("Duplicated:", duplicated)
 
+	for _, v := range FreshArticles {
+		FreshArticlesReady = append(FreshArticlesReady, v)
+	}
+
+	core.WriteInFile("Inventory/GeneralOpenLibra.json", FreshArticlesReady)
+	log.Println("Duplicates:", duplicates)
+	log.Println("Processed:", processed)
 }
