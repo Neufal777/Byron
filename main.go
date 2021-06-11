@@ -1,17 +1,11 @@
 package main
 
-import (
-	"github.com/Byron/sources"
-)
+import "github.com/Byron/sources"
 
 func main() {
 
-	//category := flag.String("cat", "math", "category")
-	//flag.Parse()
-	//fmt.Println(chalk.Magenta.Color("processing " + *category))
-
 	source := sources.Source{
-		SourceName:           "OpenLibra",
+		SourceName:           "OpenLibraaa",
 		UrlREGEX:             "<div class=.image-cover.> <a title=.[^<]*href=.([^\"']*)",
 		IdREGEX:              "",
 		DownloadUrlREGEX:     "<a class=.command-button btn btn-ol-twitter. href=.([^\"']*)",
@@ -28,9 +22,10 @@ func main() {
 		CompletePageUrl:      "https://openlibra.com/es/collection/pag/",
 		IncompleteArticleUrl: "",
 		AllUrls:              nil,
-		Search:               "OpenLibraAll",
+		Search:               "OpenLibraAllaaa",
 	}
 
 	source.GetArticles()
 
+	//data.DeleteDuplicates("Inventory/")
 }
