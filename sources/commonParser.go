@@ -1,10 +1,12 @@
 package sources
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"regexp"
 	"strconv"
 	"time"
@@ -37,10 +39,8 @@ type Source struct {
 }
 
 func (s *Source) GetArticles() {
-	var (
-		r, _      = regexp.Compile(s.UrlREGEX)
-		processed = 0
-	)
+	r, _ := regexp.Compile(s.UrlREGEX)
+	processed := 0
 
 	for i := 1; i < 180; i++ {
 		time.Sleep(2 * time.Second)
@@ -48,8 +48,6 @@ func (s *Source) GetArticles() {
 		if err != nil {
 			log.Println(err)
 		}
-
-		defer resp.Body.Close()
 
 		html, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
@@ -76,7 +74,7 @@ func (s *Source) GetArticles() {
 			fmt.Println(chalk.Magenta.Color("Given 503. waiting to reconnect"))
 			time.Sleep(10 * time.Second)
 		}
-
+		resp.Body.Close()
 	}
 	s.ProcessArticles()
 }
@@ -97,8 +95,6 @@ func (s *Source) ProcessArticles() {
 			log.Println(err)
 		}
 
-		defer resp.Body.Close()
-
 		articleHtml, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			log.Println(err)
@@ -115,74 +111,19 @@ func (s *Source) ProcessArticles() {
 			}
 
 			log.Println("Article:", u)
-			if RegexSet(s.TitleREGEX) {
-				ArticleTitle, _ := regexp.Compile(s.TitleREGEX)
-				newArticle.Title = ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1]
-			}
-			if RegexSet(s.AuthorREGEX) {
-				ArticleAuthors, _ := regexp.Compile(s.AuthorREGEX)
-				newArticle.Author = ArticleAuthors.FindStringSubmatch(articleHtmlFormat)[1]
-			}
-			if RegexSet(s.PublisherREGEX) {
-				ArticlePublisher, _ := regexp.Compile(s.PublisherREGEX)
-				newArticle.Publisher = ArticlePublisher.FindStringSubmatch(articleHtmlFormat)[1]
-			}
-			if RegexSet(s.YearREGEX) {
-				ArticleYear, _ := regexp.Compile(s.YearREGEX)
-				newArticle.Year = ArticleYear.FindStringSubmatch(articleHtmlFormat)[1]
-			}
-			if RegexSet(s.LanguageREGEX) {
-				ArticleLang, _ := regexp.Compile(s.LanguageREGEX)
-				newArticle.Language = ArticleLang.FindStringSubmatch(articleHtmlFormat)[1]
-			}
-			if RegexSet(s.IsbnREGEX) {
-				ArticleIsbn, _ := regexp.Compile(s.IsbnREGEX)
-				newArticle.Isbn = ArticleIsbn.FindStringSubmatch(articleHtmlFormat)[1]
-			}
-			if RegexSet(s.TimeREGEX) {
-				ArticleTime, _ := regexp.Compile(s.TimeREGEX)
-				newArticle.Time = ArticleTime.FindStringSubmatch(articleHtmlFormat)[1]
-			}
-			if RegexSet(s.IdREGEX) {
-				ArticleId, _ := regexp.Compile(s.IdREGEX)
-				newArticle.Id = ArticleId.FindStringSubmatch(articleHtmlFormat)[1]
-			}
-			if RegexSet(s.SizeREGEX) {
-				ArticleSize, _ := regexp.Compile(s.SizeREGEX)
-				newArticle.Size = ArticleSize.FindStringSubmatch(articleHtmlFormat)[1]
-			}
-			if RegexSet(s.PageREGEX) {
-				ArticlePages, _ := regexp.Compile(s.PageREGEX)
-				newArticle.Page = ArticlePages.FindStringSubmatch(articleHtmlFormat)[1]
-			}
-			if RegexSet(s.ExtensionREGEX) {
-				ArticleExtension, _ := regexp.Compile(s.ExtensionREGEX)
-				newArticle.Extension = ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1]
-			}
-			if RegexSet(s.DownloadUrlREGEX) {
-				ArticleDownload, _ := regexp.Compile(s.DownloadUrlREGEX)
-				newArticle.DownloadUrl = ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1]
-			}
+			checkRegex(s, newArticle, articleHtmlFormat)
 
 			/*
 				Append and download because it's new
 			*/
 
-			AllArticles := core.ReadArticles(utils.GetMD5Hash(s.Search))
+			AllArticles := s.ReadArticles(utils.GetMD5Hash(s.Search))
 			newArticleFormatted := newArticle.FormatNewArticle()
 
-			duplicated := 0
-			for i := 0; i < len(AllArticles); i++ {
+			dup := countDuplicates(AllArticles, newArticleFormatted)
 
-				if AllArticles[i].Url == newArticleFormatted.Url {
-					duplicated = 1
-					break
-				}
-			}
-
-			if duplicated == 0 {
-
-				AllArticlesUpdated := core.ReadArticles(utils.GetMD5Hash(s.Search))
+			if dup == 0 {
+				AllArticlesUpdated := s.ReadArticles(utils.GetMD5Hash(s.Search))
 				AllArticlesUpdated = append(AllArticlesUpdated, *newArticleFormatted)
 				core.WriteInFile(utils.GetMD5Hash(s.Search), AllArticlesUpdated)
 
@@ -208,16 +149,93 @@ func (s *Source) ProcessArticles() {
 			}
 
 		} else {
-
 			fmt.Println(chalk.Magenta.Color("Given 503. waiting to reconnect"))
 			time.Sleep(5 * time.Second)
 		}
 
+		resp.Body.Close()
 	}
 
 	fmt.Println(chalk.Green.Color("All the documents were Downloaded :) "))
 }
 
-func RegexSet(regex string) bool {
+func countDuplicates(AllArticles []core.Article, newArticleFormatted *core.Article) int {
+	duplicated := 0
+	for i := 0; i < len(AllArticles); i++ {
+		if AllArticles[i].Url == newArticleFormatted.Url {
+			duplicated = 1
+			break
+		}
+	}
+	return duplicated
+}
+
+func (s *Source) ReadArticles(inventory string) []core.Article {
+	var Articles []core.Article
+	jsonFile, err := os.Open("Inventory/" + inventory + ".json")
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer jsonFile.Close()
+	fileValue, _ := ioutil.ReadAll(jsonFile)
+
+	json.Unmarshal(fileValue, &Articles)
+	return Articles
+}
+
+func checkRegex(s *Source, newArticle core.Article, articleHtmlFormat string) {
+	if regexSet(s.TitleREGEX) {
+		ArticleTitle, _ := regexp.Compile(s.TitleREGEX)
+		newArticle.Title = ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1]
+	}
+	if regexSet(s.AuthorREGEX) {
+		ArticleAuthors, _ := regexp.Compile(s.AuthorREGEX)
+		newArticle.Author = ArticleAuthors.FindStringSubmatch(articleHtmlFormat)[1]
+	}
+	if regexSet(s.PublisherREGEX) {
+		ArticlePublisher, _ := regexp.Compile(s.PublisherREGEX)
+		newArticle.Publisher = ArticlePublisher.FindStringSubmatch(articleHtmlFormat)[1]
+	}
+	if regexSet(s.YearREGEX) {
+		ArticleYear, _ := regexp.Compile(s.YearREGEX)
+		newArticle.Year = ArticleYear.FindStringSubmatch(articleHtmlFormat)[1]
+	}
+	if regexSet(s.LanguageREGEX) {
+		ArticleLang, _ := regexp.Compile(s.LanguageREGEX)
+		newArticle.Language = ArticleLang.FindStringSubmatch(articleHtmlFormat)[1]
+	}
+	if regexSet(s.IsbnREGEX) {
+		ArticleIsbn, _ := regexp.Compile(s.IsbnREGEX)
+		newArticle.Isbn = ArticleIsbn.FindStringSubmatch(articleHtmlFormat)[1]
+	}
+	if regexSet(s.TimeREGEX) {
+		ArticleTime, _ := regexp.Compile(s.TimeREGEX)
+		newArticle.Time = ArticleTime.FindStringSubmatch(articleHtmlFormat)[1]
+	}
+	if regexSet(s.IdREGEX) {
+		ArticleId, _ := regexp.Compile(s.IdREGEX)
+		newArticle.Id = ArticleId.FindStringSubmatch(articleHtmlFormat)[1]
+	}
+	if regexSet(s.SizeREGEX) {
+		ArticleSize, _ := regexp.Compile(s.SizeREGEX)
+		newArticle.Size = ArticleSize.FindStringSubmatch(articleHtmlFormat)[1]
+	}
+	if regexSet(s.PageREGEX) {
+		ArticlePages, _ := regexp.Compile(s.PageREGEX)
+		newArticle.Page = ArticlePages.FindStringSubmatch(articleHtmlFormat)[1]
+	}
+	if regexSet(s.ExtensionREGEX) {
+		ArticleExtension, _ := regexp.Compile(s.ExtensionREGEX)
+		newArticle.Extension = ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1]
+	}
+	if regexSet(s.DownloadUrlREGEX) {
+		ArticleDownload, _ := regexp.Compile(s.DownloadUrlREGEX)
+		newArticle.DownloadUrl = ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1]
+	}
+}
+
+func regexSet(regex string) bool {
 	return regex != ""
 }

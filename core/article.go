@@ -41,7 +41,6 @@ func (art *Article) FormatNewArticle() *Article {
 
 	art.Author = strings.Replace(art.Author, " ", "", -1)
 	art.Isbn = strings.Replace(art.Isbn, " ", "", -1)
-
 	art.AuthorList = strings.Split(art.Author, ",")
 	art.IsbnList = strings.Split(art.Isbn, ",")
 	art.LanguageList = strings.Split(art.Language, ",")
