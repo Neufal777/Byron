@@ -1,6 +1,11 @@
 package main
 
-import "github.com/Byron/data"
+import (
+	"log"
+	"regexp"
+
+	"github.com/Byron/sources"
+)
 
 func main() {
 
@@ -10,29 +15,39 @@ func main() {
 
 	// excat := []string{"salsas", "botas"}
 
-	/*
-		source := sources.Source{
-			SourceName:           "OpenLibra",
-			UrlREGEX:             "<div class=.image-cover.> <a title=.[^<]*href=.([^\"']*)",
-			IdREGEX:              "<div class=.image-cover.> <a title=.[^<]*href=.([^\"']*)",
-			DownloadUrlREGEX:     "><a class=.command-button btn btn-ol-twitter. href=.([^\"']*)",
-			TitleREGEX:           "<h1 itemprop=.name. class[^>]*>([^<]*)",
-			IsbnREGEX:            "<div class=.image-cover.> <a title=.[^<]*href=.([^\"']*)",
-			YearREGEX:            "<td>A.o:</td><td itemprop=.copyrightYear.>([^<]*)",
-			PublisherREGEX:       "<td itemprop=.publisher[^<]*<span itemprop=.name.>([^<]*)",
-			AuthorREGEX:          "<span itemprop=.author.>([^<]*)",
-			ExtensionREGEX:       "pdf",
-			PageREGEX:            "<td itemprop=.numberOfPages.>([^<]*)",
-			LanguageREGEX:        "<td>Idioma:</td><td>([^<]*)",
-			SizeREGEX:            "<td>Tamaño:</td><td>([^<]*)",
-			TimeREGEX:            "<div class=.image-cover.> <a title=.[^<]*href=.([^\"']*)",
-			CompletePageUrl:      "https://openlibra.com/es/collection/pag/",
-			IncompleteArticleUrl: "",
-			AllUrls:              nil,
-			Search:               "OpenLibraAll",
-		}
+	source := sources.Source{
+		SourceName:           "OpenLibra",
+		UrlREGEX:             "<div class=.image-cover.> <a title=.[^<]*href=.([^\"']*)",
+		IdREGEX:              "",
+		DownloadUrlREGEX:     "<a class=.command-button btn btn-ol-twitter. href=.([^\"']*)",
+		TitleREGEX:           "<h1 itemprop=.name. class[^>]*>([^<]*)",
+		IsbnREGEX:            "",
+		YearREGEX:            "<td>A.o:</td><td itemprop=.copyrightYear.>([^<]*)",
+		PublisherREGEX:       "<td itemprop=.publisher[^<]*<span itemprop=.name.>([^<]*)",
+		AuthorREGEX:          "<span itemprop=.author.>([^<]*)",
+		ExtensionREGEX:       "",
+		PageREGEX:            "<td itemprop=.numberOfPages.>([^<]*)",
+		LanguageREGEX:        "<td>Idioma:</td><td>([^<]*)",
+		SizeREGEX:            "<td>Tamaño:</td><td>([^<]*)",
+		TimeREGEX:            "",
+		CompletePageUrl:      "https://openlibra.com/es/collection/pag/",
+		IncompleteArticleUrl: "",
+		AllUrls:              nil,
+		Search:               "OpenLibraAll",
+	}
 
-		source.GetArticles()
-	*/
-	data.FilesOrganizer("Inventory/")
+	source.GetArticles()
+
+	//TestingRegex()
+	//data.FilesOrganizer("Inventory/")
+}
+
+func TestingRegex() {
+
+	texto := "</tr><tr><td>Desde:</td><td>28/03/2019</td></tr><tr><td>Tamaño:</td><td>35.06</td></tr><tr><td>Desde:</td><td>28/03/2019</td></tr><tr><td>Tamaño:</td><td>35.06</td>"
+
+	ArticleTitle, _ := regexp.Compile("<td>Tamaño:</td><td>([^<]*)")
+	result := ArticleTitle.FindAllString(texto, -1)[1]
+
+	log.Println(result)
 }
