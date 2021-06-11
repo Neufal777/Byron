@@ -26,6 +26,7 @@ func FilesOrganizer(folder string) {
 	)
 
 	files, _ := ioutil.ReadDir(folder)
+	numFiles := len(files)
 
 	for _, f := range files {
 		fmt.Println(chalk.Green.Color("Processing: " + f.Name()))
@@ -53,6 +54,9 @@ func FilesOrganizer(folder string) {
 			}
 		}
 		filesProcessed++
+
+		log.Println("files left:", numFiles)
+		numFiles--
 	}
 
 	/*
