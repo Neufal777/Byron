@@ -120,15 +120,9 @@ func (s *Source) ProcessArticles() {
 			AllArticles := s.ReadArticles(utils.GetMD5Hash(s.Search))
 			newArticleFormatted := newArticle.FormatNewArticle()
 
-			duplicated := 0
-			for i := 0; i < len(AllArticles); i++ {
-				if AllArticles[i].Url == newArticleFormatted.Url {
-					duplicated = 1
-					break
-				}
-			}
+			dup := countDuplicates(AllArticles, newArticleFormatted)
 
-			if duplicated == 0 {
+			if dup == 0 {
 				AllArticlesUpdated := s.ReadArticles(utils.GetMD5Hash(s.Search))
 				AllArticlesUpdated = append(AllArticlesUpdated, *newArticleFormatted)
 				core.WriteInFile(utils.GetMD5Hash(s.Search), AllArticlesUpdated)
@@ -155,14 +149,25 @@ func (s *Source) ProcessArticles() {
 			}
 
 		} else {
-
 			fmt.Println(chalk.Magenta.Color("Given 503. waiting to reconnect"))
 			time.Sleep(5 * time.Second)
 		}
+
 		resp.Body.Close()
 	}
 
 	fmt.Println(chalk.Green.Color("All the documents were Downloaded :) "))
+}
+
+func countDuplicates(AllArticles []core.Article, newArticleFormatted *core.Article) int {
+	duplicated := 0
+	for i := 0; i < len(AllArticles); i++ {
+		if AllArticles[i].Url == newArticleFormatted.Url {
+			duplicated = 1
+			break
+		}
+	}
+	return duplicated
 }
 
 func (s *Source) ReadArticles(inventory string) []core.Article {
