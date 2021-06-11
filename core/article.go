@@ -56,10 +56,12 @@ func (art *Article) FormatNewArticle() *Article {
 		art.LanguageList = strings.Split(art.Language, ";")
 	}
 
-	memory := strings.Split(art.Size, " ")
-	art.FileSize = Size{
-		Ammount: memory[0],
-		Size:    memory[1],
+	if strings.Contains(art.Size, " ") {
+		memory := strings.Split(art.Size, " ")
+		art.FileSize = Size{
+			Ammount: memory[0],
+			Size:    memory[1],
+		}
 	}
 
 	art.UniqueID = utils.GetMD5Hash(art.Id + art.Title + art.Url + art.DownloadUrl)
