@@ -42,7 +42,7 @@ func (s *Source) GetArticles() {
 		processed = 0
 	)
 
-	for i := 1; i < 180; i++ {
+	for i := 1; i < 200; i++ {
 		time.Sleep(2 * time.Second)
 		resp, err := http.Get(s.CompletePageUrl + strconv.Itoa(i))
 		if err != nil {
