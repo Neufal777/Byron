@@ -9,11 +9,9 @@ import (
 
 func main() {
 
-	// category := flag.String("cat", "math", "category")
-	// flag.Parse()
-	// fmt.Println(chalk.Magenta.Color("processing " + *category))
-
-	// excat := []string{"salsas", "botas"}
+	//category := flag.String("cat", "math", "category")
+	//flag.Parse()
+	//fmt.Println(chalk.Magenta.Color("processing " + *category))
 
 	source := sources.Source{
 		SourceName:           "OpenLibra",
@@ -22,13 +20,13 @@ func main() {
 		DownloadUrlREGEX:     "<a class=.command-button btn btn-ol-twitter. href=.([^\"']*)",
 		TitleREGEX:           "<h1 itemprop=.name. class[^>]*>([^<]*)",
 		IsbnREGEX:            "",
-		YearREGEX:            "<td>A.o:</td><td itemprop=.copyrightYear.>([^<]*)",
+		YearREGEX:            "<td itemprop=.copyrightYear.>([^<]*)",
 		PublisherREGEX:       "<td itemprop=.publisher[^<]*<span itemprop=.name.>([^<]*)",
 		AuthorREGEX:          "<span itemprop=.author.>([^<]*)",
 		ExtensionREGEX:       "",
 		PageREGEX:            "<td itemprop=.numberOfPages.>([^<]*)",
 		LanguageREGEX:        "<td>Idioma:</td><td>([^<]*)",
-		SizeREGEX:            "<td>Tamaño:</td><td>([^<]*)",
+		SizeREGEX:            "<td>Tama.o:</td><td>([^<]*)",
 		TimeREGEX:            "",
 		CompletePageUrl:      "https://openlibra.com/es/collection/pag/",
 		IncompleteArticleUrl: "",

@@ -35,6 +35,7 @@ func FileDownload(URL, ID, format string) {
 
 	DownloadHtmlFormat := string(DownloadHtml)
 
+	log.Println(DownloadHtmlFormat)
 	if !ErrorsHandling(DownloadHtmlFormat) {
 		downloadlinkRegex, _ := regexp.Compile("<h2><a href=.([^\"']*)")
 		downloadlink := downloadlinkRegex.FindStringSubmatch(DownloadHtmlFormat)[1]
