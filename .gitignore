@@ -21,4 +21,5 @@ Inventory/
 .DS_Store
 keywords.go
 
+*.txt
 .idea

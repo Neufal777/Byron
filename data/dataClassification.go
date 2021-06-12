@@ -38,7 +38,8 @@ func DeleteDuplicates(folder string) {
 				_, ok := FreshArticles[a.Url]
 
 				if !ok {
-					FreshArticles[a.Url] = a
+					formatted := a.FormatNewArticle()
+					FreshArticles[a.Url] = *formatted
 					processed++
 				} else {
 					duplicates++
@@ -46,14 +47,14 @@ func DeleteDuplicates(folder string) {
 			}
 		}
 		left--
-		log.Println("Articles Left:", left)
+		log.Println("Files Left:", left)
 	}
 
 	for _, v := range FreshArticles {
 		FreshArticlesReady = append(FreshArticlesReady, v)
 	}
 
-	core.WriteInFile("UltimateInventory/General_"+FreshArticlesReady[0].SourceName+".json", FreshArticlesReady)
+	core.WriteInFile("UltimateInventory/General_Collection.json", FreshArticlesReady)
 	log.Println("Duplicates:", duplicates)
 	log.Println("Processed:", processed)
 }
