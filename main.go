@@ -2,9 +2,12 @@ package main
 
 import (
 	"log"
+	"net/http"
+	"os"
 
+	"github.com/Byron/core"
 	"github.com/Byron/db"
-	"github.com/Byron/utils"
+	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -27,12 +30,23 @@ func main() {
 
 		source.GetArticles()
 	*/
-	//data.DeleteDuplicates("Inventory/")
 
-	log.Println(
-		utils.PrettyPrintStruct(
-			db.GetArticlesDB("select * from byronarticles WHERE SourceName='openlibra'"),
-		),
-	)
-	//db.SaveArticlesDB()
+	_ = db.GetArticlesDB("select * from byronarticles WHERE SourceName='openlibra'")
+
+	r := mux.NewRouter()
+
+	//loading files from assets folder
+	fh := http.FileServer(http.Dir("./web/assets/"))
+	r.PathPrefix("/web/assets/").Handler(http.StripPrefix("/web/assets/", fh))
+	//handlers
+	r.HandleFunc("/", core.WebHome)
+
+	//identify and assign PORT
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8888"
+	}
+
+	log.Println("PORT=> ", port)
+	http.ListenAndServe(":"+port, r)
 }
