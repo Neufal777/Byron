@@ -25,6 +25,7 @@ type Source struct {
 	IdREGEX              string
 	SearchREGEX          string
 	DownloadUrlREGEX     string
+	DownloadUrlComplete  string
 	TitleREGEX           string
 	IsbnREGEX            string
 	YearREGEX            string
@@ -35,7 +36,8 @@ type Source struct {
 	LanguageREGEX        string
 	SizeREGEX            string
 	TimeREGEX            string
-	CompletePageUrl      string
+	CompletePageUrlStart string
+	CompletePageUrlEnd   string
 	IncompleteArticleUrl string
 	AllUrls              []string
 	Search               string
@@ -46,8 +48,8 @@ func (s *Source) GetArticles() {
 	processed := 0
 
 	for i := 1; i < PAGE_LIMIT; i++ {
-		time.Sleep(2 * time.Second)
-		resp, err := http.Get(s.CompletePageUrl + strconv.Itoa(i))
+		time.Sleep(1 * time.Second)
+		resp, err := http.Get(s.CompletePageUrlStart + strconv.Itoa(i) + s.CompletePageUrlEnd)
 		if err != nil {
 			log.Println(err)
 		}
@@ -85,6 +87,7 @@ func (s *Source) GetArticles() {
 func (s *Source) ProcessArticles() {
 	fmt.Println(chalk.Green.Color("Start processing Articles.."))
 
+	log.Println("Num of Total Articles:", len(s.AllUrls))
 	processed := 0
 
 	//randomize urls processing
@@ -92,7 +95,7 @@ func (s *Source) ProcessArticles() {
 	rand.Shuffle(len(s.AllUrls), func(i, j int) { s.AllUrls[i], s.AllUrls[j] = s.AllUrls[j], s.AllUrls[i] })
 
 	for _, u := range s.AllUrls {
-		time.Sleep(2 * time.Second)
+		time.Sleep(1 * time.Second)
 		resp, err := http.Get(u)
 		if err != nil {
 			log.Println(err)
@@ -235,7 +238,8 @@ func CheckRegex(s *Source, newArticle core.Article, articleHtmlFormat string) co
 	}
 	if regexSet(s.DownloadUrlREGEX) {
 		ArticleDownload, _ := regexp.Compile(s.DownloadUrlREGEX)
-		newArticle.DownloadUrl = ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1]
+		newArticle.DownloadUrl = s.DownloadUrlComplete + ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1]
+
 	}
 
 	return newArticle
