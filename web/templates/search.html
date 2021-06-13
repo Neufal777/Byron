@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="web/assets/css/master.css">
+</head>
+
+<body>
+
+<div id="home_container">
+    Total Results {{ .Results}}
+    <ul>
+        {{range .Articles}}
+        <li>Title: {{.Title}}</li>
+        <li>ID: {{.UniqueID}}</li>
+        <li>Download: {{.DownloadUrl}}</li>
+        <li>Isbn: {{.Isbn}}</li>
+        <li>Year: {{.Year}}</li>
+        <li>Publisher: {{.Publisher}}</li>
+        <li>Author: {{.Author}}</li>
+        <li>Extension: {{.Extension}}</li>
+        <li>Page: {{.Page}}</li>
+        <li>Language: {{.Language}}</li>
+        <li>Size: {{.Size}}</li>
+        <li>Time: {{.Time}}</li>
+        <br>
+        <br>
+        <br>
+        {{end}}
+    </ul>
+</div>
+</body>
+</html>

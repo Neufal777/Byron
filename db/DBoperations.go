@@ -1,7 +1,6 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"strconv"
@@ -24,13 +23,6 @@ const (
 var (
 	connectionInformation = DBUSER + ":" + DBPASS + "@tcp(" + HOST + ":" + PORT + ")/" + DBNAME
 )
-
-func ConnectDb(dbName string, connectionData string) (*sql.DB, error) {
-
-	db, err := sql.Open(dbName, connectionData)
-
-	return db, err
-}
 
 func SaveArticlesDB() {
 	var count int

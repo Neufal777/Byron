@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/Byron/core"
+	"github.com/Byron/db"
 	"github.com/gorilla/mux"
 )
 
@@ -37,7 +37,9 @@ func main() {
 	//loading files from assets folder
 	fh := http.FileServer(http.Dir("./web/assets/"))
 	r.PathPrefix("/web/assets/").Handler(http.StripPrefix("/web/assets/", fh))
-	r.HandleFunc("/", core.WebHome)
+
+	//web handlers
+	r.HandleFunc("/search/{search}", db.SearchResults).Methods("GET")
 
 	//identify and assign PORT
 	port := os.Getenv("PORT")
