@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Home</title>
-    <link rel="stylesheet" href="web/assets/css/master.css">
+    <link rel="stylesheet" href="/web/assets/css/main.css">
+    <title>Search:  {{ .Search}}</title>
 </head>
 
 <body>
-
-<div id="home_container">
+<!--
+<div>
     Total Results {{ .Results}}
     <ul>
         {{range .Articles}}
@@ -23,7 +23,8 @@
         <li>Page: {{.Page}}</li>
         <li>Language: {{.Language}}</li>
         <li>Size: {{.Size}}</li>
-        <li>Time: {{.Time}}</li>
+        <li>ID: {{.UniqueID}}</li>
+        <li>Source: {{.SourceName}}</li>
         <br>
         <br>
         <br>
@@ -31,4 +32,35 @@
     </ul>
 </div>
 </body>
+-->
+<body>
+    <div id="wrapper">
+     <h1>Total Results {{ .Results}}</h1>
+     
+     <table id="keywords" cellspacing="0" cellpadding="0">
+       
+        <thead>
+         <tr>
+           <th><span>Title</span></th>
+           <th><span>Year</span></th>
+           <th><span>Author</span></th>
+           <th><span>Language</span></th>
+           <th><span>size</span></th>
+         </tr>
+       </thead>
+      
+       <tbody>
+        {{range .Articles}}
+         <tr>
+           <td class="lalign"> {{.Title}}</td>
+           <td>{{.Year}}</td>
+           <td>{{.Author}}</td>
+           <td>{{.Language}}</td>
+           <td>{{.Size}}</td>
+         </tr>
+         {{end}}
+       </tbody>
+     </table>
+    </div> 
+   </body>
 </html>

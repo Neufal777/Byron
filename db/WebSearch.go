@@ -28,3 +28,8 @@ func SearchResults(w http.ResponseWriter, r *http.Request) {
 	}
 	utils.Render(w, "web/templates/search.html", searchResults)
 }
+
+func HomeSearchBar(w http.ResponseWriter, r *http.Request) {
+
+	utils.Render(w, "web/templates/home.html", nil)
+}

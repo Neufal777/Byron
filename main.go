@@ -40,6 +40,7 @@ func main() {
 
 	//web handlers
 	r.HandleFunc("/search/{search}", db.SearchResults).Methods("GET")
+	r.HandleFunc("/", db.HomeSearchBar)
 
 	//identify and assign PORT
 	port := os.Getenv("PORT")

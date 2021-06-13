@@ -11,19 +11,6 @@ import (
 	"github.com/ttacon/chalk"
 )
 
-const (
-	HOST   = "127.0.0.1"
-	DBNAME = "byrondb"
-	DBUSER = "root"
-	DBPASS = "root"
-	DB     = "mysql"
-	PORT   = "3306"
-)
-
-var (
-	connectionInformation = DBUSER + ":" + DBPASS + "@tcp(" + HOST + ":" + PORT + ")/" + DBNAME
-)
-
 func SaveArticlesDB() {
 	var count int
 	db, err := ConnectDb(DB, connectionInformation)
