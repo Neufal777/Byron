@@ -34,19 +34,31 @@
 </body>
 -->
 
+<div class="TopSearchBar">
+  <form action="/search">
+    <input type="text" placeholder="search.." name="search" autocomplete="off" spellcheck="false" required>
+  </form>
+</div>
+
 <div class="courses-container">
 
-  <h1>Total Results {{ .Results}}</h1>
+  <h1>Results for {{ .Search}} : <b>{{ .Results}}</b></h1>
   {{range .Articles}}
 	<div class="course">
 		<div class="course-preview">
 			<h6>{{.Language}}</h6>
 			<h5>{{.Author}}</h5>
 			<a>{{.Year}}<i class="fas fa-chevron-right"></i></a>
+      <br>
+      <a>{{.Publisher}}<i class="fas fa-chevron-right"></i></a>
+      <br>
+      <a>{{.Size}}<i class="fas fa-chevron-right"></i></a>
+      <br>
+      <a>{{.Isbn}}<i class="fas fa-chevron-right"></i></a>
 		</div>
 		<div class="course-info">
 			<h6>{{.SourceName}}</h6>
-      <h2>{{.Title}}</h2>
+      <h2><b>{{.Title}}</b></h2>
 			<a href={{.DownloadUrl}} target="_blank"><button class="btn">Download</button></a>
 		</div>
 	</div>

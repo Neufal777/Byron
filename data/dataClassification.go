@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/Byron/sources"
-	"github.com/Byron/utils"
 
 	"github.com/Byron/core"
 	"github.com/ttacon/chalk"
@@ -55,7 +54,7 @@ func DeleteDuplicates(folder string) {
 		FreshArticlesReady = append(FreshArticlesReady, v)
 	}
 
-	core.WriteInFile("UltimateInventory/genCol"+utils.GetMD5Hash(FreshArticlesReady[0].Size)+".json", FreshArticlesReady)
+	core.WriteInFile("UltimateInventory/General_Collection.json", FreshArticlesReady)
 	log.Println("Duplicates:", duplicates)
 	log.Println("Processed:", processed)
 }

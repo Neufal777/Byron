@@ -73,7 +73,7 @@ font-size: 12px;
 
 
 .courses-container{
-  width: 800px;
+  width: 900px;
   margin: auto;
   padding: 25px;
   border-radius: 10px;
@@ -84,14 +84,12 @@ font-size: 12px;
 .course {
 	background-color: #fff;
 	border-radius: 10px;
-	-webkit-box-shadow: 0px 0px 4px 0px rgba(97,93,97,1);
--moz-box-shadow: 0px 0px 4px 0px rgba(97,93,97,1);
-box-shadow: 0px 0px 4px 0px rgba(97,93,97,1);
+
 	display: flex;
 	max-width: 100%;
 	margin: 20px;
 	overflow: hidden;
-	width: 700px;
+	width: 860px;
 }
 
 .course h6 {
@@ -107,7 +105,7 @@ box-shadow: 0px 0px 4px 0px rgba(97,93,97,1);
 }
 
 .course-preview {
-	background-color: #2A265F;
+	background-color: #3367D7;
 	color: #fff;
 	padding: 30px;
 	width: 170px;
@@ -116,7 +114,7 @@ box-shadow: 0px 0px 4px 0px rgba(97,93,97,1);
 .course-preview a {
 	color: #fff;
 	font-size: 10px;
-	opacity: 0.6;
+	opacity: 0.9;
 	margin-top: 30px;
 	text-decoration: none;
 }
@@ -130,7 +128,7 @@ box-shadow: 0px 0px 4px 0px rgba(97,93,97,1);
 
 
 .btn {
-	background-color: #2A265F;
+	background-color: #3367D7;
 	border: 0;
 	border-radius: 7px;
 	color: #fff;
@@ -147,4 +145,19 @@ h5{
   font-size: 13px;
   width: 160px;
   display:block;
+}
+
+.TopSearchBar{
+
+  width: 100%;
+  background-color: #3367D7;
+  padding: 40px;
+}
+
+.TopSearchBar input{
+  padding: 15px;
+  outline: none;
+  width: 450px;
+  border-radius: 8px;
+  border: none;
 }
