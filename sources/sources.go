@@ -66,4 +66,5 @@ func AllSourcesScrapingInformation() {
 		AllUrls:              nil,
 		Search:               "BookRixAll",
 	}
+
 }

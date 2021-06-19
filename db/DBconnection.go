@@ -3,10 +3,10 @@ package db
 import "database/sql"
 
 const (
-	HOST   = "127.0.0.1"
+	HOST   = "localhost"
 	DBNAME = "byrondb"
 	DBUSER = "root"
-	DBPASS = "root"
+	DBPASS = "rootroot"
 	DB     = "mysql"
 	PORT   = "3306"
 )

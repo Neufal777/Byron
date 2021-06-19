@@ -1,36 +1,40 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net/http"
 	"os"
 
+	"github.com/Byron/data"
 	"github.com/Byron/db"
 	"github.com/gorilla/mux"
 )
 
 func main() {
 
-	/*
-		source := sources.Source{
-			SourceName:           "BookRix",
-			UrlREGEX:             "<big class=.item-title.><a class=.word-break. href=.([^\"']*)",
-			DownloadUrlREGEX:     "data-download=.([^\"']*)",
-			DownloadUrlComplete:  "https://www.bookrix.com",
-			TitleREGEX:           "<h2 class=.break-word.>([^<]*)",
-			AuthorREGEX:          "<a rel=.author. href=[^>]*>([^<]*)",
-			TimeREGEX:            "Publication Date:.([^<]*)",
-			CompletePageUrlStart: "https://www.bookrix.com/books;page:",
-			CompletePageUrlEnd:   ".html",
-			IncompleteArticleUrl: "https://www.bookrix.com",
-			AllUrls:              nil,
-			Search:               "BookRixAll",
-		}
+	execMode := flag.String("exec", "web", "Select mode of execution")
+	flag.Parse()
 
-		source.GetArticles()
-	*/
+	switch *execMode {
+	case "web":
+		WebExecute()
+	case "Parse":
+		ParseExecute()
+	case "insert":
+		db.SaveArticlesDB()
+	case "delete":
+		data.DeleteDuplicates("Inventory/")
+	case "test":
+		TestingExecute()
+	default:
+		log.Println("Not found:", *execMode)
+	}
 
-	//_ = db.GetArticlesDB("select * from byronarticles WHERE SourceName='openlibra'")
+}
+func TestingExecute() {}
+func ParseExecute()   {}
+func WebExecute() {
 
 	r := mux.NewRouter()
 
