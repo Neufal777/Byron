@@ -102,7 +102,7 @@ func GetArticlesDB(query string) []core.Article {
 		ResultArticles = append(ResultArticles, art)
 		count++
 	}
-	fmt.Println(chalk.Green.Color("Total Articles in DB: " + strconv.Itoa(count)))
+	fmt.Println(chalk.Green.Color("Total Articles found in DB: " + strconv.Itoa(count)))
 	return ResultArticles
 
 }

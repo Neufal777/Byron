@@ -23,3 +23,6 @@ keywords.go
 
 *.txt
 .idea
+
+UltimateInventory/
+*.sql
