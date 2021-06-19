@@ -16,7 +16,7 @@ import (
 	"github.com/ttacon/chalk"
 )
 
-const PAGE_LIMIT = 200
+const PAGE_LIMIT = 4
 
 type Source struct {
 	SourceName           string
@@ -68,7 +68,7 @@ func (s *Source) GetArticles() {
 				s.AllUrls = append(s.AllUrls, s.IncompleteArticleUrl+m[1])
 				processed++
 
-				DownloadList(s.IncompleteArticleUrl+m[1], s.Search)
+				//DownloadList(s.IncompleteArticleUrl+m[1], s.Search)
 			}
 
 		} else {

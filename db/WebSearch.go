@@ -5,7 +5,6 @@ import (
 
 	"github.com/Byron/core"
 	"github.com/Byron/utils"
-	"github.com/gorilla/mux"
 )
 
 type Search struct {
@@ -16,13 +15,13 @@ type Search struct {
 
 func SearchResults(w http.ResponseWriter, r *http.Request) {
 
-	vars := mux.Vars(r)
-	search := vars["search"]
+	keys := r.URL.Query()
+	search := keys["search"][0]
 
 	art := GetArticlesDB("select * from byronarticles where title LIKE '%" + search + "%'")
 
 	searchResults := Search{
-		Search:   vars["search"],
+		Search:   search,
 		Articles: art,
 		Results:  len(art),
 	}

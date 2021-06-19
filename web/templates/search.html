@@ -33,35 +33,40 @@
 </div>
 </body>
 -->
-<body>
-    <div id="wrapper">
-     <h1>Total Results {{ .Results}}</h1>
-     
-     <table id="keywords" cellspacing="0" cellpadding="0">
-       
-        <thead>
-         <tr>
-           <th><span>Title</span></th>
-           <th><span>Year</span></th>
-           <th><span>Author</span></th>
-           <th><span>Language</span></th>
-           <th><span>size</span></th>
-         </tr>
-       </thead>
-      
-       <tbody>
-        {{range .Articles}}
-         <tr>
-           
-           <td class="lalign"><a href="{{.DownloadUrl}}" target="_blank">{{.Title}}</a></td>
-           <td>{{.Year}}</td>
-           <td>{{.Author}}</td>
-           <td>{{.Language}}</td>
-           <td>{{.Size}}</td>
-         </tr>
-         {{end}}
-       </tbody>
-     </table>
-    </div> 
-   </body>
+
+<div class="courses-container">
+
+  <h1>Total Results {{ .Results}}</h1>
+  {{range .Articles}}
+	<div class="course">
+		<div class="course-preview">
+			<h6>{{.Language}}</h6>
+			<h5>{{.Author}}</h5>
+			<a>{{.Year}}<i class="fas fa-chevron-right"></i></a>
+		</div>
+		<div class="course-info">
+			<h6>{{.SourceName}}</h6>
+      <h2>{{.Title}}</h2>
+			<a href={{.DownloadUrl}} target="_blank"><button class="btn">Download</button></a>
+		</div>
+	</div>
+  {{end}}
+
+
+
+</div>
+
+
+</body>
 </html>
+
+<!-- {{range .Articles}}
+<tr>
+  
+  <td class="lalign"><a href="{{.DownloadUrl}}" target="_blank">{{.Title}}</a></td>
+  <td>{{.Year}}</td>
+  <td>{{.Author}}</td>
+  <td>{{.Language}}</td>
+  <td>{{.Size}}</td>
+</tr>
+{{end}} -->

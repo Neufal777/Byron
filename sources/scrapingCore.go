@@ -14,9 +14,8 @@ func ProxyScraping(url string) (string, []error) {
 	r1 := rand.New(s1)
 
 	proxies := []string{
-		"201.220.140.30:8181",
+		//"201.220.140.30:8181",
 		"136.226.33.115:80",
-		//"94.139.254.232:3128",
 	}
 
 	randomElement := r1.Intn(len(proxies))
