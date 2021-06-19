@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"log"
 	"math/rand"
-	"net/http"
 	"os"
 	"regexp"
 	"strconv"
@@ -49,18 +48,13 @@ func (s *Source) GetArticles() {
 
 	for i := 1; i < PAGE_LIMIT; i++ {
 		time.Sleep(1 * time.Second)
-		resp, err := http.Get(s.CompletePageUrlStart + strconv.Itoa(i) + s.CompletePageUrlEnd)
-		if err != nil {
-			log.Println(err)
+
+		htmlFormat, errs := ProxyScraping(s.CompletePageUrlStart + strconv.Itoa(i) + s.CompletePageUrlEnd)
+
+		if errs != nil {
+			log.Println("Ups, we have some errors")
+
 		}
-
-		html, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			log.Println(err)
-		}
-
-		htmlFormat := string(html)
-
 		if !core.ErrorsHandling(htmlFormat) {
 			matches := r.FindAllStringSubmatch(htmlFormat, -1)
 			fmt.Println(chalk.Green.Color("Processing page " + strconv.Itoa(i)))
@@ -73,13 +67,14 @@ func (s *Source) GetArticles() {
 				fmt.Println(chalk.Green.Color("Saving " + m[1]))
 				s.AllUrls = append(s.AllUrls, s.IncompleteArticleUrl+m[1])
 				processed++
+
+				DownloadList(s.IncompleteArticleUrl+m[1], s.Search)
 			}
 
 		} else {
 			fmt.Println(chalk.Magenta.Color("Given 503. waiting to reconnect"))
 			time.Sleep(10 * time.Second)
 		}
-		resp.Body.Close()
 	}
 	s.ProcessArticles()
 }
@@ -96,17 +91,12 @@ func (s *Source) ProcessArticles() {
 
 	for _, u := range s.AllUrls {
 		time.Sleep(1 * time.Second)
-		resp, err := http.Get(u)
-		if err != nil {
-			log.Println(err)
-		}
 
-		articleHtml, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			log.Println(err)
-		}
+		articleHtmlFormat, errs := ProxyScraping(u)
+		if errs != nil {
+			log.Println("Ups, we have some errors")
 
-		articleHtmlFormat := string(articleHtml)
+		}
 
 		if !core.ErrorsHandling(articleHtmlFormat) {
 
@@ -156,10 +146,8 @@ func (s *Source) ProcessArticles() {
 
 		} else {
 			fmt.Println(chalk.Magenta.Color("Given 503. waiting to reconnect"))
-			time.Sleep(5 * time.Second)
-		}
 
-		resp.Body.Close()
+		}
 	}
 
 	fmt.Println(chalk.Green.Color("All the documents were Downloaded :) "))
@@ -191,7 +179,6 @@ func ReadArticles(file string) []core.Article {
 }
 
 func CheckRegex(s *Source, newArticle core.Article, articleHtmlFormat string) core.Article {
-
 	if regexSet(s.TitleREGEX) {
 		ArticleTitle, _ := regexp.Compile(s.TitleREGEX)
 		newArticle.Title = ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1]
