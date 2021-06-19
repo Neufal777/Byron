@@ -41,8 +41,7 @@
 </div>
 
 <div class="courses-container">
-
-  <h1>Results for {{ .Search}} : <b>{{ .Results}}</b></h1>
+  <h1>Results for <b>{{ .Search}}</b> : <b>{{ .Results}}</b></h1>
   {{range .Articles}}
 	<div class="course">
 		<div class="course-preview">
@@ -63,22 +62,7 @@
 		</div>
 	</div>
   {{end}}
-
-
-
 </div>
-
 
 </body>
 </html>
-
-<!-- {{range .Articles}}
-<tr>
-  
-  <td class="lalign"><a href="{{.DownloadUrl}}" target="_blank">{{.Title}}</a></td>
-  <td>{{.Year}}</td>
-  <td>{{.Author}}</td>
-  <td>{{.Language}}</td>
-  <td>{{.Size}}</td>
-</tr>
-{{end}} -->

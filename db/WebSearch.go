@@ -18,7 +18,7 @@ func SearchResults(w http.ResponseWriter, r *http.Request) {
 	keys := r.URL.Query()
 	search := keys["search"][0]
 
-	art := GetArticlesDB("select * from byronarticles where title LIKE '%" + search + "%'")
+	art := GetArticlesDB("select * from byronarticles where title LIKE '%" + search + "%' OR isbn LIKE '%" + search + "%'")
 
 	searchResults := Search{
 		Search:   search,
