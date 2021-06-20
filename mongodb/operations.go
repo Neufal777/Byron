@@ -10,12 +10,13 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func InsertArticle(article *core.Article) {
+func InsertArticle(article *core.Article) error {
 
 	client, ctx, err := ConnectMongoDB()
 
+	defer client.Disconnect(ctx)
+
 	if err != nil {
-		log.Println("CONEXION ERROOOOR! 2")
 		panic(err)
 	}
 
@@ -41,13 +42,11 @@ func InsertArticle(article *core.Article) {
 	})
 
 	if err != nil {
-		log.Println("CONEXION ERROOOOR! 3")
 		log.Println(err)
 	}
 
-	defer client.Disconnect(ctx)
-
 	fmt.Println(chalk.Green.Color("Inserted correctly: " + article.UniqueID))
+	return err
 
 }
 

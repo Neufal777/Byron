@@ -28,5 +28,6 @@ func InsertArticles() {
 		} else {
 			fmt.Println(chalk.Magenta.Color("Already exists"))
 		}
+
 	}
 }
