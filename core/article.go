@@ -38,11 +38,14 @@ func (art *Article) FormatNewArticle() *Article {
 
 	art.Author = strings.Replace(art.Author, ",", ", ", -1)
 	art.Author = strings.Replace(art.Author, ";", ", ", -1)
+	art.Author = strings.Replace(art.Author, ".", ". ", -1)
 
 	art.Isbn = strings.Replace(art.Isbn, ",", ", ", -1)
+	art.Isbn = strings.Replace(art.Isbn, ";", ", ", -1)
 
 	art.Title = strings.Replace(art.Title, ";", "; ", -1)
 	art.Title = strings.Replace(art.Title, ":", ": ", -1)
+	art.Title = strings.Replace(art.Title, "&nbsp;", " ", -1)
 
 	if strings.Contains(art.Author, ";") {
 		Author := strings.Split(art.Author, ";")

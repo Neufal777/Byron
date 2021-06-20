@@ -8,6 +8,7 @@ import (
 
 	"github.com/Byron/data"
 	"github.com/Byron/db"
+	"github.com/Byron/mongodb"
 	"github.com/Byron/sources"
 	"github.com/gorilla/mux"
 )
@@ -23,7 +24,7 @@ func main() {
 	case "parse":
 		ParseExecute()
 	case "insert":
-		db.SaveArticlesDB()
+		mongodb.InsertArticles()
 	case "delete":
 		data.DeleteDuplicates("Inventory/")
 	case "test":
@@ -34,7 +35,32 @@ func main() {
 	}
 
 }
-func TestingExecute() {}
+func TestingExecute() {
+
+	// i := core.Article{
+	// 	SourceName:  "LIBGEN",
+	// 	Id:          "4654654",
+	// 	UniqueID:    "8796546548975456",
+	// 	Url:         "www.github.com",
+	// 	Search:      "don't know",
+	// 	DownloadUrl: "XXXX",
+	// 	Title:       "XXXX",
+	// 	Isbn:        "XXXX",
+	// 	Year:        "XXXX",
+	// 	Publisher:   "XXXX",
+	// 	Author:      "XXXX",
+	// 	Extension:   "XXXX",
+	// 	Page:        "XXXX",
+	// 	Language:    "XXXX",
+	// 	Size:        "XXXX",
+	// 	Time:        "XXXX",
+	// }
+
+	for _, n := range mongodb.RetrieveArticle("www.facebook.com") {
+
+		log.Println("URL:", n.Url)
+	}
+}
 func ParseExecute() {
 	z := sources.Source{
 		SourceName:           "LIBGEN",

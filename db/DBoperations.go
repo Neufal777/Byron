@@ -30,31 +30,41 @@ func SaveArticlesDB() {
 	log.Println("Total articles to insert:", len(articles))
 	for i := 0; i < len(articles); i++ {
 
-		fmt.Println(chalk.Green.Color("Inserting article: " + articles[i].UniqueID))
+		alreadyExists := GetArticlesDB("SELECT * FROM byronarticles WHERE url='" + articles[i].Url + "'")
 
-		_, err := queryInsertArticle.Exec(
-			articles[i].UniqueID,
-			articles[i].SourceName,
-			articles[i].Url,
-			articles[i].DownloadUrl,
-			articles[i].Title,
-			articles[i].Search,
-			articles[i].Isbn,
-			articles[i].Year,
-			articles[i].Publisher,
-			articles[i].Author,
-			articles[i].Extension,
-			articles[i].Page,
-			articles[i].Language,
-			articles[i].Size,
-			articles[i].Time,
-		)
+		log.Println("SAME BOOKS:", len(alreadyExists))
+		if len(alreadyExists) == 0 {
 
-		count++
-		log.Println("Processed:", count)
-		if err != nil {
-			log.Println("Some error ocurred")
+			fmt.Println(chalk.Green.Color("Inserting article: " + articles[i].UniqueID))
+
+			_, err := queryInsertArticle.Exec(
+				articles[i].UniqueID,
+				articles[i].SourceName,
+				articles[i].Url,
+				articles[i].DownloadUrl,
+				articles[i].Title,
+				articles[i].Search,
+				articles[i].Isbn,
+				articles[i].Year,
+				articles[i].Publisher,
+				articles[i].Author,
+				articles[i].Extension,
+				articles[i].Page,
+				articles[i].Language,
+				articles[i].Size,
+				articles[i].Time,
+			)
+
+			count++
+			log.Println("Processed:", count)
+			if err != nil {
+				log.Println("Some error ocurred")
+			}
+
+		} else {
+			fmt.Println(chalk.Red.Color("Already exists"))
 		}
+
 	}
 }
 
