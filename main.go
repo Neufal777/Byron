@@ -7,8 +7,8 @@ import (
 	"os"
 
 	"github.com/Byron/data"
-	"github.com/Byron/db"
 	"github.com/Byron/mongodb"
+	"github.com/Byron/mysqldb"
 	"github.com/Byron/sources"
 	"github.com/gorilla/mux"
 )
@@ -24,7 +24,7 @@ func main() {
 	case "parse":
 		ParseExecute()
 	case "insert":
-		mongodb.InsertArticles()
+		data.InsertArticles()
 	case "delete":
 		data.DeleteDuplicates("Inventory/")
 	case "test":
@@ -56,7 +56,7 @@ func TestingExecute() {
 	// 	Time:        "XXXX",
 	// }
 
-	for _, n := range mongodb.RetrieveArticle("www.facebook.com") {
+	for _, n := range mongodb.RetrieveArticle("Libgen") {
 
 		log.Println("URL:", n.Url)
 	}
@@ -95,8 +95,8 @@ func WebExecute() {
 	r.PathPrefix("/web/assets/").Handler(http.StripPrefix("/web/assets/", fh))
 
 	//web handlers
-	r.HandleFunc("/search", db.SearchResults).Methods("GET")
-	r.HandleFunc("/", db.HomeSearchBar)
+	r.HandleFunc("/search", mysqldb.SearchResults).Methods("GET")
+	r.HandleFunc("/", mysqldb.HomeSearchBar)
 
 	//identify and assign PORT
 	port := os.Getenv("PORT")

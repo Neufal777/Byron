@@ -1,36 +1,14 @@
 package mongodb
 
 import (
-	"context"
 	"fmt"
 	"log"
-	"time"
 
 	"github.com/Byron/core"
 	"github.com/Byron/utils"
 	"github.com/ttacon/chalk"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
-
-func ConnectMongoDB() (*mongo.Client, context.Context, error) {
-
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://byron:Black_nebula000@byroncluster.dqvrs.mongodb.net/byroncluster?retryWrites=true&w=majority"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-
-	err = client.Connect(ctx)
-
-	if err != nil {
-		log.Fatal(err)
-		log.Println("CONEXION ERROOOOR! 1")
-	}
-
-	return client, ctx, err
-}
 
 func InsertArticle(article *core.Article) {
 
@@ -64,12 +42,8 @@ func InsertArticle(article *core.Article) {
 
 	if err != nil {
 		log.Println("CONEXION ERROOOOR! 3")
+		log.Println(err)
 	}
-
-	/*
-		Check connections
-
-	*/
 
 	defer client.Disconnect(ctx)
 
@@ -89,7 +63,7 @@ func RetrieveArticle(url string) []core.Article {
 	byronDatabase := client.Database("byron")
 	byronArticlesCollection := byronDatabase.Collection("byronArticles")
 
-	filterCursor, err := byronArticlesCollection.Find(ctx, bson.M{"url": url})
+	filterCursor, err := byronArticlesCollection.Find(ctx, bson.M{"sourcename": url})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -117,6 +91,5 @@ func RetrieveArticle(url string) []core.Article {
 			Time:        utils.AnyTypeToString(articlesRetrieved[i]["time"]),
 		})
 	}
-
 	return AllArticles
 }
