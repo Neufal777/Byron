@@ -19,6 +19,7 @@ func SearchResults(w http.ResponseWriter, r *http.Request) {
 	search := keys["search"][0]
 
 	art := GetArticlesDB("select * from byronarticles where title LIKE '%" + search + "%' OR isbn LIKE '%" + search + "%'")
+	//art := mongodb.SearchArticles(search)
 
 	searchResults := Search{
 		Search:   search,

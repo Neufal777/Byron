@@ -11,10 +11,20 @@ import (
 	"github.com/Byron/mysqldb"
 	"github.com/Byron/sources"
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 )
 
-func main() {
+func init() {
+	err := godotenv.Load()
 
+	if err != nil {
+		panic(err)
+	}
+
+	log.Println(os.Getenv("MONGODB_CONNECTION"))
+}
+
+func main() {
 	execMode := flag.String("exec", "web", "Select mode of execution")
 	flag.Parse()
 
@@ -56,10 +66,13 @@ func TestingExecute() {
 	// 	Time:        "XXXX",
 	// }
 
-	for _, n := range mongodb.RetrieveArticle("Libgen") {
+	// if !mongodb.MongoSearchByUrl("https://libgen.is/book/index.php?md5=5FCA92F369390446BD6DF90380830DA7") {
+	// 	log.Println("no existe")
+	// }
 
-		log.Println("URL:", n.Url)
-	}
+	log.Println(
+		mongodb.SearchArticles(" Doug Lennox - Now You Know Extreme Weather:  The Little Book of Answers"),
+	)
 }
 func ParseExecute() {
 	z := sources.Source{

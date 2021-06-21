@@ -3,7 +3,9 @@ package mysqldb
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"strconv"
+	"time"
 
 	"github.com/Byron/core"
 	"github.com/Byron/sources"
@@ -23,6 +25,9 @@ func SaveArticlesDB() {
 
 	articles := sources.ReadArticles("UltimateInventory/General_Collection.json")
 	queryInsertArticle, err := db.Prepare("INSERT INTO byronarticles (uniqueid, sourcename, url, downloadurl, title, search,isbn,year,publisher,author,extension,page,language,size,time) VALUES (?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?)")
+
+	rand.Seed(time.Now().UnixNano())
+	rand.Shuffle(len(articles), func(i, j int) { articles[i], articles[j] = articles[j], articles[i] })
 
 	if err != nil {
 		log.Println("unable to prepare query")

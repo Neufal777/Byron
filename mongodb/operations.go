@@ -10,8 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func InsertArticle(article *core.Article) error {
-
+func MongoSearchByUrl(url string) bool {
 	client, ctx, err := ConnectMongoDB()
 
 	defer client.Disconnect(ctx)
@@ -23,46 +22,82 @@ func InsertArticle(article *core.Article) error {
 	byronDatabase := client.Database("byron")
 	byronArticlesCollection := byronDatabase.Collection("byronArticles")
 
-	_, err = byronArticlesCollection.InsertOne(ctx, bson.D{
-		{Key: "uniqueid", Value: article.UniqueID},
-		{Key: "sourcename", Value: article.SourceName},
-		{Key: "url", Value: article.Url},
-		{Key: "downloadurl", Value: article.DownloadUrl},
-		{Key: "title", Value: article.Title},
-		{Key: "search", Value: article.Search},
-		{Key: "isbn", Value: article.Isbn},
-		{Key: "year", Value: article.Year},
-		{Key: "publisher", Value: article.Publisher},
-		{Key: "author", Value: article.Author},
-		{Key: "extension", Value: article.Extension},
-		{Key: "page", Value: article.Page},
-		{Key: "language", Value: article.Language},
-		{Key: "size", Value: article.Size},
-		{Key: "time", Value: article.Time},
-	})
+	filterCursor, err := byronArticlesCollection.Find(ctx, bson.M{"Url": url})
 
 	if err != nil {
-		log.Println(err)
+		panic(err)
 	}
 
-	fmt.Println(chalk.Green.Color("Inserted correctly: " + article.UniqueID))
-	return err
+	var articlesRetrieved []bson.M
+	if err = filterCursor.All(ctx, &articlesRetrieved); err != nil {
+		log.Fatal(err)
+	}
 
+	if len(articlesRetrieved) == 0 {
+		return false
+	}
+	return true
 }
 
-func RetrieveArticle(url string) []core.Article {
-	var AllArticles []core.Article
+func InsertArticle(article *core.Article) {
 	client, ctx, err := ConnectMongoDB()
 
+	defer client.Disconnect(ctx)
 	if err != nil {
-		log.Fatal(err)
-		log.Println("CONEXION ERROOOOR!")
+		panic(err)
 	}
 
 	byronDatabase := client.Database("byron")
 	byronArticlesCollection := byronDatabase.Collection("byronArticles")
 
-	filterCursor, err := byronArticlesCollection.Find(ctx, bson.M{"sourcename": url})
+	if !MongoSearchByUrl(article.Url) {
+
+		_, err = byronArticlesCollection.InsertOne(ctx, bson.D{
+			{Key: "UniqueID", Value: article.UniqueID},
+			{Key: "SourceName", Value: article.SourceName},
+			{Key: "Url", Value: article.Url},
+			{Key: "DownloadUrl", Value: article.DownloadUrl},
+			{Key: "Title", Value: article.Title},
+			{Key: "Search", Value: article.Search},
+			{Key: "Isbn", Value: article.Isbn},
+			{Key: "Year", Value: article.Year},
+			{Key: "Publisher", Value: article.Publisher},
+			{Key: "Author", Value: article.Author},
+			{Key: "Extension", Value: article.Extension},
+			{Key: "Page", Value: article.Page},
+			{Key: "Language", Value: article.Language},
+			{Key: "Size", Value: article.Size},
+			{Key: "Time", Value: article.Time},
+		})
+
+		if err != nil {
+			log.Println(err)
+		}
+
+		fmt.Println(chalk.Green.Color("Inserted correctly: " + article.UniqueID))
+	} else {
+		fmt.Println(chalk.Red.Color("This article exists: " + article.UniqueID))
+	}
+
+}
+
+func SearchArticles(search string) []core.Article {
+	var AllArticles []core.Article
+	client, ctx, err := ConnectMongoDB()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	byronDatabase := client.Database("byron")
+	byronArticlesCollection := byronDatabase.Collection("byronArticles")
+
+	searchQuery := bson.M{
+		"Title": search,
+	}
+
+	filterCursor, err := byronArticlesCollection.Find(ctx, searchQuery)
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -73,22 +108,25 @@ func RetrieveArticle(url string) []core.Article {
 
 	for i := 0; i < len(articlesRetrieved); i++ {
 		AllArticles = append(AllArticles, core.Article{
-			UniqueID:    utils.AnyTypeToString(articlesRetrieved[i]["uniqueid"]),
-			SourceName:  utils.AnyTypeToString(articlesRetrieved[i]["sourcename"]),
-			Url:         utils.AnyTypeToString(articlesRetrieved[i]["url"]),
-			DownloadUrl: utils.AnyTypeToString(articlesRetrieved[i]["downloadurl"]),
-			Title:       utils.AnyTypeToString(articlesRetrieved[i]["title"]),
-			Search:      utils.AnyTypeToString(articlesRetrieved[i]["search"]),
-			Isbn:        utils.AnyTypeToString(articlesRetrieved[i]["isbn"]),
-			Year:        utils.AnyTypeToString(articlesRetrieved[i]["year"]),
-			Publisher:   utils.AnyTypeToString(articlesRetrieved[i]["publisher"]),
-			Author:      utils.AnyTypeToString(articlesRetrieved[i]["author"]),
-			Extension:   utils.AnyTypeToString(articlesRetrieved[i]["extension"]),
-			Page:        utils.AnyTypeToString(articlesRetrieved[i]["page"]),
-			Language:    utils.AnyTypeToString(articlesRetrieved[i]["language"]),
-			Size:        utils.AnyTypeToString(articlesRetrieved[i]["size"]),
-			Time:        utils.AnyTypeToString(articlesRetrieved[i]["time"]),
+			UniqueID:    utils.AnyTypeToString(articlesRetrieved[i]["UniqueID"]),
+			SourceName:  utils.AnyTypeToString(articlesRetrieved[i]["SourceName"]),
+			Url:         utils.AnyTypeToString(articlesRetrieved[i]["Url"]),
+			DownloadUrl: utils.AnyTypeToString(articlesRetrieved[i]["DownloadUrl"]),
+			Title:       utils.AnyTypeToString(articlesRetrieved[i]["Title"]),
+			Search:      utils.AnyTypeToString(articlesRetrieved[i]["Search"]),
+			Isbn:        utils.AnyTypeToString(articlesRetrieved[i]["Isbn"]),
+			Year:        utils.AnyTypeToString(articlesRetrieved[i]["Year"]),
+			Publisher:   utils.AnyTypeToString(articlesRetrieved[i]["Publisher"]),
+			Author:      utils.AnyTypeToString(articlesRetrieved[i]["Author"]),
+			Extension:   utils.AnyTypeToString(articlesRetrieved[i]["Extension"]),
+			Page:        utils.AnyTypeToString(articlesRetrieved[i]["Page"]),
+			Language:    utils.AnyTypeToString(articlesRetrieved[i]["Language"]),
+			Size:        utils.AnyTypeToString(articlesRetrieved[i]["Size"]),
+			Time:        utils.AnyTypeToString(articlesRetrieved[i]["Time"]),
 		})
 	}
+
+	fmt.Println(chalk.Green.Color("Articles found: " + utils.AnyTypeToString(len(AllArticles))))
+
 	return AllArticles
 }

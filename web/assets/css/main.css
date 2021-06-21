@@ -88,14 +88,14 @@ font-size: 12px;
 }
 
 .course h6 {
-	opacity: 0.6;
+	opacity: 0.8;
 	margin: 0;
 	letter-spacing: 1px;
 	text-transform: uppercase;
 }
 
 .course h2 {
-	letter-spacing: 0.2px;
+	letter-spacing: 0.3px;
 	margin: 10px 0;
 }
 

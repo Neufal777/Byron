@@ -28,3 +28,6 @@ UltimateInventory/
 *.sql
 
 *.sql.zip
+ImportedFeeds/
+
+*.env

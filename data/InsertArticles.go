@@ -19,15 +19,8 @@ func InsertArticles() {
 	rand.Shuffle(len(articles), func(i, j int) { articles[i], articles[j] = articles[j], articles[i] })
 
 	for _, art := range articles {
-		exists := mongodb.RetrieveArticle(art.Url)
-
-		if len(exists) == 0 {
-			mongodb.InsertArticle(&art)
-			count++
-			fmt.Println(chalk.Magenta.Color("processed:" + utils.AnyTypeToString(count)))
-		} else {
-			fmt.Println(chalk.Magenta.Color("Already exists"))
-		}
-
+		mongodb.InsertArticle(&art)
+		count++
+		fmt.Println(chalk.Magenta.Color("processed:" + utils.AnyTypeToString(count)))
 	}
 }
