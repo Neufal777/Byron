@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"os"
 
+	webbackend "github.com/Byron/WebBackend"
 	"github.com/Byron/data"
 	"github.com/Byron/mongodb"
-	"github.com/Byron/mysqldb"
 	"github.com/Byron/sources"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
@@ -21,7 +21,6 @@ func init() {
 		panic(err)
 	}
 
-	log.Println(os.Getenv("MONGODB_CONNECTION"))
 }
 
 func main() {
@@ -108,8 +107,8 @@ func WebExecute() {
 	r.PathPrefix("/web/assets/").Handler(http.StripPrefix("/web/assets/", fh))
 
 	//web handlers
-	r.HandleFunc("/search", mysqldb.SearchResults).Methods("GET")
-	r.HandleFunc("/", mysqldb.HomeSearchBar)
+	r.HandleFunc("/search", webbackend.SearchResults).Methods("GET")
+	r.HandleFunc("/", webbackend.HomeSearchBar)
 
 	//identify and assign PORT
 	port := os.Getenv("PORT")

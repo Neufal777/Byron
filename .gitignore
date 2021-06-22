@@ -29,5 +29,5 @@ UltimateInventory/
 
 *.sql.zip
 ImportedFeeds/
-
+ExportedFeeds/
 *.env

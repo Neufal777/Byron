@@ -11,8 +11,6 @@ import "database/sql"
 // 	PORT   = "3306"
 // )
 
-//mysql://ba8e89decaafd6:ded630b2@eu-cdbr-west-01.cleardb.com/heroku_4806f7088be7d12?reconnect=true
-
 const (
 	HOST   = "eu-cdbr-west-01.cleardb.com"
 	DBNAME = "heroku_4806f7088be7d12"
@@ -27,8 +25,6 @@ var (
 )
 
 func ConnectDb(dbName string, connectionData string) (*sql.DB, error) {
-
 	db, err := sql.Open(dbName, connectionData)
-
 	return db, err
 }

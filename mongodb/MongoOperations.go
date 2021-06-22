@@ -82,6 +82,7 @@ func InsertArticle(article *core.Article) {
 }
 
 func SearchArticles(search string) []core.Article {
+
 	var AllArticles []core.Article
 	client, ctx, err := ConnectMongoDB()
 
@@ -89,19 +90,22 @@ func SearchArticles(search string) []core.Article {
 		log.Fatal(err)
 	}
 
-	byronDatabase := client.Database("byron")
-	byronArticlesCollection := byronDatabase.Collection("byronArticles")
-
-	searchQuery := bson.M{
-		"Title": search,
-	}
+	var (
+		byronDatabase           = client.Database("byron")
+		byronArticlesCollection = byronDatabase.Collection("byronArticles")
+		searchQuery             = bson.M{
+			"Title": search,
+		}
+	)
 
 	filterCursor, err := byronArticlesCollection.Find(ctx, searchQuery)
 
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	var articlesRetrieved []bson.M
+
 	if err = filterCursor.All(ctx, &articlesRetrieved); err != nil {
 		log.Fatal(err)
 	}
