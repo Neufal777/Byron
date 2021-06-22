@@ -1,0 +1,158 @@
+
+ @charset "UTF-8";
+ @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+ *{
+   padding: 0;
+   margin: 0;
+ }
+ body {
+   font-family: 'Open Sans', sans-serif;
+   font-weight: 300;
+   line-height: 1.42em;
+   color:#A7A1AE;
+   background-color:#F0F2FA;
+ }
+ 
+ h1 {
+   font-size:2em; 
+   font-weight: 300;
+   line-height:1em;
+   text-align: center;
+   color: #D14D4D;
+ }
+ 
+ h2 {
+   font-size:1em; 
+   font-weight: 300;
+   text-align: center;
+   display: block;
+   line-height:1em;
+   padding-bottom: 2em;
+ }
+ 
+ h2 a {
+   font-weight: 700;
+   text-transform: uppercase;
+   color: #FB667A;
+   text-decoration: none;
+ }
+ 
+
+ @media (max-width: 800px) {
+ .container td:nth-child(4),
+ .container th:nth-child(4) { display: none; }
+ }
+a{
+  color: white;
+}
+
+.searchContainer{
+  background-color: white;
+  height: 200px;
+  width: 600px;
+  padding: 20px;
+  margin: auto;
+  margin-top: 150px;
+  border-radius: 10px;
+  -webkit-box-shadow: 2px 3px 10px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 2px 3px 10px 0px rgba(0,0,0,0.75);
+box-shadow: 2px 3px 10px 0px rgba(0,0,0,0.75);
+}
+
+.searchInput{
+  padding: 10px;
+  width: 90%;
+  outline: none;
+font-size: 12px;
+}
+
+
+.courses-container{
+  width: 900px;
+  margin: auto;
+  padding: 25px;
+  border-radius: 10px;
+}
+
+
+
+.course {
+	background-color: #fff;
+	border-radius: 10px;
+
+	display: flex;
+	max-width: 100%;
+	margin: 20px;
+	overflow: hidden;
+	width: 860px;
+}
+
+.course h6 {
+	opacity: 0.8;
+	margin: 0;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+
+.course h2 {
+	letter-spacing: 0.3px;
+	margin: 10px 0;
+}
+
+.course-preview {
+	background-color: #3367D7;
+	color: #fff;
+	padding: 30px;
+	width: 170px;
+}
+
+.course-preview a {
+	color: #fff;
+	font-size: 10px;
+	opacity: 0.9;
+	margin-top: 30px;
+	text-decoration: none;
+}
+
+.course-info {
+	padding: 30px;
+	position: relative;
+	width: 100%;
+}
+
+
+
+.btn {
+	background-color: #3367D7;
+	border: 0;
+	border-radius: 7px;
+	color: #fff;
+	font-size: 16px;
+	padding: 10px 23px;
+	position: absolute;
+	bottom: 15px;
+	right: 30px;
+	letter-spacing: 1px;
+}
+
+
+h5{
+  font-size: 13px;
+  width: 160px;
+  display:block;
+}
+
+.TopSearchBar{
+
+  width: auto;
+  background-color: #3367D7;
+  padding: 40px;
+}
+
+.TopSearchBar input{
+  padding: 15px;
+  outline: none;
+  width: 450px;
+  border-radius: 8px;
+  border: none;
+}
