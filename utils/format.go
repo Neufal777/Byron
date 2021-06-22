@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -32,4 +33,8 @@ func Render(w http.ResponseWriter, filename string, data interface{}) {
 		log.Println(err)
 		http.Error(w, "Sorry, something went wrong", http.StatusInternalServerError)
 	}
+}
+
+func AnyTypeToString(input interface{}) string {
+	return fmt.Sprintf("%v", input)
 }

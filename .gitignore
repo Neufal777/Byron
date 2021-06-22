@@ -26,3 +26,8 @@ keywords.go
 
 UltimateInventory/
 *.sql
+
+*.sql.zip
+ImportedFeeds/
+ExportedFeeds/
+*.env
