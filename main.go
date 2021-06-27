@@ -11,17 +11,7 @@ import (
 	"github.com/Byron/mongodb"
 	"github.com/Byron/sources"
 	"github.com/gorilla/mux"
-	"github.com/joho/godotenv"
 )
-
-func init() {
-	err := godotenv.Load()
-
-	if err != nil {
-		panic(err)
-	}
-
-}
 
 func main() {
 	execMode := flag.String("exec", "web", "Select mode of execution")
