@@ -1,4 +1,4 @@
-package webbackend
+package backend
 
 import (
 	"net/http"

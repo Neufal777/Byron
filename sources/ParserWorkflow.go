@@ -16,7 +16,7 @@ import (
 	"github.com/ttacon/chalk"
 )
 
-const PAGE_LIMIT = 4
+const PAGE_LIMIT = 20
 
 type Source struct {
 	SourceName           string
