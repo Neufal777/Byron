@@ -8,6 +8,7 @@ import (
 	"github.com/Byron/utils"
 	"github.com/ttacon/chalk"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func MongoSearchByUrl(url string) bool {
@@ -75,6 +76,7 @@ func InsertArticle(article *core.Article) {
 		}
 
 		fmt.Println(chalk.Green.Color("Inserted correctly: " + article.UniqueID))
+
 	} else {
 		fmt.Println(chalk.Red.Color("This article exists: " + article.UniqueID))
 	}
@@ -93,10 +95,15 @@ func SearchArticles(search string) []core.Article {
 	var (
 		byronDatabase           = client.Database("byron")
 		byronArticlesCollection = byronDatabase.Collection("byronArticles")
-		searchQuery             = bson.M{
-			"Title": search,
-		}
 	)
+
+	searchQuery := bson.M{
+		"Title": bson.M{"$regex": primitive.Regex{
+			Pattern: search,
+			Options: "i",
+		},
+		},
+	}
 
 	filterCursor, err := byronArticlesCollection.Find(ctx, searchQuery)
 
