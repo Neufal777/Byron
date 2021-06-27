@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	webbackend "github.com/Byron/WebBackend"
+	"github.com/Byron/backend"
 	"github.com/Byron/data"
 	"github.com/Byron/mongodb"
 	"github.com/Byron/sources"
@@ -92,7 +92,7 @@ func ParseExecute() {
 		CompletePageUrlStart: "https://libgen.is/search.php?&res=100&req=science&phrase=1&view=simple&column=def&sort=year&sortmode=DESC&page=",
 		IncompleteArticleUrl: "https://libgen.is/book/index.php?md5=",
 		AllUrls:              nil,
-		Search:               "science",
+		Search:               "AllLibgen",
 	}
 
 	z.GetArticles()
@@ -107,8 +107,8 @@ func WebExecute() {
 	r.PathPrefix("/web/assets/").Handler(http.StripPrefix("/web/assets/", fh))
 
 	//web handlers
-	r.HandleFunc("/search", webbackend.SearchResults).Methods("GET")
-	r.HandleFunc("/", webbackend.HomeSearchBar)
+	r.HandleFunc("/search", backend.SearchResults).Methods("GET")
+	r.HandleFunc("/", backend.HomeSearchBar)
 
 	//identify and assign PORT
 	port := os.Getenv("PORT")
