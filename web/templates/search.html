@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="/web/assets/css/main.css">
-    <title>Search:  {{ .Search}}</title>
+    <link rel="icon" href="web/assets/img/logo.png">
+
+    <title>Byron - {{ .Search}}</title>
 </head>
 
 <body>
@@ -36,7 +38,8 @@
 
 <div class="TopSearchBar">
   <form action="/search">
-    <input type="text" placeholder="search.." name="search" autocomplete="off" spellcheck="false" required>
+    <div class="logo"><img src="web/assets/img/logo.png" alt="image" width="150" height="150"></div>
+    <input type="text" placeholder="search by title.." name="search" autocomplete="off" spellcheck="false" required>
   </form>
 </div>
 
@@ -57,12 +60,13 @@
 		</div>
 		<div class="course-info">
 			<h6>{{.SourceName}}</h6>
-      <h2><b>{{.Title}}</b></h2>
+      <h2>{{.Title}}</h2>
 			<a href={{.DownloadUrl}} target="_blank"><button class="btn">Download</button></a>
 		</div>
 	</div>
   {{end}}
 </div>
+
 
 </body>
 </html>
