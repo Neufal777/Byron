@@ -36,6 +36,7 @@ func (art *Article) FormatNewArticle() *Article {
 		Format the article
 		1 - multiple: authors ISBN and language
 	*/
+	art.Authors = art.Author
 
 	art.Author = strings.Replace(art.Author, ",", ", ", -1)
 	art.Author = strings.Replace(art.Author, ";", ", ", -1)
@@ -49,7 +50,6 @@ func (art *Article) FormatNewArticle() *Article {
 	art.Title = strings.Replace(art.Title, "&nbsp;", " ", -1)
 
 	if strings.Contains(art.Author, ";") {
-		art.Authors = art.Author
 		Author := strings.Split(art.Author, ";")
 		art.Author = Author[0]
 	}
@@ -59,7 +59,6 @@ func (art *Article) FormatNewArticle() *Article {
 	}
 
 	if strings.Contains(art.Author, ",") {
-		art.Authors = art.Author
 		Author := strings.Split(art.Author, ",")
 		art.Author = Author[0]
 	}
@@ -81,13 +80,19 @@ func (art *Article) FormatNewArticle() *Article {
 		}
 	}
 
-	art.Title = TitleFormat(art.Title, art.Authors)
+	art.Authors = strings.TrimSpace(art.Authors)
+	art.Title = strings.TrimSpace(art.Title)
 
+	art.Title = TitleFormat(art.Title, art.Authors)
+	art.Author = strings.TrimSpace(art.Author)
 	art.UniqueID = utils.GetMD5Hash(art.Id + art.Title + art.Url + art.DownloadUrl)
+
 	return art
 }
 
 func TitleFormat(title string, authors string) string {
+	authors = strings.TrimSpace(authors)
+
 	authors = strings.ReplaceAll(authors, ",", " ")
 	authors = strings.ReplaceAll(authors, ";", " ")
 
@@ -98,6 +103,9 @@ func TitleFormat(title string, authors string) string {
 	}
 
 	title = strings.Replace(title, "-", "", -1)
+	title = strings.Replace(title, ",", " ", -1)
+	title = strings.Replace(title, ";", " ", -1)
+
 	title = strings.TrimSpace(title)
 
 	return title
