@@ -132,6 +132,16 @@ func SearchArticles(search string) []core.Article {
 			formatedIsbn = allIsbns[0]
 		}
 
+		var formattedAmmount string
+		var formattedUnit string
+
+		size := utils.AnyTypeToString(articlesRetrieved[i]["Size"])
+		if strings.Contains(size, " ") {
+			memory := strings.Split(size, " ")
+			formattedAmmount = memory[0]
+			formattedUnit = memory[1]
+		}
+
 		AllArticles = append(AllArticles, core.Article{
 			UniqueID:    utils.AnyTypeToString(articlesRetrieved[i]["UniqueID"]),
 			SourceName:  utils.AnyTypeToString(articlesRetrieved[i]["SourceName"]),
@@ -147,7 +157,11 @@ func SearchArticles(search string) []core.Article {
 			Page:        utils.AnyTypeToString(articlesRetrieved[i]["Page"]),
 			Language:    utils.AnyTypeToString(articlesRetrieved[i]["Language"]),
 			Size:        utils.AnyTypeToString(articlesRetrieved[i]["Size"]),
-			Time:        utils.AnyTypeToString(articlesRetrieved[i]["Time"]),
+			FileSize: core.Size{
+				Ammount: formattedAmmount,
+				Size:    formattedUnit,
+			},
+			Time: utils.AnyTypeToString(articlesRetrieved[i]["Time"]),
 		})
 	}
 
