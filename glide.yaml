@@ -1,0 +1,17 @@
+package: github.com/Byron
+import:
+- package: github.com/go-sql-driver/mysql
+  version: v1.6.0
+- package: github.com/gorilla/mux
+  version: v1.8.0
+- package: github.com/parnurzeal/gorequest
+  version: v0.2.16
+- package: github.com/ttacon/chalk
+  version: v0.1
+- package: go.mongodb.org/mongo-driver
+  version: v1.5.3
+  subpackages:
+  - bson
+  - bson/primitive
+  - mongo
+  - mongo/options

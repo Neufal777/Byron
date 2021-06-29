@@ -31,3 +31,5 @@ UltimateInventory/
 ImportedFeeds/
 ExportedFeeds/
 *.env
+
+vendor/

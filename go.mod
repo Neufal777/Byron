@@ -3,11 +3,11 @@ module github.com/Byron
 go 1.16
 
 require (
+	github.com/elazarl/goproxy v0.0.0-20210110162100-a92cc753f88e // indirect
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/gorilla/mux v1.8.0
-	github.com/joho/godotenv v1.3.0 // indirect
 	github.com/parnurzeal/gorequest v0.2.16
-	github.com/pkg/errors v0.9.1 // indirect
+	github.com/smartystreets/goconvey v1.6.4 // indirect
 	github.com/ttacon/chalk v0.0.0-20160626202418-22c06c80ed31
 	go.mongodb.org/mongo-driver v1.5.3
 	golang.org/x/net v0.0.0-20210614182718-04defd469f4e // indirect
