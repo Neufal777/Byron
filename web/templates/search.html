@@ -7,70 +7,11 @@
       <title>Byron - {{ .Search}}</title>
    </head>
    <body>
-      <!--
-         <div>
-             Total Results {{ .Results}}
-             <ul>
-                 {{range .Articles}}
-                 <li>Title: {{.Title}}</li>
-                 <li>ID: {{.UniqueID}}</li>
-                 <li>Download: {{.DownloadUrl}}</li>
-                 <li>Isbn: {{.Isbn}}</li>
-                 <li>Year: {{.Year}}</li>
-                 <li>Publisher: {{.Publisher}}</li>
-                 <li>Author: {{.Author}}</li>
-                 <li>Extension: {{.Extension}}</li>
-                 <li>Page: {{.Page}}</li>
-                 <li>Language: {{.Language}}</li>
-                 <li>Size: {{.Size}}</li>
-                 <li>ID: {{.UniqueID}}</li>
-                 <li>Source: {{.SourceName}}</li>
-                 <br>
-                 <br>
-                 <br>
-                 {{end}}
-             </ul>
-         </div>
-         </body>
-         -->
       <div class="TopSearchBar">
          <form action="/search">
             <input type="text" placeholder="search by title.." name="search" autocomplete="off" spellcheck="false" required>
          </form>
       </div>
-      <!-- <div class="courses-container">
-         {{if not .Articles}}
-         <h1><b>0 Results</b></h1>
-         {{else}}
-         <h1>Results for <b>{{ .Search}}</b> : <b>{{ .Results}}</b></h1>
-         {{end}}
-         {{range .Articles}}
-         <div class="course">
-            <div class="course-preview">
-               <h6>{{.Language}}</h6>
-               <h5>{{.Author}}</h5>
-               <a>{{.Year}}<i class="fas fa-chevron-right"></i></a>
-               <br>
-               <a>{{.Publisher}}<i class="fas fa-chevron-right"></i></a>
-               <br>
-               <a>{{.FileSize.Ammount}} {{.FileSize.Size}}<i class="fas fa-chevron-right"></i></a>
-               <br>
-               <a>{{.Extension}}<i class="fas fa-chevron-right"></i></a>
-               <br>
-               <a>{{.Isbn}}<i class="fas fa-chevron-right"></i></a>
-            </div>
-            <div class="course-info">
-               <h6>{{.SourceName}}</h6>
-               <br>
-               <h2>{{.Title}}</h2>
-               <a href={{.DownloadUrl}} target="_blank"><button class="btn">Download</button></a>
-            </div>
-         </div>
-         {{end}}
-      </div> -->
-
-  
-
       <div class="limiter">
          <div class="container-table100">
             {{if not .Articles}}
@@ -88,12 +29,12 @@
                        <th class="column1">Title</th>
                        <th class="column2">Author</th>
                        <th class="column3">Isbn</th>
-                       <!-- <th class="column4">Publisher</th> -->
+                        <!-- <th class="column4">Pages</th>  -->
                        <th class="column5">Size</th>
                        <th class="column6">Year</th>
                        <th class="column7">Source</th>
                        <th class="column8">Language</th>
-                       <th class="column8">⬇</th>
+                       <th class="column9">⬇</th>
                      </tr>
                    </thead>
                    <tbody>
@@ -122,7 +63,6 @@
                          <td class="column3">No available</td>
                          {{ end }}
 
-                         <!-- <td class="column4">{{.Publisher}}</td> -->
                          <!-- <td class="column4">{{.Publisher}}</td> -->
                          <td class="column5">{{.FileSize.Ammount}} {{.FileSize.Size}}</td>
                          {{ $length := len .Year }} {{ if gt $length 0 }}
