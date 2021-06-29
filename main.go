@@ -7,8 +7,8 @@ import (
 	"os"
 
 	"github.com/Byron/backend"
+	"github.com/Byron/core"
 	"github.com/Byron/data"
-	"github.com/Byron/mongodb"
 	"github.com/Byron/sources"
 	"github.com/gorilla/mux"
 )
@@ -36,32 +36,12 @@ func main() {
 }
 func TestingExecute() {
 
-	// i := core.Article{
-	// 	SourceName:  "LIBGEN",
-	// 	Id:          "4654654",
-	// 	UniqueID:    "8796546548975456",
-	// 	Url:         "www.github.com",
-	// 	Search:      "don't know",
-	// 	DownloadUrl: "XXXX",
-	// 	Title:       "XXXX",
-	// 	Isbn:        "XXXX",
-	// 	Year:        "XXXX",
-	// 	Publisher:   "XXXX",
-	// 	Author:      "XXXX",
-	// 	Extension:   "XXXX",
-	// 	Page:        "XXXX",
-	// 	Language:    "XXXX",
-	// 	Size:        "XXXX",
-	// 	Time:        "XXXX",
-	// }
-
-	// if !mongodb.MongoSearchByUrl("https://libgen.is/book/index.php?md5=5FCA92F369390446BD6DF90380830DA7") {
-	// 	log.Println("no existe")
-	// }
-
-	log.Println(
-		mongodb.SearchArticles(" Doug Lennox - Now You Know Extreme Weather:  The Little Book of Answers"),
-	)
+	core.TitleFormat(
+		" Gabrielle Hecht - Entangled Geographies:  Empire and Technopolitics in the Global Cold War (Inside Technology)  ",
+		"Gabrielle Hecht")
+	core.TitleFormat(
+		" Kim S. Golding, Helen R. Dent, Ruth Nissim, Liz Stott (Editors) - Thinking Psychologically About Children Who Are Looked After and Adopted:  Space for Reflection  ",
+		"Kim S. Golding")
 }
 func ParseExecute() {
 	z := sources.Source{

@@ -22,6 +22,7 @@ type Article struct {
 	Year        string
 	Publisher   string
 	Author      string
+	Authors     string
 	Extension   string
 	Page        string
 	Language    string
@@ -48,6 +49,7 @@ func (art *Article) FormatNewArticle() *Article {
 	art.Title = strings.Replace(art.Title, "&nbsp;", " ", -1)
 
 	if strings.Contains(art.Author, ";") {
+		art.Authors = art.Author
 		Author := strings.Split(art.Author, ";")
 		art.Author = Author[0]
 	}
@@ -57,6 +59,7 @@ func (art *Article) FormatNewArticle() *Article {
 	}
 
 	if strings.Contains(art.Author, ",") {
+		art.Authors = art.Author
 		Author := strings.Split(art.Author, ",")
 		art.Author = Author[0]
 	}
@@ -78,6 +81,24 @@ func (art *Article) FormatNewArticle() *Article {
 		}
 	}
 
+	art.Title = TitleFormat(art.Title, art.Authors)
+
 	art.UniqueID = utils.GetMD5Hash(art.Id + art.Title + art.Url + art.DownloadUrl)
 	return art
+}
+
+func TitleFormat(title string, authors string) string {
+	authors = strings.ReplaceAll(authors, ",", " ")
+	authors = strings.ReplaceAll(authors, ";", " ")
+
+	authorsList := strings.Split(authors, " ")
+
+	for _, a := range authorsList {
+		title = strings.Replace(title, a, "", -1)
+	}
+
+	title = strings.Replace(title, "-", "", -1)
+	title = strings.TrimSpace(title)
+
+	return title
 }
