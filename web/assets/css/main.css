@@ -28,7 +28,7 @@
   font-weight: 200;
   line-height:1em;
   text-align: center;
-  color: #ED553B;
+  color: #3367D7;
 }
  h2 {
    font-size:1em; 
@@ -153,12 +153,8 @@ h5{
 }
 
 .TopSearchBar{
-
   width: auto;
-  background-color: #3367D7;
   padding: 40px;
-  
-
 }
 
 .TopSearchBar input{
@@ -167,6 +163,8 @@ h5{
   width: 450px;
   border-radius: 8px;
   border: none;
+  color: grey;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
 
@@ -280,15 +278,8 @@ iframe {
 .container-table100 {
   width: 100%;
   min-height: 100vh;
-  background: white;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
+  background: #F0F2FA;
+
   padding: 33px 30px;
 }
 
@@ -310,7 +301,7 @@ table * {
   position: relative;
 }
 table td, table th {
-  padding-left: 8px;
+  padding-left:10px;
 }
 table thead tr {
   height: 60px;
@@ -363,23 +354,24 @@ tbody tr {
 tbody tr:hover {
   /* color: #555555; */
    background-color: #f5f5f5; 
+
 }
 
 .column1 {
-  width: 450px;
-  padding-left: 40px;
+  width: 500px;
+  padding-left: 30px;
 }
 
 .column2 {
-  width: 120px;
+  width: 100px;
 }
 
 .column3 {
-  width: 120px;
+  width: 80px;
 }
 
 .column4 {
-  width: 110px;
+  width: 80px;
   
 }
 
@@ -396,9 +388,11 @@ tbody tr:hover {
   width: 80px;
 }
 .column8 {
-  width: 80px;
+  width: 60px;
 }
-
+.column9 {
+  width: 20px;
+}
 
 @media screen and (max-width: 992px) {
   table {
@@ -429,7 +423,7 @@ tbody tr:hover {
     font-weight: unset;
     position: absolute;
     width: 40%;
-    left: 30px;
+    left: 20px;
     top: 0;
   }
 
@@ -455,7 +449,7 @@ tbody tr:hover {
 
 @media (max-width: 576px) {
   .container-table100 {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 9px;
+    padding-right: 9px;
   }
 }

@@ -72,57 +72,71 @@
   
 
       <div class="limiter">
-         
          <div class="container-table100">
             {{if not .Articles}}
             <h1 class="resultsh1"><b>0 Results</b></h1>
             {{else}}
             <h1 class="resultsh1">Results for <b>{{ .Search}}</b> : <b>{{ .Results}}</b></h1>
-            {{end}}
-            <br><br><br>
-           <div class="wrap-table100">
-             <div class="table100">
-               <table>
-                 <thead>
-                   <tr class="table100-head">
-                     <th class="column1">Title</th>
-                     <th class="column2">Author</th>
-                     <th class="column3">Isbn</th>
-                     <!-- <th class="column4">Publisher</th> -->
-                     <th class="column5">Size</th>
-                     <th class="column6">Year</th>
-                     <th class="column7">Source</th>
-                     <th class="column8">Language</th>
-                     <th class="column8">Download</th>
-                   </tr>
-                 </thead>
-                 <tbody>
-                  {{range .Articles}}
-                     <tr>
-                  {{ $length := len .Title }} {{ if gt $length 65 }}
-               <td class="column1">{{ slice .Title  0 65 }}...</td>
-               {{else}}
-               <td class="column1">{{.Title}}</td>
-                {{ end }}
-                       <td class="column2">{{.Author}}</td>
-                       {{ $length := len .Isbn }} {{ if gt $length 0 }}
-                       <td class="column3">{{.Isbn}}</td>
-                       {{else}}
-                       <td class="column3">No isbn</td>
-                       {{ end }}
-                       <!-- <td class="column4">{{.Publisher}}</td> -->
-                       <!-- <td class="column4">{{.Publisher}}</td> -->
-                       <td class="column5">{{.FileSize.Ammount}} {{.FileSize.Size}}</td>
-                       <td class="column6">{{.Year}}</td>
-                       <td class="column7">{{.SourceName}}</td>
-                       <td class="column8">{{.Language}}</td>
-                       <td class="column8"><a href={{.DownloadUrl}} target="_blank">Download</a></td>
+
+            <br><br>
+
+            <div class="wrap-table100">
+               <div class="table100">
+                 <table>
+                   <thead>
+                     <tr class="table100-head">
+                       <th class="column1">Title</th>
+                       <th class="column2">Author</th>
+                       <th class="column3">Isbn</th>
+                       <!-- <th class="column4">Publisher</th> -->
+                       <th class="column5">Size</th>
+                       <th class="column6">Year</th>
+                       <th class="column7">Source</th>
+                       <th class="column8">Language</th>
+                       <th class="column8">⬇</th>
                      </tr>
-                     {{end}}
-                 </tbody>
-               </table>
+                   </thead>
+                   <tbody>
+                    {{range .Articles}}
+                       <tr>
+                    {{ $length := len .Title }} {{ if gt $length 65 }}
+                 <td class="column1">{{ slice .Title  0 65 }}...</td>
+                 {{else}}
+                 <td class="column1">{{.Title}}</td>
+                  {{ end }}
+                     
+
+                         {{ $length := len .Author }} {{ if gt $length 25 }}
+                         <td class="column2">{{ slice .Author  0 25 }}...</td>
+                         {{else}}
+                         <td class="column2">{{.Author}}</td>
+                          {{ end }}
+
+                         {{ $length := len .Isbn }} {{ if gt $length 0 }}
+                         <td class="column3">{{.Isbn}}</td>
+                         {{else}}
+                         <td class="column3">No available</td>
+                         {{ end }}
+
+                         <!-- <td class="column4">{{.Publisher}}</td> -->
+                         <!-- <td class="column4">{{.Publisher}}</td> -->
+                         <td class="column5">{{.FileSize.Ammount}} {{.FileSize.Size}}</td>
+                         {{ $length := len .Year }} {{ if gt $length 0 }}
+                         <td class="column6">{{.Year}}</td>
+                         {{else}}
+                         <td class="column6">-</td>
+                         {{ end }}
+                         <td class="column7">{{.SourceName}}</td>
+                         <td class="column8">{{.Language}}</td>
+                         <td class="column9"><a href={{.DownloadUrl}} target="_blank">⬇</a></td>
+                       </tr>
+                       {{end}}
+                   </tbody>
+                 </table>
+               </div>
              </div>
-           </div>
+            {{end}}
+         
          </div>
        </div>
      
