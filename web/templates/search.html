@@ -3,13 +3,13 @@
    <head>
       <meta charset="utf-8">
       <link rel="stylesheet" href="/web/assets/css/main.css">
-      <!-- <link rel="icon" href="web/assets/img/logo.png"> -->
+      <link rel="icon" href="web/assets/img/logo.png">
       <title>Byron - {{ .Search}}</title>
    </head>
    <body>
       <div class="TopSearchBar">
          <form action="/search">
-            <input type="text" placeholder="search by title.." name="search" autocomplete="off" spellcheck="false" required>
+            <input type="text" placeholder="search by title.." name="search" autocomplete="off" spellcheck="false" minlength="5" required>
          </form>
       </div>
       <div class="limiter">
@@ -17,7 +17,7 @@
             {{if not .Articles}}
             <h1 class="resultsh1"><b>0 Results</b></h1>
             {{else}}
-            <h1 class="resultsh1">Results for <b>{{ .Search}}</b> : <b>{{ .Results}}</b></h1>
+            <h1 class="resultsh1">Results for <b>{{ .Search}}</b>: <b>{{ .Results}}</b></h1>
 
             <br><br>
 
