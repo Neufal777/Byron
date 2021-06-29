@@ -10,6 +10,7 @@ import (
 	"github.com/Byron/core"
 	"github.com/Byron/data"
 	"github.com/Byron/sources"
+	"github.com/Byron/utils"
 	"github.com/gorilla/mux"
 )
 
@@ -36,12 +37,7 @@ func main() {
 }
 func TestingExecute() {
 
-	core.TitleFormat(
-		" Gabrielle Hecht - Entangled Geographies:  Empire and Technopolitics in the Global Cold War (Inside Technology)  ",
-		"Gabrielle Hecht")
-	core.TitleFormat(
-		" Kim S. Golding, Helen R. Dent, Ruth Nissim, Liz Stott (Editors) - Thinking Psychologically About Children Who Are Looked After and Adopted:  Space for Reflection  ",
-		"Kim S. Golding")
+	core.TitleFormat("Edward K. Morris Bryan D. Midgley (auth.) Stephen R. Schroeder (eds.) Ecobe", utils.FixUnitedNames("EdwardK.Morris,BryanD.Midgley(auth.),StephenR.Schroeder(eds.)"))
 }
 func ParseExecute() {
 	z := sources.Source{

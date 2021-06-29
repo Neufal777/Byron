@@ -3,7 +3,7 @@
    <head>
       <meta charset="utf-8">
       <link rel="stylesheet" href="/web/assets/css/main.css">
-      <link rel="icon" href="web/assets/img/logo.png">
+      <!-- <link rel="icon" href="web/assets/img/logo.png"> -->
       <title>Byron - {{ .Search}}</title>
    </head>
    <body>
@@ -105,12 +105,16 @@
                  <td class="column1">{{.Title}}</td>
                   {{ end }}
                      
-
                          {{ $length := len .Author }} {{ if gt $length 25 }}
                          <td class="column2">{{ slice .Author  0 25 }}...</td>
                          {{else}}
+                        
+                         {{ $length := len .Author }} {{ if gt $length 0 }}
                          <td class="column2">{{.Author}}</td>
-                          {{ end }}
+                         {{else}}
+                         <td class="column2">-</td>
+                         {{ end }}
+                         {{ end }}
 
                          {{ $length := len .Isbn }} {{ if gt $length 0 }}
                          <td class="column3">{{.Isbn}}</td>
@@ -127,7 +131,13 @@
                          <td class="column6">-</td>
                          {{ end }}
                          <td class="column7">{{.SourceName}}</td>
+                         
+                         {{ $length := len .Language }} {{ if gt $length 0 }}
                          <td class="column8">{{.Language}}</td>
+                         {{else}}
+                         <td class="column8">-</td>
+                         {{ end }}
+                         
                          <td class="column9"><a href={{.DownloadUrl}} target="_blank">⬇</a></td>
                        </tr>
                        {{end}}
