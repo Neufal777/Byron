@@ -120,6 +120,9 @@ func SearchArticles(search string) []core.Article {
 
 	for i := 0; i < len(articlesRetrieved); i++ {
 
+		/*
+			Format and only show the first Isbn
+		*/
 		formatedIsbn := utils.AnyTypeToString(articlesRetrieved[i]["Isbn"])
 		formatedIsbn = strings.TrimSpace(formatedIsbn)
 		formatedIsbn = strings.ReplaceAll(formatedIsbn, "-", "")
@@ -134,10 +137,15 @@ func SearchArticles(search string) []core.Article {
 			formatedIsbn = allIsbns[0]
 		}
 
+		/*
+			Format and insert only ammount and type of size
+		*/
+
 		var formattedAmmount string
 		var formattedUnit string
 
 		size := utils.AnyTypeToString(articlesRetrieved[i]["Size"])
+
 		if strings.Contains(size, " ") {
 			memory := strings.Split(size, " ")
 			formattedAmmount = memory[0]
