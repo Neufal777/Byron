@@ -26,8 +26,8 @@ func DeleteDuplicates(folder string) {
 
 	files, _ := ioutil.ReadDir(folder)
 	left := len(files)
-	for _, f := range files {
 
+	for _, f := range files {
 		fmt.Println(chalk.Green.Color("Processing: " + f.Name()))
 
 		if strings.Contains(f.Name(), ".json") {

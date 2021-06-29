@@ -8,6 +8,8 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"regexp"
+	"strings"
 )
 
 func PrettyPrintStruct(i interface{}) string {
@@ -37,4 +39,21 @@ func Render(w http.ResponseWriter, filename string, data interface{}) {
 
 func AnyTypeToString(input interface{}) string {
 	return fmt.Sprintf("%v", input)
+}
+
+func FixUnitedNames(name string) string {
+	var formatted string
+	re := regexp.MustCompile(`[A-Z][^A-Z]*`)
+
+	submatchall := re.FindAllString(name, -1)
+	for _, element := range submatchall {
+		formatted += element + " "
+	}
+
+	formatted = strings.ReplaceAll(formatted, "-", "")
+	formatted = strings.ReplaceAll(formatted, " )", ")")
+	formatted = strings.ReplaceAll(formatted, "(", " (")
+	formatted = strings.ReplaceAll(formatted, "  ", " ")
+
+	return formatted
 }

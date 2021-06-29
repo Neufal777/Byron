@@ -119,8 +119,10 @@ func SearchArticles(search string) []core.Article {
 	}
 
 	for i := 0; i < len(articlesRetrieved); i++ {
+
 		formatedIsbn := utils.AnyTypeToString(articlesRetrieved[i]["Isbn"])
 		formatedIsbn = strings.TrimSpace(formatedIsbn)
+		formatedIsbn = strings.ReplaceAll(formatedIsbn, "-", "")
 
 		if strings.Contains(formatedIsbn, ";") {
 			allIsbns := strings.Split(formatedIsbn, ";")
