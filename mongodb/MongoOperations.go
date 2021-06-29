@@ -3,6 +3,7 @@ package mongodb
 import (
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/Byron/core"
 	"github.com/Byron/utils"
@@ -118,6 +119,19 @@ func SearchArticles(search string) []core.Article {
 	}
 
 	for i := 0; i < len(articlesRetrieved); i++ {
+		formatedIsbn := utils.AnyTypeToString(articlesRetrieved[i]["Isbn"])
+		formatedIsbn = strings.TrimSpace(formatedIsbn)
+
+		if strings.Contains(formatedIsbn, ";") {
+			allIsbns := strings.Split(formatedIsbn, ";")
+			formatedIsbn = allIsbns[0]
+		}
+
+		if strings.Contains(formatedIsbn, ",") {
+			allIsbns := strings.Split(formatedIsbn, ",")
+			formatedIsbn = allIsbns[0]
+		}
+
 		AllArticles = append(AllArticles, core.Article{
 			UniqueID:    utils.AnyTypeToString(articlesRetrieved[i]["UniqueID"]),
 			SourceName:  utils.AnyTypeToString(articlesRetrieved[i]["SourceName"]),
@@ -125,7 +139,7 @@ func SearchArticles(search string) []core.Article {
 			DownloadUrl: utils.AnyTypeToString(articlesRetrieved[i]["DownloadUrl"]),
 			Title:       utils.AnyTypeToString(articlesRetrieved[i]["Title"]),
 			Search:      utils.AnyTypeToString(articlesRetrieved[i]["Search"]),
-			Isbn:        utils.AnyTypeToString(articlesRetrieved[i]["Isbn"]),
+			Isbn:        formatedIsbn,
 			Year:        utils.AnyTypeToString(articlesRetrieved[i]["Year"]),
 			Publisher:   utils.AnyTypeToString(articlesRetrieved[i]["Publisher"]),
 			Author:      utils.AnyTypeToString(articlesRetrieved[i]["Author"]),

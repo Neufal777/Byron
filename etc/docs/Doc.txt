@@ -1,1 +1,6 @@
 //Documentation
+
+               <!-- {{ $length := len .Title }} {{ if gt $length 60 }}
+               <h2>{{ slice .Title  0 60 }}...</h2>
+               {{else}} -->
+               <!-- {{ end }} -->

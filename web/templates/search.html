@@ -55,15 +55,14 @@
                <br>
                <a>{{.Size}}<i class="fas fa-chevron-right"></i></a>
                <br>
+               <a>{{.Extension}}<i class="fas fa-chevron-right"></i></a>
+               <br>
                <a>{{.Isbn}}<i class="fas fa-chevron-right"></i></a>
             </div>
             <div class="course-info">
                <h6>{{.SourceName}}</h6>
+               <br>
                <h2>{{.Title}}</h2>
-               <!-- {{ $length := len .Title }} {{ if gt $length 60 }}
-               <h2>{{ slice .Title  0 60 }}...</h2>
-               {{else}} -->
-               <!-- {{ end }} -->
                <a href={{.DownloadUrl}} target="_blank"><button class="btn">Download</button></a>
             </div>
          </div>
