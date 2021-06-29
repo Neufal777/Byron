@@ -1,10 +1,6 @@
 
  /* <a href='https://pngtree.com/so/library'>library png from pngtree.com</a> */
  @charset "UTF-8";
- @font-face {
-  font-family: OpenSans-Regular;
-  src: url('../fonts/OpenSans/OpenSans-Regular.ttf'); 
-}
 
  *{
    padding: 0;
@@ -164,12 +160,6 @@ h5{
   width: 450px;
   border-radius: 8px;
   border: none;
-  margin-left: 170px;
 }
 
 
-.logo{
-  width: 150px;
-  height: 150px;
-  
-}

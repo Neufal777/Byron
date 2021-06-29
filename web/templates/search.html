@@ -1,72 +1,73 @@
 <!doctype html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="/web/assets/css/main.css">
-    <link rel="icon" href="web/assets/img/logo.png">
-
-    <title>Byron - {{ .Search}}</title>
-</head>
-
-<body>
-<!--
-<div>
-    Total Results {{ .Results}}
-    <ul>
-        {{range .Articles}}
-        <li>Title: {{.Title}}</li>
-        <li>ID: {{.UniqueID}}</li>
-        <li>Download: {{.DownloadUrl}}</li>
-        <li>Isbn: {{.Isbn}}</li>
-        <li>Year: {{.Year}}</li>
-        <li>Publisher: {{.Publisher}}</li>
-        <li>Author: {{.Author}}</li>
-        <li>Extension: {{.Extension}}</li>
-        <li>Page: {{.Page}}</li>
-        <li>Language: {{.Language}}</li>
-        <li>Size: {{.Size}}</li>
-        <li>ID: {{.UniqueID}}</li>
-        <li>Source: {{.SourceName}}</li>
-        <br>
-        <br>
-        <br>
-        {{end}}
-    </ul>
-</div>
-</body>
--->
-
-<div class="TopSearchBar">
-  <form action="/search">
-    <div class="logo"><img src="web/assets/img/logo.png" alt="image" width="150" height="150"></div>
-    <input type="text" placeholder="search by title.." name="search" autocomplete="off" spellcheck="false" required>
-  </form>
-</div>
-
-<div class="courses-container">
-  <h1>Results for <b>{{ .Search}}</b> : <b>{{ .Results}}</b></h1>
-  {{range .Articles}}
-	<div class="course">
-		<div class="course-preview">
-			<h6>{{.Language}}</h6>
-			<h5>{{.Author}}</h5>
-			<a>{{.Year}}<i class="fas fa-chevron-right"></i></a>
-      <br>
-      <a>{{.Publisher}}<i class="fas fa-chevron-right"></i></a>
-      <br>
-      <a>{{.Size}}<i class="fas fa-chevron-right"></i></a>
-      <br>
-      <a>{{.Isbn}}<i class="fas fa-chevron-right"></i></a>
-		</div>
-		<div class="course-info">
-			<h6>{{.SourceName}}</h6>
-      <h2>{{.Title}}</h2>
-			<a href={{.DownloadUrl}} target="_blank"><button class="btn">Download</button></a>
-		</div>
-	</div>
-  {{end}}
-</div>
-
-
-</body>
+   <head>
+      <meta charset="utf-8">
+      <link rel="stylesheet" href="/web/assets/css/main.css">
+      <link rel="icon" href="web/assets/img/logo.png">
+      <title>Byron - {{ .Search}}</title>
+   </head>
+   <body>
+      <!--
+         <div>
+             Total Results {{ .Results}}
+             <ul>
+                 {{range .Articles}}
+                 <li>Title: {{.Title}}</li>
+                 <li>ID: {{.UniqueID}}</li>
+                 <li>Download: {{.DownloadUrl}}</li>
+                 <li>Isbn: {{.Isbn}}</li>
+                 <li>Year: {{.Year}}</li>
+                 <li>Publisher: {{.Publisher}}</li>
+                 <li>Author: {{.Author}}</li>
+                 <li>Extension: {{.Extension}}</li>
+                 <li>Page: {{.Page}}</li>
+                 <li>Language: {{.Language}}</li>
+                 <li>Size: {{.Size}}</li>
+                 <li>ID: {{.UniqueID}}</li>
+                 <li>Source: {{.SourceName}}</li>
+                 <br>
+                 <br>
+                 <br>
+                 {{end}}
+             </ul>
+         </div>
+         </body>
+         -->
+      <div class="TopSearchBar">
+         <form action="/search">
+            <input type="text" placeholder="search by title.." name="search" autocomplete="off" spellcheck="false" required>
+         </form>
+      </div>
+      <div class="courses-container">
+         {{if not .Articles}}
+         <h1><b>0 Results</b></h1>
+         {{else}}
+         <h1>Results for <b>{{ .Search}}</b> : <b>{{ .Results}}</b></h1>
+         {{end}}
+         {{range .Articles}}
+         <div class="course">
+            <div class="course-preview">
+               <h6>{{.Language}}</h6>
+               <h5>{{.Author}}</h5>
+               <a>{{.Year}}<i class="fas fa-chevron-right"></i></a>
+               <br>
+               <a>{{.Publisher}}<i class="fas fa-chevron-right"></i></a>
+               <br>
+               <a>{{.Size}}<i class="fas fa-chevron-right"></i></a>
+               <br>
+               <a>{{.Isbn}}<i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div class="course-info">
+               <h6>{{.SourceName}}</h6>
+               {{ $length := len .Title }} {{ if gt $length 60 }}
+               {{ slice .Title  0 60 }}...
+               {{else}}
+               <h2>{{.Title}}</h2>
+               {{ end }}
+               <a href={{.DownloadUrl}} target="_blank"><button class="btn">Download</button></a>
+            </div>
+         </div>
+         {{end}}
+      </div>
+   </body>
 </html>
