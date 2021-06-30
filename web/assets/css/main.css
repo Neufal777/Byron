@@ -19,7 +19,7 @@ body {
 	font-weight: 200;
 	line-height: 1em;
 	text-align: center;
-	color: #2e3956
+	color: #0E1C2C
 }
 
 .TopSearchBar {
@@ -45,9 +45,9 @@ body {
 	width: 60%;
 	border-radius: 8px;
 	padding: 80px 50px;
-	margin-top: 20%;
+	margin-top: 12%;
   text-align: center;
-	background-color: #2e3956;
+	background-color: #0E1C2C;
 	box-shadow: rgba(0, 0, 0, .16) 0 3px 6px, rgba(0, 0, 0, .23) 0 3px 6px
 }
 
@@ -118,7 +118,7 @@ table th {
 
 table thead tr {
 	height: 60px;
-	background: #2e3956
+	background: #0E1C2C
 }
 
 .TitleByron {
@@ -258,4 +258,17 @@ tbody tr:hover {
 		padding-left: 9px;
 		padding-right: 9px
 	}
+}
+
+
+.iconContainerTop{
+  width: 120px;
+  height: 120px;
+  margin: 40px;
+}
+
+.iconContainerTop img{
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
