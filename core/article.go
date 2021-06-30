@@ -85,8 +85,10 @@ func (art *Article) FormatNewArticle() *Article {
 	art.Title = TitleFormat(art.Title, art.Authors)
 	art.Title = strings.TrimSpace(art.Title)
 	art.Author = strings.TrimSpace(art.Author)
+	art.Authors = strings.TrimSpace(art.Authors)
 
 	art.UniqueID = utils.GetMD5Hash(art.Id + art.Title + art.Url + art.DownloadUrl)
+
 	return art
 }
 

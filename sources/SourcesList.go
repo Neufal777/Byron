@@ -62,7 +62,7 @@ func AllSourcesScrapingInformation() {
 		TimeREGEX:            "Publication Date:.([^<]*)",
 		CompletePageUrlStart: "https://www.bookrix.com/books;page:",
 		CompletePageUrlEnd:   ".html",
-		IncompleteArticleUrl: "https://www.bookrix.com/",
+		IncompleteArticleUrl: "https://www.bookrix.com",
 		AllUrls:              nil,
 		Search:               "BookRixAll",
 	}

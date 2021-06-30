@@ -16,7 +16,7 @@ import (
 	"github.com/ttacon/chalk"
 )
 
-const PAGE_LIMIT = 20
+const PAGE_LIMIT = 40
 
 type Source struct {
 	SourceName           string
@@ -47,8 +47,8 @@ func (s *Source) GetArticles() {
 	processed := 0
 
 	for i := 1; i < PAGE_LIMIT; i++ {
-		time.Sleep(1 * time.Second)
 
+		fmt.Println(chalk.Green.Color("Downloading " + s.CompletePageUrlStart + strconv.Itoa(i) + s.CompletePageUrlEnd))
 		htmlFormat, errs := ProxyScraping(s.CompletePageUrlStart + strconv.Itoa(i) + s.CompletePageUrlEnd)
 
 		if errs != nil {
@@ -181,52 +181,116 @@ func ReadArticles(file string) []core.Article {
 func CheckRegex(s *Source, newArticle core.Article, articleHtmlFormat string) core.Article {
 	if regexSet(s.TitleREGEX) {
 		ArticleTitle, _ := regexp.Compile(s.TitleREGEX)
-		newArticle.Title = ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1]
+
+		if len(ArticleTitle.FindStringSubmatch(articleHtmlFormat)) != 0 {
+			newArticle.Title = ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1]
+		} else {
+			newArticle.Title = ""
+		}
 	}
 	if regexSet(s.AuthorREGEX) {
 		ArticleAuthors, _ := regexp.Compile(s.AuthorREGEX)
-		newArticle.Author = ArticleAuthors.FindStringSubmatch(articleHtmlFormat)[1]
+
+		if len(ArticleAuthors.FindStringSubmatch(articleHtmlFormat)) != 0 {
+			newArticle.Author = ArticleAuthors.FindStringSubmatch(articleHtmlFormat)[1]
+		} else {
+			newArticle.Author = ""
+		}
 	}
 	if regexSet(s.PublisherREGEX) {
 		ArticlePublisher, _ := regexp.Compile(s.PublisherREGEX)
-		newArticle.Publisher = ArticlePublisher.FindStringSubmatch(articleHtmlFormat)[1]
+
+		if len(ArticlePublisher.FindStringSubmatch(articleHtmlFormat)) != 0 {
+			newArticle.Publisher = ArticlePublisher.FindStringSubmatch(articleHtmlFormat)[1]
+		} else {
+			newArticle.Publisher = ""
+		}
+
 	}
 	if regexSet(s.YearREGEX) {
 		ArticleYear, _ := regexp.Compile(s.YearREGEX)
-		newArticle.Year = ArticleYear.FindStringSubmatch(articleHtmlFormat)[1]
+
+		if len(ArticleYear.FindStringSubmatch(articleHtmlFormat)) != 0 {
+			newArticle.Year = ArticleYear.FindStringSubmatch(articleHtmlFormat)[1]
+		} else {
+			newArticle.Year = ""
+		}
+
 	}
 	if regexSet(s.LanguageREGEX) {
 		ArticleLang, _ := regexp.Compile(s.LanguageREGEX)
-		newArticle.Language = ArticleLang.FindStringSubmatch(articleHtmlFormat)[1]
+
+		if len(ArticleLang.FindStringSubmatch(articleHtmlFormat)) != 0 {
+			newArticle.Language = ArticleLang.FindStringSubmatch(articleHtmlFormat)[1]
+		} else {
+			newArticle.Language = ""
+		}
 	}
 	if regexSet(s.IsbnREGEX) {
 		ArticleIsbn, _ := regexp.Compile(s.IsbnREGEX)
-		newArticle.Isbn = ArticleIsbn.FindStringSubmatch(articleHtmlFormat)[1]
+
+		if len(ArticleIsbn.FindStringSubmatch(articleHtmlFormat)) != 0 {
+			newArticle.Isbn = ArticleIsbn.FindStringSubmatch(articleHtmlFormat)[1]
+		} else {
+			newArticle.Isbn = ""
+		}
+
 	}
 	if regexSet(s.TimeREGEX) {
 		ArticleTime, _ := regexp.Compile(s.TimeREGEX)
-		newArticle.Time = ArticleTime.FindStringSubmatch(articleHtmlFormat)[1]
+
+		if len(ArticleTime.FindStringSubmatch(articleHtmlFormat)) != 0 {
+			newArticle.Time = ArticleTime.FindStringSubmatch(articleHtmlFormat)[1]
+		} else {
+			newArticle.Time = ""
+		}
 	}
 	if regexSet(s.IdREGEX) {
 		ArticleId, _ := regexp.Compile(s.IdREGEX)
-		newArticle.Id = ArticleId.FindStringSubmatch(articleHtmlFormat)[1]
+
+		if len(ArticleId.FindStringSubmatch(articleHtmlFormat)) != 0 {
+			newArticle.Id = ArticleId.FindStringSubmatch(articleHtmlFormat)[1]
+		} else {
+			newArticle.Id = ""
+		}
+
 	}
 	if regexSet(s.SizeREGEX) {
 		ArticleSize, _ := regexp.Compile(s.SizeREGEX)
-		newArticle.Size = ArticleSize.FindStringSubmatch(articleHtmlFormat)[1]
+
+		if len(ArticleSize.FindStringSubmatch(articleHtmlFormat)) != 0 {
+			newArticle.Size = ArticleSize.FindStringSubmatch(articleHtmlFormat)[1]
+		} else {
+			newArticle.Size = ""
+		}
 	}
 	if regexSet(s.PageREGEX) {
 		ArticlePages, _ := regexp.Compile(s.PageREGEX)
-		newArticle.Page = ArticlePages.FindStringSubmatch(articleHtmlFormat)[1]
+
+		if len(ArticlePages.FindStringSubmatch(articleHtmlFormat)) != 0 {
+			newArticle.Page = ArticlePages.FindStringSubmatch(articleHtmlFormat)[1]
+		} else {
+			newArticle.Page = ""
+		}
+
 	}
 	if regexSet(s.ExtensionREGEX) {
 		ArticleExtension, _ := regexp.Compile(s.ExtensionREGEX)
-		newArticle.Extension = ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1]
+
+		if len(ArticleExtension.FindStringSubmatch(articleHtmlFormat)) != 0 {
+			newArticle.Extension = ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1]
+		} else {
+			newArticle.Extension = ""
+		}
 	}
 	if regexSet(s.DownloadUrlREGEX) {
 		ArticleDownload, _ := regexp.Compile(s.DownloadUrlREGEX)
-		newArticle.DownloadUrl = s.DownloadUrlComplete + ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1]
 
+		if len(ArticleDownload.FindStringSubmatch(articleHtmlFormat)) != 0 {
+			newArticle.DownloadUrl = s.DownloadUrlComplete + ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1]
+		} else {
+			newArticle.DownloadUrl = ""
+		}
 	}
 
 	return newArticle

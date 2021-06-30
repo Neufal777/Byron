@@ -7,10 +7,9 @@ import (
 	"os"
 
 	"github.com/Byron/backend"
-	"github.com/Byron/core"
 	"github.com/Byron/data"
+	"github.com/Byron/executions"
 	"github.com/Byron/sources"
-	"github.com/Byron/utils"
 	"github.com/gorilla/mux"
 )
 
@@ -37,28 +36,26 @@ func main() {
 }
 func TestingExecute() {
 
-	core.TitleFormat("Edward K. Morris Bryan D. Midgley (auth.) Stephen R. Schroeder (eds.) Ecobe", utils.FixUnitedNames("EdwardK.Morris,BryanD.Midgley(auth.),StephenR.Schroeder(eds.)"))
+	//sources.ProxiesCleaner()
+	//sources.ProxyScraping("https://manybooks.net/search-book?field_genre%5B10%5D=10")
+	executions.ManyBooksExecution()
+	//RegexNoResults()
 }
 func ParseExecute() {
+
 	z := sources.Source{
-		SourceName:           "LIBGEN",
-		UrlREGEX:             "<a href=.book/index.php.md5=([^\"']*)",
-		IdREGEX:              "ID:</font></nobr></td><td>([^<]*)",
-		DownloadUrlREGEX:     "align=.center.><a href=.([^\"']*). title=.Gen.lib.rus.ec.",
-		TitleREGEX:           "<title>Library Genesis:([^<]*)",
-		IsbnREGEX:            "ISBN:</font></td><td>([^<]*)",
-		YearREGEX:            "Year:</font></nobr></td><td>([^<]*)",
-		PublisherREGEX:       "Publisher:</font></nobr></td><td>([^<]*)",
-		AuthorREGEX:          "Author.s.:</font></nobr></td><td colspan=3><b>([^<]*)",
-		ExtensionREGEX:       "Extension:</font></nobr></td><td>([^<]*)",
-		PageREGEX:            "Pages .biblio.tech.:</font></nobr></td><td>([^<]*)",
-		LanguageREGEX:        "Language:</font></nobr></td><td>([^<]*)",
-		SizeREGEX:            "Size:</font></nobr></td><td>([^<]*)",
-		TimeREGEX:            "Time modified:</font></nobr></td><td>([^<]*)",
-		CompletePageUrlStart: "https://libgen.is/search.php?&res=100&req=science&phrase=1&view=simple&column=def&sort=year&sortmode=DESC&page=",
-		IncompleteArticleUrl: "https://libgen.is/book/index.php?md5=",
+		SourceName:           "BookRix",
+		UrlREGEX:             "<big class=.item-title.><a class=.word-break. href=.([^\"']*)",
+		IdREGEX:              "",
+		DownloadUrlREGEX:     "data-download=.([^\"']*)",
+		DownloadUrlComplete:  "https://www.bookrix.com",
+		TitleREGEX:           "<h2 class=.break-word.>([^<]*)",
+		AuthorREGEX:          "<a rel=.author. href=[^>]*>([^<]*)",
+		CompletePageUrlStart: "https://www.bookrix.com/books;page:",
+		CompletePageUrlEnd:   ".html",
+		IncompleteArticleUrl: "https://www.bookrix.com",
 		AllUrls:              nil,
-		Search:               "AllLibgen",
+		Search:               "BookRixAllPart2",
 	}
 
 	z.GetArticles()
