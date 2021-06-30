@@ -1,9 +1,6 @@
 package executions
 
 import (
-	"math/rand"
-	"time"
-
 	"github.com/Byron/sources"
 )
 
@@ -17,6 +14,7 @@ func ManyBooksExecution() {
 		"https://manybooks.net/categories/BIO",
 		"https://manybooks.net/categories/BUS",
 		"https://manybooks.net/categories/CAN",
+
 		"https://manybooks.net/categories/CLA",
 		"https://manybooks.net/categories/COM",
 		"https://manybooks.net/categories/COO",
@@ -72,12 +70,14 @@ func ManyBooksExecution() {
 		"https://manybooks.net/categories/WOM",
 		"https://manybooks.net/categories/CHI",
 	}
-	rand.Seed(time.Now().UnixNano())
-	rand.Shuffle(len(categories), func(i, j int) { categories[i], categories[j] = categories[j], categories[i] })
 
-	for _, cat := range categories {
-		SingleExecution(cat)
-	}
+	go SingleExecution(categories[0])
+	go SingleExecution(categories[1])
+	go SingleExecution(categories[2])
+	go SingleExecution(categories[3])
+	go SingleExecution(categories[4])
+	go SingleExecution(categories[5])
+	SingleExecution(categories[6])
 }
 
 func SingleExecution(urlCat string) {
