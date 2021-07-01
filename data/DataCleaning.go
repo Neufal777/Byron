@@ -6,9 +6,8 @@ import (
 	"log"
 	"strings"
 
-	"github.com/Byron/sources"
-
 	"github.com/Byron/core"
+	"github.com/Byron/parsecore"
 	"github.com/ttacon/chalk"
 )
 
@@ -20,9 +19,14 @@ import (
 
 func DeleteDuplicates(folder string) {
 	FreshArticles := map[string]core.Article{}
-	var FreshArticlesReady []core.Article
 
-	var duplicates, processed int
+	//var FreshArticlesReady []core.Article
+	// var duplicates, processed int
+
+	var (
+		FreshArticlesReady    []core.Article
+		duplicates, processed int
+	)
 
 	files, _ := ioutil.ReadDir(folder)
 	left := len(files)
@@ -31,12 +35,10 @@ func DeleteDuplicates(folder string) {
 		fmt.Println(chalk.Green.Color("Processing: " + f.Name()))
 
 		if strings.Contains(f.Name(), ".json") {
-			articles := sources.ReadArticles(folder + f.Name())
+			articles := parsecore.ReadArticles(folder + f.Name())
 
 			for _, a := range articles {
-
 				_, ok := FreshArticles[a.Url]
-
 				if !ok {
 					formatted := a.FormatNewArticle()
 					FreshArticles[a.Url] = *formatted
@@ -55,6 +57,7 @@ func DeleteDuplicates(folder string) {
 	}
 
 	core.WriteInFile("UltimateInventory/General_Collection.json", FreshArticlesReady)
+
 	log.Println("Duplicates:", duplicates)
 	log.Println("Processed:", processed)
 }

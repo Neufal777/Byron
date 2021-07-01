@@ -1,8 +1,10 @@
 package sources
 
+import "github.com/Byron/parsecore"
+
 func AllSourcesScrapingInformation() {
 
-	_ = Source{
+	_ = parsecore.Source{
 		SourceName:           "OpenLibra",
 		UrlREGEX:             "<div class=.image-cover.> <a title=.[^<]*href=.([^\"']*)",
 		IdREGEX:              "",
@@ -23,7 +25,7 @@ func AllSourcesScrapingInformation() {
 		Search:               "OpenLibraGeneral",
 	}
 
-	_ = Source{
+	_ = parsecore.Source{
 		SourceName:           "LIBGEN",
 		UrlREGEX:             "<a href=.book/index.php.md5=([^\"']*)",
 		IdREGEX:              "ID:</font></nobr></td><td>([^<]*)",
@@ -44,7 +46,7 @@ func AllSourcesScrapingInformation() {
 		Search:               "machine learning",
 	}
 
-	_ = Source{
+	_ = parsecore.Source{
 		SourceName:           "BookRix",
 		UrlREGEX:             "<big class=.item-title.><a class=.word-break. href=.([^\"']*)",
 		IdREGEX:              "",

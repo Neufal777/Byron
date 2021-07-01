@@ -1,11 +1,8 @@
 package executions
 
-import (
-	"github.com/Byron/sources"
-)
+import "github.com/Byron/parsecore"
 
 func ManyBooksExecution() {
-
 	categories := []string{
 		"https://manybooks.net/categories/ADV",
 		"https://manybooks.net/categories/AFR",
@@ -14,7 +11,6 @@ func ManyBooksExecution() {
 		"https://manybooks.net/categories/BIO",
 		"https://manybooks.net/categories/BUS",
 		"https://manybooks.net/categories/CAN",
-
 		"https://manybooks.net/categories/CLA",
 		"https://manybooks.net/categories/COM",
 		"https://manybooks.net/categories/COO",
@@ -71,18 +67,12 @@ func ManyBooksExecution() {
 		"https://manybooks.net/categories/CHI",
 	}
 
-	go SingleExecution(categories[0])
-	go SingleExecution(categories[1])
-	go SingleExecution(categories[2])
-	go SingleExecution(categories[3])
-	go SingleExecution(categories[4])
-	go SingleExecution(categories[5])
-	SingleExecution(categories[6])
+	SingleExecution(categories[2])
 }
 
 func SingleExecution(urlCat string) {
 
-	source := sources.Source{
+	source := parsecore.Source{
 		SourceName:           "ManyBooks",
 		UrlREGEX:             "about=./titles/([^\"']*)",
 		IncompleteArticleUrl: "https://manybooks.net/titles/",

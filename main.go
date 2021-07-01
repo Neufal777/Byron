@@ -9,7 +9,7 @@ import (
 	"github.com/Byron/backend"
 	"github.com/Byron/data"
 	"github.com/Byron/executions"
-	"github.com/Byron/sources"
+	"github.com/Byron/parsecore"
 	"github.com/gorilla/mux"
 )
 
@@ -37,13 +37,13 @@ func main() {
 func TestingExecute() {
 
 	//sources.ProxiesCleaner()
-	//sources.ProxyScraping("https://manybooks.net/search-book?field_genre%5B10%5D=10")
+	//parsecore.ProxyScraping("https://libgen.is/search.php?mode=last&view=simple&phrase=0&timefirst=&timelast=&sort=def&sortmode=ASC&page=10")
 	executions.ManyBooksExecution()
 	//RegexNoResults()
 }
 func ParseExecute() {
 
-	z := sources.Source{
+	z := parsecore.Source{
 		SourceName:           "BookRix",
 		UrlREGEX:             "<big class=.item-title.><a class=.word-break. href=.([^\"']*)",
 		IdREGEX:              "",

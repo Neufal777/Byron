@@ -85,18 +85,17 @@ func InsertArticle(article *core.Article) {
 }
 
 func SearchArticles(search string) []core.Article {
-
-	var AllArticles []core.Article
 	client, ctx, err := ConnectMongoDB()
-
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	var (
 		byronDatabase           = client.Database("byron")
 		byronArticlesCollection = byronDatabase.Collection("byronArticles")
+		AllArticles             []core.Article
 	)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	searchQuery := bson.M{
 		"Title": bson.M{"$regex": primitive.Regex{

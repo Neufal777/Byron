@@ -17,7 +17,7 @@ func WriteInFile(File string, Struct interface{}) {
 }
 
 func CheckIfFileExists(ID string) bool {
-	info, err := os.Stat("Repository/" + ID)
+	info, err := os.Stat("Inventory/" + ID)
 	if os.IsNotExist(err) {
 		return false
 	}

@@ -1,4 +1,4 @@
-package sources
+package parsecore
 
 import (
 	"encoding/json"

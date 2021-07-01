@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/Byron/core"
-	"github.com/Byron/sources"
+	"github.com/Byron/parsecore"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/ttacon/chalk"
 )
@@ -23,7 +23,7 @@ func SaveArticlesDB() {
 
 	defer db.Close()
 
-	articles := sources.ReadArticles("UltimateInventory/General_Collection.json")
+	articles := parsecore.ReadArticles("UltimateInventory/General_Collection.json")
 	queryInsertArticle, err := db.Prepare("INSERT INTO byronarticles (uniqueid, sourcename, url, downloadurl, title, search,isbn,year,publisher,author,extension,page,language,size,time) VALUES (?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?)")
 
 	rand.Seed(time.Now().UnixNano())
