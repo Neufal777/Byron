@@ -7,9 +7,11 @@ import (
 	"os"
 
 	"github.com/Byron/backend"
+	"github.com/Byron/core"
 	"github.com/Byron/data"
-	"github.com/Byron/executions"
+	"github.com/Byron/mongodb"
 	"github.com/Byron/parsecore"
+	"github.com/Byron/utils"
 	"github.com/gorilla/mux"
 )
 
@@ -38,8 +40,23 @@ func TestingExecute() {
 
 	//sources.ProxiesCleaner()
 	//parsecore.ProxyScraping("https://libgen.is/search.php?mode=last&view=simple&phrase=0&timefirst=&timelast=&sort=def&sortmode=ASC&page=10")
-	executions.ManyBooksExecution()
+	//executions.ManyBooksExecution()
 	//RegexNoResults()
+
+	//log.Println(utils.PrettyPrintStruct(mongodb.SearchArticles("9780307588357")))
+
+	arts := []core.Article{
+		{SourceName: "openlibra", Title: "Hola", Isbn: "2", Url: "www.google.com"},
+		{SourceName: "openlibra", Title: "Adeu", Isbn: "3", Url: "www.facebook.com"},
+		{SourceName: "openlibra", Title: "Adeu", Isbn: "3", Url: "www.facebook.com"},
+		{SourceName: "openlibra", Title: "Adeu", Isbn: "3", Url: "www.facebook.com"},
+		{SourceName: "openlibra", Title: "Adeu", Isbn: "3", Url: "www.facebook.com"},
+		{SourceName: "openlibra", Title: "Adeu", Isbn: "3", Url: "www.facebook.com"},
+		{SourceName: "openlibra", Title: "Adeu", Isbn: "3", Url: "www.facebook.com"},
+		{SourceName: "openlibra", Title: "Adeu", Isbn: "3", Url: "www.facebook.com"},
+	}
+	log.Println(utils.PrettyPrintStruct(mongodb.ArticleDelDuplicates(arts)))
+
 }
 func ParseExecute() {
 
