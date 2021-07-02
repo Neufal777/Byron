@@ -85,6 +85,52 @@ func InsertArticle(article *core.Article) {
 }
 
 func SearchArticles(search string) []core.Article {
+
+	/*
+		Get all possible matches and store them :)
+	*/
+
+	var AllArticles []core.Article
+
+	byTitle := GetArticlesRegex("Title", search)
+	//byIsbn := GetArticlesRegex("Isbn", search)
+	//byAuthor := GetArticlesRegex("Author", search)
+	//byYear := GetArticlesRegex("Year", search)
+
+	AllArticles = append(AllArticles, byTitle...)
+	//AllArticles = append(AllArticles, byIsbn...)
+	//AllArticles = append(AllArticles, byAuthor...)
+	//AllArticles = append(AllArticles, byYear...)
+
+	cleanedCollection := ArticleDelDuplicates(AllArticles)
+
+	return cleanedCollection
+}
+
+func ArticleDelDuplicates(allArticles []core.Article) []core.Article {
+
+	var all []core.Article
+	arti := make(map[string]core.Article)
+
+	for _, articles := range allArticles {
+		_, ok := arti[articles.Url]
+
+		if !ok {
+			arti[articles.Url] = articles
+		} else {
+			fmt.Println(chalk.Red.Color("Already exists"))
+		}
+	}
+
+	for _, v := range arti {
+		all = append(all, v)
+	}
+
+	log.Println("Final result", len(all))
+	return all
+}
+
+func GetArticlesRegex(field string, search string) []core.Article {
 	client, ctx, err := ConnectMongoDB()
 
 	var (
@@ -97,18 +143,14 @@ func SearchArticles(search string) []core.Article {
 		log.Fatal(err)
 	}
 
-	searchQuery := bson.M{
-		"Title": bson.M{"$regex": primitive.Regex{
-			Pattern: search,
-			Options: "i",
-		},
-		},
+	fieldQuery := bson.M{
+		field: bson.M{"$regex": primitive.Regex{Pattern: search, Options: "is"}},
 	}
 
-	filterCursor, err := byronArticlesCollection.Find(ctx, searchQuery)
+	filterCursor, err := byronArticlesCollection.Find(ctx, fieldQuery)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Panic(err)
 	}
 
 	var articlesRetrieved []bson.M
