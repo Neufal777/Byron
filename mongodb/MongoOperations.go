@@ -81,11 +81,9 @@ func InsertArticle(article *core.Article) {
 	} else {
 		fmt.Println(chalk.Red.Color("This article exists: " + article.UniqueID))
 	}
-
 }
 
 func SearchArticles(search string) []core.Article {
-
 	/*
 		Get all possible matches and store them :)
 	*/
@@ -95,12 +93,10 @@ func SearchArticles(search string) []core.Article {
 	byTitle := GetArticlesRegex("Title", search)
 	byIsbn := GetArticlesRegex("Isbn", search)
 	byAuthor := GetArticlesRegex("Author", search)
-	//byYear := GetArticlesRegex("Year", search)
 
 	AllArticles = append(AllArticles, byTitle...)
 	AllArticles = append(AllArticles, byIsbn...)
 	AllArticles = append(AllArticles, byAuthor...)
-	//AllArticles = append(AllArticles, byYear...)
 
 	cleanedCollection := ArticleDelDuplicates(AllArticles)
 
@@ -117,8 +113,6 @@ func ArticleDelDuplicates(allArticles []core.Article) []core.Article {
 
 		if !ok {
 			arti[articles.Url] = articles
-		} else {
-			fmt.Println(chalk.Red.Color("Already exists"))
 		}
 	}
 
@@ -203,7 +197,7 @@ func GetArticlesRegex(field string, search string) []core.Article {
 			Isbn:        formatedIsbn,
 			Year:        utils.AnyTypeToString(articlesRetrieved[i]["Year"]),
 			Publisher:   utils.AnyTypeToString(articlesRetrieved[i]["Publisher"]),
-			Author:      utils.AnyTypeToString(articlesRetrieved[i]["Author"]),
+			Author:      strings.TrimSpace(utils.AnyTypeToString(articlesRetrieved[i]["Author"])),
 			Extension:   utils.AnyTypeToString(articlesRetrieved[i]["Extension"]),
 			Page:        utils.AnyTypeToString(articlesRetrieved[i]["Page"]),
 			Language:    utils.AnyTypeToString(articlesRetrieved[i]["Language"]),
