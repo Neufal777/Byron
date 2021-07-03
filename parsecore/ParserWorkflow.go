@@ -103,7 +103,7 @@ func (s *Source) ProcessArticles() {
 				SourceName: s.SourceName,
 				Url:        u,
 				Search:     s.Search,
-				Download:   0,
+				Downloaded: 0,
 			}
 
 			log.Println("Article:", u)
@@ -116,7 +116,7 @@ func (s *Source) ProcessArticles() {
 			AllArticles := ReadArticles("Inventory/" + utils.GetMD5Hash(s.Search) + ".json")
 			newArticleFormatted := newArticle.FormatNewArticle()
 
-			dup := CountDuplicates(AllArticles, newArticleFormatted)
+			dup := checkDuplicate(AllArticles, newArticleFormatted)
 
 			if dup == 0 {
 				AllArticlesUpdated := ReadArticles("Inventory/" + utils.GetMD5Hash(s.Search) + ".json")
@@ -126,7 +126,7 @@ func (s *Source) ProcessArticles() {
 				/*
 					Display relevant information about the new Document
 				*/
-				newArticle.DisplayInformation()
+				//newArticle.DisplayInformation()
 				fmt.Println(chalk.Green.Color("Added correctly: " + newArticle.Title))
 				processed++
 				fmt.Println(chalk.Magenta.Color("Processed: " + strconv.Itoa(processed)))
@@ -141,19 +141,18 @@ func (s *Source) ProcessArticles() {
 				// )
 
 			} else {
-				fmt.Println(chalk.Red.Color("This article already exists, nothing to do here"))
+				fmt.Println(chalk.Magenta.Color("This article already exists, nothing to do here"))
 			}
 
 		} else {
 			fmt.Println(chalk.Magenta.Color("Given 503. waiting to reconnect"))
-
 		}
 	}
 
 	fmt.Println(chalk.Green.Color("All the documents were Downloaded :) "))
 }
 
-func CountDuplicates(AllArticles []core.Article, newArticleFormatted *core.Article) int {
+func checkDuplicate(AllArticles []core.Article, newArticleFormatted *core.Article) int {
 	duplicated := 0
 	for i := 0; i < len(AllArticles); i++ {
 		if AllArticles[i].Url == newArticleFormatted.Url {

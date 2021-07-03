@@ -56,6 +56,7 @@ func FixUnitedNames(name string) string {
 	formatted = strings.ReplaceAll(formatted, "-", "")
 	formatted = strings.ReplaceAll(formatted, " )", ")")
 	formatted = strings.ReplaceAll(formatted, "(", " (")
+	formatted = strings.ReplaceAll(formatted, "( ", "(")
 	formatted = strings.ReplaceAll(formatted, "  ", " ")
 	formatted = strings.TrimSpace(formatted)
 

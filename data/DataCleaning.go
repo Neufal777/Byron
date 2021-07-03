@@ -57,7 +57,6 @@ func DeleteDuplicates(folder string) {
 	}
 
 	core.WriteInFile("UltimateInventory/General_Collection.json", FreshArticlesReady)
-
 	log.Println("Duplicates:", duplicates)
 	log.Println("Processed:", processed)
 }

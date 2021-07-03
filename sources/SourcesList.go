@@ -69,4 +69,20 @@ func AllSourcesScrapingInformation() {
 		Search:               "BookRixAll",
 	}
 
+	_ = parsecore.Source{
+		SourceName:           "ManyBooks",
+		UrlREGEX:             "about=./titles/([^\"']*)",
+		IncompleteArticleUrl: "https://manybooks.net/titles/",
+		DownloadUrlREGEX:     "<div class=.form-group.><a href=./book/([^\"']*)",
+		DownloadUrlComplete:  "https://manybooks.net/book/",
+		TitleREGEX:           "<h1 class=.page-header.>([^<]*)",
+		YearREGEX:            "<div class=.field field--name-field-published-year field--type-integer field--label-hidden field--item.>([^<]*)",
+		AuthorREGEX:          "itemprop=.author.[^>]*>([^<]*)",
+		PageREGEX:            "<div class=.field field--name-field-pages field--type-integer field--label-hidden field--item.>([^<]*)",
+		LanguageREGEX:        "language: .([^\"']*)",
+		CompletePageUrlStart: "?language=All&sort_by=field_downloads&page=",
+		CompletePageUrlEnd:   "",
+		AllUrls:              nil,
+		Search:               "urlCat",
+	}
 }

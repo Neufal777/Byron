@@ -29,7 +29,7 @@ type Article struct {
 	Size        string
 	FileSize    Size
 	Time        string
-	Download    int
+	Downloaded  int
 }
 
 func (art *Article) FormatNewArticle() *Article {
