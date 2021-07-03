@@ -2,21 +2,23 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
-	"strconv"
 
 	"github.com/Byron/backend"
 	"github.com/Byron/data"
 	"github.com/Byron/executions"
+	"github.com/Byron/mongodb"
 	"github.com/gorilla/mux"
 )
 
 func main() {
 	execMode := flag.String("exec", "web", "Select mode of execution")
 	flag.Parse()
+
+	os.Setenv("TESTING_VAR", "TESTING VALUE")
+	log.Println(os.Getenv("TESTING_VAR"))
 
 	switch *execMode {
 	case "web":
@@ -51,9 +53,11 @@ func TestingExecute() {
 	// elapsed := time.Since(start)
 	// log.Printf("Binomial took %s", elapsed)
 
-	for i := 0; i < 65; i++ {
-		fmt.Println("go BookRixSingleExecution(" + strconv.Itoa(i*150) + ", " + strconv.Itoa((i*150)+150) + ")")
-	}
+	// for i := 0; i < 65; i++ {
+	// 	fmt.Println("go BookRixSingleExecution(" + strconv.Itoa(i*150) + ", " + strconv.Itoa((i*150)+150) + ")")
+	// }
+
+	mongodb.SearchArticles("Strong")
 
 }
 func ParseExecute() {

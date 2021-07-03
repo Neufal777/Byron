@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"math/big"
+	"strconv"
 	"strings"
 	"time"
 
@@ -96,17 +97,8 @@ func SearchArticles(search string) []core.Article {
 
 	var AllArticles []core.Article
 
-	byTitle := GetArticlesRegex("Title", search)
-	byIsbn := GetArticlesRegex("Isbn", search)
-	byAuthor := GetArticlesRegex("Author", search)
-
-	AllArticles = append(AllArticles, byTitle...)
-	AllArticles = append(AllArticles, byIsbn...)
-	AllArticles = append(AllArticles, byAuthor...)
-
+	AllArticles = append(AllArticles, GetArticlesRegex(search)...)
 	cleanedCollection := ArticleDelDuplicates(AllArticles)
-
-	log.Println("Total found:", len(cleanedCollection))
 
 	elapsed := time.Since(start)
 	log.Printf("Binomial took %s", elapsed)
@@ -135,12 +127,12 @@ func ArticleDelDuplicates(allArticles []core.Article) []core.Article {
 		all = append(all, v)
 	}
 
-	log.Println("Final result", len(all))
+	log.Println("Total Found:", len(all))
 	log.Println("Duplicates:", dups)
 	return all
 }
 
-func GetArticlesRegex(field string, search string) []core.Article {
+func GetArticlesRegex(search string) []core.Article {
 	client, ctx, err := ConnectMongoDB()
 
 	var (
@@ -153,80 +145,81 @@ func GetArticlesRegex(field string, search string) []core.Article {
 		log.Fatal(err)
 	}
 
-	fieldQuery := bson.M{
-		field: bson.M{"$regex": primitive.Regex{Pattern: search, Options: "is"}},
+	queries := []bson.M{
+		{"Title": bson.M{"$regex": primitive.Regex{Pattern: search, Options: "is"}}},
+		{"Isbn": bson.M{"$regex": primitive.Regex{Pattern: search, Options: "is"}}},
+		{"Author": bson.M{"$regex": primitive.Regex{Pattern: search, Options: "is"}}},
 	}
 
-	filterCursor, err := byronArticlesCollection.Find(ctx, fieldQuery)
+	for _, query := range queries {
 
-	if err != nil {
-		log.Panic(err)
-	}
+		var articlesRetrieved []bson.M
 
-	var articlesRetrieved []bson.M
+		filterCursor, err := byronArticlesCollection.Find(ctx, query)
 
-	if err = filterCursor.All(ctx, &articlesRetrieved); err != nil {
-		log.Fatal(err)
-	}
-
-	for i := 0; i < len(articlesRetrieved); i++ {
-
-		/*
-			Format and only show the first Isbn
-		*/
-		formatedIsbn := utils.AnyTypeToString(articlesRetrieved[i]["Isbn"])
-		formatedIsbn = strings.TrimSpace(formatedIsbn)
-		formatedIsbn = strings.ReplaceAll(formatedIsbn, "-", "")
-
-		if strings.Contains(formatedIsbn, ";") {
-			allIsbns := strings.Split(formatedIsbn, ";")
-			formatedIsbn = allIsbns[0]
+		if err != nil {
+			log.Panic(err)
 		}
 
-		if strings.Contains(formatedIsbn, ",") {
-			allIsbns := strings.Split(formatedIsbn, ",")
-			formatedIsbn = allIsbns[0]
+		if err = filterCursor.All(ctx, &articlesRetrieved); err != nil {
+			log.Fatal(err)
 		}
 
-		/*
-			Format and insert only ammount and type of size
-		*/
+		for i := 0; i < len(articlesRetrieved); i++ {
 
-		var formattedAmmount string
-		var formattedUnit string
+			formatedIsbn := utils.AnyTypeToString(articlesRetrieved[i]["Isbn"])
+			formatedIsbn = strings.TrimSpace(formatedIsbn)
+			formatedIsbn = strings.ReplaceAll(formatedIsbn, "-", "")
 
-		size := utils.AnyTypeToString(articlesRetrieved[i]["Size"])
+			if strings.Contains(formatedIsbn, ";") {
+				allIsbns := strings.Split(formatedIsbn, ";")
+				formatedIsbn = allIsbns[0]
+			}
 
-		if strings.Contains(size, " ") {
-			memory := strings.Split(size, " ")
-			formattedAmmount = memory[0]
-			formattedUnit = memory[1]
+			if strings.Contains(formatedIsbn, ",") {
+				allIsbns := strings.Split(formatedIsbn, ",")
+				formatedIsbn = allIsbns[0]
+			}
+
+			/*
+				Format and insert only ammount and type of size
+			*/
+
+			var formattedAmmount string
+			var formattedUnit string
+
+			size := utils.AnyTypeToString(articlesRetrieved[i]["Size"])
+
+			if strings.Contains(size, " ") {
+				memory := strings.Split(size, " ")
+				formattedAmmount = memory[0]
+				formattedUnit = memory[1]
+			}
+
+			AllArticles = append(AllArticles, core.Article{
+				UniqueID:    utils.AnyTypeToString(articlesRetrieved[i]["UniqueID"]),
+				SourceName:  utils.AnyTypeToString(articlesRetrieved[i]["SourceName"]),
+				Url:         utils.AnyTypeToString(articlesRetrieved[i]["Url"]),
+				DownloadUrl: utils.AnyTypeToString(articlesRetrieved[i]["DownloadUrl"]),
+				Title:       utils.AnyTypeToString(articlesRetrieved[i]["Title"]),
+				Search:      utils.AnyTypeToString(articlesRetrieved[i]["Search"]),
+				Isbn:        formatedIsbn,
+				Year:        utils.AnyTypeToString(articlesRetrieved[i]["Year"]),
+				Publisher:   utils.AnyTypeToString(articlesRetrieved[i]["Publisher"]),
+				Author:      strings.TrimSpace(utils.AnyTypeToString(articlesRetrieved[i]["Author"])),
+				Extension:   utils.AnyTypeToString(articlesRetrieved[i]["Extension"]),
+				Page:        utils.AnyTypeToString(articlesRetrieved[i]["Page"]),
+				Language:    utils.AnyTypeToString(articlesRetrieved[i]["Language"]),
+				Size:        utils.AnyTypeToString(articlesRetrieved[i]["Size"]),
+				FileSize: core.Size{
+					Ammount: formattedAmmount,
+					Size:    formattedUnit,
+				},
+				Time: utils.AnyTypeToString(articlesRetrieved[i]["Time"]),
+			})
 		}
-
-		AllArticles = append(AllArticles, core.Article{
-			UniqueID:    utils.AnyTypeToString(articlesRetrieved[i]["UniqueID"]),
-			SourceName:  utils.AnyTypeToString(articlesRetrieved[i]["SourceName"]),
-			Url:         utils.AnyTypeToString(articlesRetrieved[i]["Url"]),
-			DownloadUrl: utils.AnyTypeToString(articlesRetrieved[i]["DownloadUrl"]),
-			Title:       utils.AnyTypeToString(articlesRetrieved[i]["Title"]),
-			Search:      utils.AnyTypeToString(articlesRetrieved[i]["Search"]),
-			Isbn:        formatedIsbn,
-			Year:        utils.AnyTypeToString(articlesRetrieved[i]["Year"]),
-			Publisher:   utils.AnyTypeToString(articlesRetrieved[i]["Publisher"]),
-			Author:      strings.TrimSpace(utils.AnyTypeToString(articlesRetrieved[i]["Author"])),
-			Extension:   utils.AnyTypeToString(articlesRetrieved[i]["Extension"]),
-			Page:        utils.AnyTypeToString(articlesRetrieved[i]["Page"]),
-			Language:    utils.AnyTypeToString(articlesRetrieved[i]["Language"]),
-			Size:        utils.AnyTypeToString(articlesRetrieved[i]["Size"]),
-			FileSize: core.Size{
-				Ammount: formattedAmmount,
-				Size:    formattedUnit,
-			},
-			Time: utils.AnyTypeToString(articlesRetrieved[i]["Time"]),
-		})
 	}
 
-	fmt.Println(chalk.Green.Color("Articles found: " + utils.AnyTypeToString(len(AllArticles))))
-
+	fmt.Println(chalk.Green.Color("Articles found by :" + strconv.Itoa(len(AllArticles))))
 	return AllArticles
 }
