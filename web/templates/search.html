@@ -42,8 +42,8 @@
                      <tbody>
                         {{range .Articles}}
                         <tr>
-                           {{ $length := len .Title }} {{ if gt $length 75 }}
-                           <td class=column1><b>{{ slice .Title 0 75 }}...</b></td>
+                           {{ $length := len .Title }} {{ if gt $length 65 }}
+                           <td class=column1><b>{{ slice .Title 0 65 }}...</b></td>
                            {{else}}
                            <td class=column1><b>{{.Title}}</b></td>
                            {{ end }}

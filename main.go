@@ -10,6 +10,7 @@ import (
 	"github.com/Byron/data"
 	"github.com/Byron/executions"
 	"github.com/Byron/mongodb"
+	"github.com/Byron/parsecore"
 	"github.com/gorilla/mux"
 	"github.com/ttacon/chalk"
 )
@@ -44,11 +45,17 @@ func main() {
 		data.DeleteDuplicates("Inventory/")
 	case "test":
 		TestingExecute()
+	case "proxy":
+		ProxyTesting()
 	default:
 		log.Println("Not found:", *execMode)
 		WebExecute()
 	}
 
+}
+
+func ProxyTesting() {
+	parsecore.ProxyScraping("https://www.youtube.com/watch?v=Z5lGkruGSXs&ab_channel=KalleHallden")
 }
 func TestingExecute() {
 	mongodb.SearchArticles("Strong")
