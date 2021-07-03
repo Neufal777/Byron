@@ -2,16 +2,17 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
+	"math/big"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/Byron/backend"
-	"github.com/Byron/core"
 	"github.com/Byron/data"
 	"github.com/Byron/mongodb"
 	"github.com/Byron/parsecore"
-	"github.com/Byron/utils"
 	"github.com/gorilla/mux"
 )
 
@@ -42,20 +43,15 @@ func TestingExecute() {
 	//parsecore.ProxyScraping("https://libgen.is/search.php?mode=last&view=simple&phrase=0&timefirst=&timelast=&sort=def&sortmode=ASC&page=10")
 	//executions.ManyBooksExecution()
 	//RegexNoResults()
+	start := time.Now()
 
-	//log.Println(utils.PrettyPrintStruct(mongodb.SearchArticles("9780307588357")))
+	r := new(big.Int)
+	fmt.Println(r.Binomial(1000, 10))
 
-	arts := []core.Article{
-		{SourceName: "openlibra", Title: "Hola", Isbn: "2", Url: "www.google.com"},
-		{SourceName: "openlibra", Title: "Adeu", Isbn: "3", Url: "www.facebook.com"},
-		{SourceName: "openlibra", Title: "Adeu", Isbn: "3", Url: "www.facebook.com"},
-		{SourceName: "openlibra", Title: "Adeu", Isbn: "3", Url: "www.facebook.com"},
-		{SourceName: "openlibra", Title: "Adeu", Isbn: "3", Url: "www.facebook.com"},
-		{SourceName: "openlibra", Title: "Adeu", Isbn: "3", Url: "www.facebook.com"},
-		{SourceName: "openlibra", Title: "Adeu", Isbn: "3", Url: "www.facebook.com"},
-		{SourceName: "openlibra", Title: "Adeu", Isbn: "3", Url: "www.facebook.com"},
-	}
-	log.Println(utils.PrettyPrintStruct(mongodb.ArticleDelDuplicates(arts)))
+	mongodb.SearchArticles("machine")
+
+	elapsed := time.Since(start)
+	log.Printf("Binomial took %s", elapsed)
 
 }
 func ParseExecute() {

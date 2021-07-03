@@ -91,15 +91,16 @@ func SearchArticles(search string) []core.Article {
 	var AllArticles []core.Article
 
 	byTitle := GetArticlesRegex("Title", search)
-	byIsbn := GetArticlesRegex("Isbn", search)
-	byAuthor := GetArticlesRegex("Author", search)
+	//byIsbn := GetArticlesRegex("Isbn", search)
+	//byAuthor := GetArticlesRegex("Author", search)
 
 	AllArticles = append(AllArticles, byTitle...)
-	AllArticles = append(AllArticles, byIsbn...)
-	AllArticles = append(AllArticles, byAuthor...)
+	//AllArticles = append(AllArticles, byIsbn...)
+	//AllArticles = append(AllArticles, byAuthor...)
 
 	cleanedCollection := ArticleDelDuplicates(AllArticles)
 
+	log.Println("Total found:", len(cleanedCollection))
 	return cleanedCollection
 }
 

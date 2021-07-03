@@ -9,7 +9,7 @@
    <body>
       <div class=TopSearchBar>
          <form action=/search>
-            <input type=text placeholder="search book by title, isbn or author.." name=search autocomplete=off spellcheck=false minlength=3 required>
+            <input type=text placeholder="search book by title.." name=search autocomplete=off spellcheck=false minlength=3 required>
          </form>
       </div>
       <div class=limiter>
@@ -56,7 +56,13 @@
                            {{else}}
                            <td class=column3>No available</td>
                            {{ end }}
+                           
+                           {{ $length := len .FileSize.Ammount }} {{ if gt $length 0 }}
                            <td class=column5>{{.FileSize.Ammount}} {{.FileSize.Size}}</td>
+                           {{else}}
+                           <td class=column5>-</td>
+                           {{ end }}
+
                            {{ $length := len .Year }} {{ if gt $length 0 }}
                            <td class=column6>{{.Year}}</td>
                            {{else}}
