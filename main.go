@@ -55,14 +55,14 @@ func main() {
 }
 
 func ProxyTesting() {
-	parsecore.ProxyScraping("https://www.youtube.com/watch?v=Z5lGkruGSXs&ab_channel=KalleHallden")
+	parsecore.ProxyScraping("https://freeditorial.com/en/books/search?page=34")
 }
 func TestingExecute() {
 	mongodb.SearchArticles("Strong")
 
 }
 func ParseExecute() {
-	executions.BookRixExecution()
+	executions.FreeditorialExecution()
 }
 
 func WebExecute() {

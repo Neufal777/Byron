@@ -38,9 +38,9 @@ func (art *Article) FormatNewArticle() *Article {
 		1 - multiple: authors ISBN & LANGUAGE
 	*/
 	art.Authors = strings.TrimSpace(art.Author)
-	art.Authors = utils.FixUnitedNames(art.Authors)
+	// art.Authors = utils.FixUnitedNames(art.Authors)
 
-	art.Author = utils.FixUnitedNames(art.Author)
+	// art.Author = utils.FixUnitedNames(art.Author)
 	art.Author = strings.ReplaceAll(art.Author, ",", ", ")
 	art.Author = strings.ReplaceAll(art.Author, ";", ", ")
 	art.Author = strings.ReplaceAll(art.Author, ".", ". ")
@@ -86,6 +86,10 @@ func (art *Article) FormatNewArticle() *Article {
 	art.Title = TitleFormat(art.Title, art.Authors)
 	art.Author = strings.TrimSpace(art.Author)
 	art.UniqueID = utils.GetMD5Hash(art.Id + art.Title + art.Url + art.DownloadUrl)
+
+	if art.DownloadUrl == "" {
+		art.DownloadUrl = art.Url
+	}
 
 	return art
 }
