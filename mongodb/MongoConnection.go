@@ -3,6 +3,7 @@ package mongodb
 import (
 	"context"
 	"log"
+	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -10,7 +11,7 @@ import (
 )
 
 func ConnectMongoDB() (*mongo.Client, context.Context, error) {
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://byron:Black_nebula000@byron.dqvrs.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"))
+	client, err := mongo.NewClient(options.Client().ApplyURI(os.Getenv("MONGO_CONNECTION")))
 
 	if err != nil {
 		log.Fatal(err)

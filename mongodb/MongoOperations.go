@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"math/big"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -24,8 +25,8 @@ func MongoSearchByUrl(url string) bool {
 		panic(err)
 	}
 
-	byronDatabase := client.Database("byron")
-	byronArticlesCollection := byronDatabase.Collection("byronArticles")
+	byronDatabase := client.Database(os.Getenv("MONGO_DATABASE"))
+	byronArticlesCollection := byronDatabase.Collection(os.Getenv("MONGO_COLLECTION"))
 
 	filterCursor, err := byronArticlesCollection.Find(ctx, bson.M{"Url": url})
 
@@ -52,8 +53,8 @@ func InsertArticle(article *core.Article) {
 		panic(err)
 	}
 
-	byronDatabase := client.Database("byron")
-	byronArticlesCollection := byronDatabase.Collection("byronArticles")
+	byronDatabase := client.Database(os.Getenv("MONGO_DATABASE"))
+	byronArticlesCollection := byronDatabase.Collection(os.Getenv("MONGO_COLLECTION"))
 
 	if !MongoSearchByUrl(article.Url) {
 
@@ -136,8 +137,8 @@ func GetArticlesRegex(search string) []core.Article {
 	client, ctx, err := ConnectMongoDB()
 
 	var (
-		byronDatabase           = client.Database("byron")
-		byronArticlesCollection = byronDatabase.Collection("byronArticles")
+		byronDatabase           = client.Database(os.Getenv("MONGO_DATABASE"))
+		byronArticlesCollection = byronDatabase.Collection(os.Getenv("MONGO_COLLECTION"))
 		AllArticles             []core.Article
 	)
 

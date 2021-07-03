@@ -11,18 +11,28 @@ import (
 	"github.com/Byron/executions"
 	"github.com/Byron/mongodb"
 	"github.com/gorilla/mux"
+	"github.com/ttacon/chalk"
 )
 
 func init() {
-	log.Println("INIT VAR: ", os.Getenv("INIT_VAR"))
+	os.Setenv("MONGO_CONNECTION", "mongodb+srv://byron:Black_nebula000@byron.dqvrs.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+	os.Setenv("MONGO_DATABASE", "byron")
+	os.Setenv("MONGO_COLLECTION", "byronArticles")
 
-	os.Setenv("TEST_MAIN", "TESTING MAIN FROM INIT")
+	/*
+		Setting variables
+	*/
+	log.Println(chalk.Magenta.Color("Setting up variables"))
+	log.Println(chalk.Green.Color("Mongo conenction: " + os.Getenv("MONGO_CONNECTION")))
+	log.Println(chalk.Green.Color("Mongo database: " + os.Getenv("MONGO_DATABASE")))
+	log.Println(chalk.Green.Color("Mongo collection: " + os.Getenv("MONGO_COLLECTION")))
+
 }
+
 func main() {
 	execMode := flag.String("exec", "web", "Select mode of execution")
 	flag.Parse()
 
-	log.Println("TESTING MAIN FROM MAIN", os.Getenv("TEST_MAIN"))
 	switch *execMode {
 	case "web":
 		WebExecute()
