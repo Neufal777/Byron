@@ -10,7 +10,8 @@ import (
 )
 
 func ConnectMongoDB() (*mongo.Client, context.Context, error) {
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://byron:Black_nebula000@byroncluster.dqvrs.mongodb.net/byroncluster?retryWrites=true&w=majority"))
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://byron:Black_nebula000@byron.dqvrs.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"))
+
 	if err != nil {
 		log.Fatal(err)
 	}
