@@ -13,13 +13,16 @@ import (
 	"github.com/gorilla/mux"
 )
 
+func init() {
+	log.Println("INIT VAR: ", os.Getenv("INIT_VAR"))
+
+	os.Setenv("TEST_MAIN", "TESTING MAIN FROM INIT")
+}
 func main() {
 	execMode := flag.String("exec", "web", "Select mode of execution")
 	flag.Parse()
 
-	os.Setenv("TESTING_VAR", "TESTING VALUE")
-	log.Println(os.Getenv("TESTING_VAR"))
-
+	log.Println("TESTING MAIN FROM MAIN", os.Getenv("TEST_MAIN"))
 	switch *execMode {
 	case "web":
 		WebExecute()
