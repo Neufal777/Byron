@@ -3,6 +3,7 @@ package executions
 import "github.com/Byron/parsecore"
 
 func ManyBooksExecution() {
+
 	categories := []string{
 		"https://manybooks.net/categories/ADV",
 		"https://manybooks.net/categories/AFR",
@@ -67,10 +68,10 @@ func ManyBooksExecution() {
 		"https://manybooks.net/categories/CHI",
 	}
 
-	SingleExecution(categories[2])
+	ManyBooksSingleExecution(categories[2])
 }
 
-func SingleExecution(urlCat string) {
+func ManyBooksSingleExecution(urlCat string) {
 
 	source := parsecore.Source{
 		SourceName:           "ManyBooks",
@@ -89,5 +90,5 @@ func SingleExecution(urlCat string) {
 		Search:               urlCat,
 	}
 
-	source.GetArticles()
+	source.GetArticles(1, 200)
 }

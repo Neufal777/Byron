@@ -3,6 +3,7 @@ package parsecore
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"math/rand"
 	"strings"
 	"time"
@@ -26,6 +27,9 @@ func ProxyScraping(url string) (string, []error) {
 	//request := gorequest.New().Proxy("")
 	_, body, _ := request.Get(url).End()
 
+	if len(body) == 0 {
+		log.Println("No html.. :(")
+	}
 	return body, nil
 }
 

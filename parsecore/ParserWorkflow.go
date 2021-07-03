@@ -16,8 +16,6 @@ import (
 	"github.com/ttacon/chalk"
 )
 
-const PAGE_LIMIT = 2
-
 type Source struct {
 	SourceName           string
 	UrlREGEX             string
@@ -42,11 +40,12 @@ type Source struct {
 	Search               string
 }
 
-func (s *Source) GetArticles() {
+func (s *Source) GetArticles(pageStart int, pageEnd int) {
+
 	r, _ := regexp.Compile(s.UrlREGEX)
 	processed := 0
 
-	for i := 1; i < PAGE_LIMIT; i++ {
+	for i := pageStart; i < pageEnd; i++ {
 
 		fmt.Println(chalk.Green.Color("Downloading " + s.CompletePageUrlStart + strconv.Itoa(i) + s.CompletePageUrlEnd))
 		htmlFormat, errs := ProxyScraping(s.CompletePageUrlStart + strconv.Itoa(i) + s.CompletePageUrlEnd)

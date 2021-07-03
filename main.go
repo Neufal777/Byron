@@ -4,15 +4,13 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"math/big"
 	"net/http"
 	"os"
-	"time"
+	"strconv"
 
 	"github.com/Byron/backend"
 	"github.com/Byron/data"
-	"github.com/Byron/mongodb"
-	"github.com/Byron/parsecore"
+	"github.com/Byron/executions"
 	"github.com/gorilla/mux"
 )
 
@@ -40,40 +38,29 @@ func main() {
 func TestingExecute() {
 
 	//sources.ProxiesCleaner()
-	//parsecore.ProxyScraping("https://libgen.is/search.php?mode=last&view=simple&phrase=0&timefirst=&timelast=&sort=def&sortmode=ASC&page=10")
+	//parsecore.ProxyScraping("https://www.bookrix.com/_ebook-h-n-s-mine/")
 	//executions.ManyBooksExecution()
 	//RegexNoResults()
-	start := time.Now()
+	// start := time.Now()
 
-	r := new(big.Int)
-	fmt.Println(r.Binomial(1000, 10))
+	// r := new(big.Int)
+	// fmt.Println(r.Binomial(1000, 10))
 
-	mongodb.SearchArticles("machine")
+	// mongodb.SearchArticles("machine")
 
-	elapsed := time.Since(start)
-	log.Printf("Binomial took %s", elapsed)
+	// elapsed := time.Since(start)
+	// log.Printf("Binomial took %s", elapsed)
+
+	for i := 0; i < 65; i++ {
+		fmt.Println("go BookRixSingleExecution(" + strconv.Itoa(i*150) + ", " + strconv.Itoa((i*150)+150) + ")")
+	}
 
 }
 func ParseExecute() {
 
-	z := parsecore.Source{
-		SourceName:           "BookRix",
-		UrlREGEX:             "<big class=.item-title.><a class=.word-break. href=.([^\"']*)",
-		IdREGEX:              "",
-		DownloadUrlREGEX:     "data-download=.([^\"']*)",
-		DownloadUrlComplete:  "https://www.bookrix.com",
-		TitleREGEX:           "<h2 class=.break-word.>([^<]*)",
-		AuthorREGEX:          "<a rel=.author. href=[^>]*>([^<]*)",
-		CompletePageUrlStart: "https://www.bookrix.com/books;page:",
-		CompletePageUrlEnd:   ".html",
-		IncompleteArticleUrl: "https://www.bookrix.com",
-		AllUrls:              nil,
-		Search:               "BookRixAllPart2",
-	}
-
-	z.GetArticles()
-
+	executions.BookRixExecution()
 }
+
 func WebExecute() {
 
 	r := mux.NewRouter()
