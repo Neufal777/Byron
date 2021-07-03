@@ -5,11 +5,16 @@
       <link rel=stylesheet href=/web/assets/css/main.css>
       <link rel=icon href=web/assets/img/favicon.ico>
       <title>Byron [Beta] - {{ .Search}}</title>
+      <script>
+         function showDiv(){
+            alert("ESPERAAAD!")
+         }
+      </script>
    </head>
    <body>
       <div class=TopSearchBar>
          <form action=/search>
-            <input type=text placeholder="search book by title, isbn or author.." name=search autocomplete=off spellcheck=false minlength=3 required>
+            <input type=text placeholder="search book by title, isbn or author.." name=search autocomplete=off spellcheck=false minlength=3 required onsubmit="showDiv(); return false;">
          </form>
       </div>
       <div class=limiter>

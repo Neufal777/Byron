@@ -3,7 +3,9 @@ package mongodb
 import (
 	"fmt"
 	"log"
+	"math/big"
 	"strings"
+	"time"
 
 	"github.com/Byron/core"
 	"github.com/Byron/utils"
@@ -87,6 +89,10 @@ func SearchArticles(search string) []core.Article {
 	/*
 		Get all possible matches and store them :)
 	*/
+	start := time.Now()
+
+	r := new(big.Int)
+	fmt.Println(r.Binomial(1000, 10))
 
 	var AllArticles []core.Article
 
@@ -101,12 +107,18 @@ func SearchArticles(search string) []core.Article {
 	cleanedCollection := ArticleDelDuplicates(AllArticles)
 
 	log.Println("Total found:", len(cleanedCollection))
+
+	elapsed := time.Since(start)
+	log.Printf("Binomial took %s", elapsed)
+
 	return cleanedCollection
 }
 
 func ArticleDelDuplicates(allArticles []core.Article) []core.Article {
 
 	var all []core.Article
+	dups := 0
+
 	arti := make(map[string]core.Article)
 
 	for _, articles := range allArticles {
@@ -114,6 +126,8 @@ func ArticleDelDuplicates(allArticles []core.Article) []core.Article {
 
 		if !ok {
 			arti[articles.Url] = articles
+		} else {
+			dups++
 		}
 	}
 
@@ -122,6 +136,7 @@ func ArticleDelDuplicates(allArticles []core.Article) []core.Article {
 	}
 
 	log.Println("Final result", len(all))
+	log.Println("Duplicates:", dups)
 	return all
 }
 
