@@ -1,26 +1,23 @@
 package sources
 
-import "github.com/Byron/parsecore"
+import (
+	"github.com/Byron/parsecore"
+)
 
 func AllSourcesScrapingInformation() {
 
 	_ = parsecore.Source{
 		SourceName:           "OpenLibra",
 		UrlREGEX:             "<div class=.image-cover.> <a title=.[^<]*href=.([^\"']*)",
-		IdREGEX:              "",
 		DownloadUrlREGEX:     "<a class=.command-button btn btn-ol-twitter. href=.([^\"']*)",
 		TitleREGEX:           "<h1 itemprop=.name. class[^>]*>([^<]*)",
-		IsbnREGEX:            "",
 		YearREGEX:            "<td itemprop=.copyrightYear.>([^<]*)",
 		PublisherREGEX:       "<td itemprop=.publisher[^<]*<span itemprop=.name.>([^<]*)",
 		AuthorREGEX:          "<span itemprop=.author.>([^<]*)",
-		ExtensionREGEX:       "",
 		PageREGEX:            "<td itemprop=.numberOfPages.>([^<]*)",
 		LanguageREGEX:        "<td>Idioma:</td><td>([^<]*)",
 		SizeREGEX:            "<td>Tama.o:</td><td>([^<]*)",
-		TimeREGEX:            "",
 		CompletePageUrlStart: "https://openlibra.com/es/collection/pag/",
-		IncompleteArticleUrl: "",
 		AllUrls:              nil,
 		Search:               "OpenLibraGeneral",
 	}
@@ -49,18 +46,10 @@ func AllSourcesScrapingInformation() {
 	_ = parsecore.Source{
 		SourceName:           "BookRix",
 		UrlREGEX:             "<big class=.item-title.><a class=.word-break. href=.([^\"']*)",
-		IdREGEX:              "",
 		DownloadUrlREGEX:     "data-download=.([^\"']*)",
 		DownloadUrlComplete:  "https://www.bookrix.com/",
 		TitleREGEX:           "<h2 class=.break-word.>([^<]*)",
-		IsbnREGEX:            "",
-		YearREGEX:            "",
-		PublisherREGEX:       "",
 		AuthorREGEX:          "<a rel=.author. href=[^>]*>([^<]*)",
-		ExtensionREGEX:       "",
-		PageREGEX:            "",
-		LanguageREGEX:        "",
-		SizeREGEX:            "",
 		TimeREGEX:            "Publication Date:.([^<]*)",
 		CompletePageUrlStart: "https://www.bookrix.com/books;page:",
 		CompletePageUrlEnd:   ".html",
@@ -81,8 +70,19 @@ func AllSourcesScrapingInformation() {
 		PageREGEX:            "<div class=.field field--name-field-pages field--type-integer field--label-hidden field--item.>([^<]*)",
 		LanguageREGEX:        "language: .([^\"']*)",
 		CompletePageUrlStart: "?language=All&sort_by=field_downloads&page=",
-		CompletePageUrlEnd:   "",
 		AllUrls:              nil,
 		Search:               "urlCat",
 	}
+
+	_ = parsecore.Source{
+		SourceName:           "Freeditorial",
+		UrlREGEX:             "class=.book__title.><a href=.([^\"']*)",
+		IncompleteArticleUrl: "https://freeditorial.com/",
+		TitleREGEX:           "<h1 class=.expandbook__title.>([^<]*)",
+		AuthorREGEX:          "<h2 class=.expandbook__author.>[^>]*>([^<]*)",
+		CompletePageUrlStart: "https://freeditorial.com/es/books/search?page=",
+		AllUrls:              nil,
+		Search:               "freeditorial:start:end:",
+	}
+
 }

@@ -55,7 +55,7 @@ func main() {
 }
 
 func ProxyTesting() {
-	parsecore.ProxyScraping("https://freeditorial.com/en/books/search?page=34")
+	parsecore.ProxyScraping("https://es.wikipedia.org/wiki/Los_%C3%81ngeles")
 }
 func TestingExecute() {
 	mongodb.SearchArticles("Strong")

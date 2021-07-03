@@ -91,6 +91,10 @@ func (art *Article) FormatNewArticle() *Article {
 		art.DownloadUrl = art.Url
 	}
 
+	if art.SourceName == ""{
+		art.SourceName = "Libgen"
+	}
+	
 	return art
 }
 

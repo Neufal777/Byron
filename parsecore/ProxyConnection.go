@@ -21,10 +21,10 @@ func ProxyScraping(url string) (string, []error) {
 
 	fmt.Println("Using:", proxies[randomElement])
 
-	//proxyInfo := strings.Split(proxies[randomElement], ":")
+	proxyInfo := strings.Split(proxies[randomElement], ":")
 
-	//request := gorequest.New().Proxy("http://" + proxyInfo[0] + ":" + proxyInfo[1])
-	request := gorequest.New().Proxy("")
+	request := gorequest.New().Proxy("http://" + proxyInfo[0] + ":" + proxyInfo[1])
+	//request := gorequest.New().Proxy("")
 	_, body, _ := request.Get(url).End()
 
 	if len(body) == 0 {
