@@ -2,11 +2,9 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
-	"strconv"
 
 	"github.com/Byron/backend"
 	"github.com/Byron/data"
@@ -61,17 +59,21 @@ func ProxyTesting() {
 func TestingExecute() {
 	//mongodb.GETARTICLESTESTINGMONGO("Strong")
 
-	for i := 0; i < 15; i++ {
-		fmt.Println("go OpenlibraSingleExecution(" + strconv.Itoa(i*20) + ", " + strconv.Itoa((i*20)+20) + ")")
-	}
+	// for i := 0; i < 200; i++ {
+	// 	fmt.Println("go LibrospdfgratismundoExecution(" + strconv.Itoa(i*5) + ", " + strconv.Itoa((i*5)+5) + ")")
+	// }
+
+	executions.ArchiveOrgExecution()
 
 }
 
 func ParseExecute() {
-	go executions.LibGenExecution()
+	// go executions.LibGenExecution()
 	go executions.BookRixExecution()
 	go executions.FreeditorialExecution()
 	go executions.ManyBooksExecution()
+	go executions.LibrospdfgratismundoExecution()
+	//go executions.ArchiveOrgExecution()
 	executions.OpenlibraExecution()
 }
 

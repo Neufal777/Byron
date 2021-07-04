@@ -128,8 +128,7 @@ func ManyBooksExecution() {
 	go ManyBooksSingleExecution(categories[57])
 	go ManyBooksSingleExecution(categories[58])
 	go ManyBooksSingleExecution(categories[59])
-	go ManyBooksSingleExecution(categories[60])
-	ManyBooksSingleExecution(categories[61])
+	ManyBooksSingleExecution(categories[60])
 }
 
 func ManyBooksSingleExecution(urlCat string) {

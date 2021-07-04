@@ -53,7 +53,11 @@ func (art *Article) FormatNewArticle() *Article {
 	art.Title = strings.ReplaceAll(art.Title, ";", "; ")
 	art.Title = strings.ReplaceAll(art.Title, ":", ": ")
 	art.Title = strings.ReplaceAll(art.Title, "&nbsp;", " ")
+	art.Title = strings.ReplaceAll(art.Title, "&#8211;", "-")
 	art.Title = strings.ReplaceAll(art.Title, "  ", " ")
+
+	art.Language = strings.TrimSpace(art.Language)
+	art.Extension = strings.TrimSpace(art.Extension)
 
 	if strings.Contains(art.Author, ";") {
 		Author := strings.Split(art.Author, ";")
@@ -91,8 +95,8 @@ func (art *Article) FormatNewArticle() *Article {
 		art.DownloadUrl = art.Url
 	}
 
-	if art.SourceName == "" {
-		art.SourceName = "Libgen"
+	if art.Id == "" {
+		art.Id = art.UniqueID
 	}
 
 	return art

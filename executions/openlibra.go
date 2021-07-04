@@ -14,8 +14,7 @@ func OpenlibraExecution() {
 	go OpenlibraSingleExecution(80, 100)
 	go OpenlibraSingleExecution(100, 120)
 	go OpenlibraSingleExecution(120, 140)
-	go OpenlibraSingleExecution(140, 160)
-	OpenlibraSingleExecution(160, 180)
+	OpenlibraSingleExecution(140, 180)
 
 }
 

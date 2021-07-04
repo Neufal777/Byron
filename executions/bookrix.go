@@ -89,7 +89,7 @@ func BookRixSingleExecution(start int, end int) {
 		CompletePageUrlEnd:   ".html",
 		IncompleteArticleUrl: "https://www.bookrix.com",
 		AllUrls:              nil,
-		Search:               "start:" + strconv.Itoa(start) + "end:" + strconv.Itoa(end),
+		Search:               "BookRix:start:" + strconv.Itoa(start) + "end:" + strconv.Itoa(end),
 	}
 
 	source.GetArticles(start, end)
