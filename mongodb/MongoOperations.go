@@ -224,3 +224,92 @@ func GetArticlesRegex(search string) []core.Article {
 	fmt.Println(chalk.Green.Color("Articles found by :" + strconv.Itoa(len(AllArticles))))
 	return AllArticles
 }
+
+// func GETARTICLESTESTINGMONGO(search string) []core.Article {
+// 	client, ctx, err := ConnectMongoDB()
+
+// 	var (
+// 		byronDatabase           = client.Database(os.Getenv("MONGO_DATABASE"))
+// 		byronArticlesCollection = byronDatabase.Collection(os.Getenv("MONGO_COLLECTION"))
+// 		AllArticles             []core.Article
+// 	)
+
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+
+// 	queries := []bson.M{
+// 		{"Title": bson.M{"$regex": primitive.Regex{Pattern: search, Options: "is"}}},
+// 		{"Isbn": bson.M{"$regex": primitive.Regex{Pattern: search, Options: "is"}}},
+// 		{"Author": bson.M{"$regex": primitive.Regex{Pattern: search, Options: "is"}}},
+// 	}
+
+// 		var articlesRetrieved []bson.M
+
+// 		filterCursor, err := byronArticlesCollection.Find(ctx, query)
+
+// 		if err != nil {
+// 			log.Panic(err)
+// 		}
+
+// 		if err = filterCursor.All(ctx, &articlesRetrieved); err != nil {
+// 			log.Fatal(err)
+// 		}
+
+// 		for i := 0; i < len(articlesRetrieved); i++ {
+
+// 			formatedIsbn := utils.AnyTypeToString(articlesRetrieved[i]["Isbn"])
+// 			formatedIsbn = strings.TrimSpace(formatedIsbn)
+// 			formatedIsbn = strings.ReplaceAll(formatedIsbn, "-", "")
+
+// 			if strings.Contains(formatedIsbn, ";") {
+// 				allIsbns := strings.Split(formatedIsbn, ";")
+// 				formatedIsbn = allIsbns[0]
+// 			}
+
+// 			if strings.Contains(formatedIsbn, ",") {
+// 				allIsbns := strings.Split(formatedIsbn, ",")
+// 				formatedIsbn = allIsbns[0]
+// 			}
+
+// 			/*
+// 				Format and insert only ammount and type of size
+// 			*/
+
+// 			var formattedAmmount string
+// 			var formattedUnit string
+
+// 			size := utils.AnyTypeToString(articlesRetrieved[i]["Size"])
+
+// 			if strings.Contains(size, " ") {
+// 				memory := strings.Split(size, " ")
+// 				formattedAmmount = memory[0]
+// 				formattedUnit = memory[1]
+// 			}
+
+// 			AllArticles = append(AllArticles, core.Article{
+// 				UniqueID:    utils.AnyTypeToString(articlesRetrieved[i]["UniqueID"]),
+// 				SourceName:  utils.AnyTypeToString(articlesRetrieved[i]["SourceName"]),
+// 				Url:         utils.AnyTypeToString(articlesRetrieved[i]["Url"]),
+// 				DownloadUrl: utils.AnyTypeToString(articlesRetrieved[i]["DownloadUrl"]),
+// 				Title:       utils.AnyTypeToString(articlesRetrieved[i]["Title"]),
+// 				Search:      utils.AnyTypeToString(articlesRetrieved[i]["Search"]),
+// 				Isbn:        formatedIsbn,
+// 				Year:        utils.AnyTypeToString(articlesRetrieved[i]["Year"]),
+// 				Publisher:   utils.AnyTypeToString(articlesRetrieved[i]["Publisher"]),
+// 				Author:      strings.TrimSpace(utils.AnyTypeToString(articlesRetrieved[i]["Author"])),
+// 				Extension:   utils.AnyTypeToString(articlesRetrieved[i]["Extension"]),
+// 				Page:        utils.AnyTypeToString(articlesRetrieved[i]["Page"]),
+// 				Language:    utils.AnyTypeToString(articlesRetrieved[i]["Language"]),
+// 				Size:        utils.AnyTypeToString(articlesRetrieved[i]["Size"]),
+// 				FileSize: core.Size{
+// 					Ammount: formattedAmmount,
+// 					Size:    formattedUnit,
+// 				},
+// 				Time: utils.AnyTypeToString(articlesRetrieved[i]["Time"]),
+// 			})
+// 		}
+
+// 	fmt.Println(chalk.Green.Color("Articles found by :" + strconv.Itoa(len(AllArticles))))
+// 	return AllArticles
+// }

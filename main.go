@@ -2,14 +2,15 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/Byron/backend"
 	"github.com/Byron/data"
 	"github.com/Byron/executions"
-	"github.com/Byron/mongodb"
 	"github.com/Byron/parsecore"
 	"github.com/gorilla/mux"
 	"github.com/ttacon/chalk"
@@ -58,11 +59,20 @@ func ProxyTesting() {
 	parsecore.ProxyScraping("https://es.wikipedia.org/wiki/Los_%C3%81ngeles")
 }
 func TestingExecute() {
-	mongodb.SearchArticles("Strong")
+	//mongodb.GETARTICLESTESTINGMONGO("Strong")
+
+	for i := 0; i < 15; i++ {
+		fmt.Println("go OpenlibraSingleExecution(" + strconv.Itoa(i*20) + ", " + strconv.Itoa((i*20)+20) + ")")
+	}
 
 }
+
 func ParseExecute() {
-	executions.FreeditorialExecution()
+	go executions.LibGenExecution()
+	go executions.BookRixExecution()
+	go executions.FreeditorialExecution()
+	go executions.ManyBooksExecution()
+	executions.OpenlibraExecution()
 }
 
 func WebExecute() {
