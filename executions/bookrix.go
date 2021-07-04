@@ -7,7 +7,6 @@ import (
 )
 
 func BookRixExecution() {
-
 	go BookRixSingleExecution(0, 150)
 	go BookRixSingleExecution(150, 300)
 	go BookRixSingleExecution(300, 450)

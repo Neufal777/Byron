@@ -254,7 +254,7 @@ func LibGenExecution() {
 func LibGenSingleExecution(start int, end int) {
 
 	source := parsecore.Source{
-		SourceName:           "LIBGEN",
+		SourceName:           "Libgen",
 		UrlREGEX:             "<a href=.book/index.php.md5=([^\"']*)",
 		IdREGEX:              "ID:</font></nobr></td><td>([^<]*)",
 		DownloadUrlREGEX:     "align=.center.><a href=.([^\"']*). title=.Gen.lib.rus.ec.",
