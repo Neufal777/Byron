@@ -9,6 +9,7 @@ import (
 	"github.com/Byron/backend"
 	"github.com/Byron/data"
 	"github.com/Byron/executions"
+	"github.com/Byron/mongodb"
 	"github.com/Byron/parsecore"
 	"github.com/gorilla/mux"
 	"github.com/ttacon/chalk"
@@ -50,14 +51,13 @@ func main() {
 		log.Println("Not found:", *execMode)
 		WebExecute()
 	}
-
 }
 
 func ProxyTesting() {
 	parsecore.ProxyScraping("https://es.wikipedia.org/wiki/Los_%C3%81ngeles")
 }
 func TestingExecute() {
-	//mongodb.GETARTICLESTESTINGMONGO("Strong")
+	mongodb.GETARTICLESTESTINGMONGO("stephen hawking")
 
 	// for i := 0; i < 200; i++ {
 	// 	fmt.Println("go LibrospdfgratismundoExecution(" + strconv.Itoa(i*5) + ", " + strconv.Itoa((i*5)+5) + ")")
@@ -65,7 +65,7 @@ func TestingExecute() {
 
 	//executions.ArchiveOrgExecution()
 
-	data.RecoverLibgen("Inventory/")
+	//data.RecoverSource("Inventory/", "libgen.is")
 
 }
 

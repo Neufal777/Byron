@@ -68,8 +68,8 @@ func RecoverSource(folder string, urlContains string) {
 	*/
 
 	var (
-		FreshArticlesReady    []core.Article
-		duplicates, processed int
+		FreshArticlesReady []core.Article
+		processed          int
 	)
 
 	files, _ := ioutil.ReadDir(folder)
@@ -89,8 +89,6 @@ func RecoverSource(folder string, urlContains string) {
 						FreshArticles[a.Url] = *formatted
 						processed++
 					}
-				} else {
-					duplicates++
 				}
 			}
 		}
@@ -103,6 +101,5 @@ func RecoverSource(folder string, urlContains string) {
 	}
 
 	core.WriteInFile("UltimateInventory/"+urlContains+"Documents.json", FreshArticlesReady)
-	log.Println("Duplicates:", duplicates)
 	log.Println("Processed:", processed)
 }
