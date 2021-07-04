@@ -60,3 +60,49 @@ func DeleteDuplicates(folder string) {
 	log.Println("Duplicates:", duplicates)
 	log.Println("Processed:", processed)
 }
+
+func RecoverSource(folder string, urlContains string) {
+	FreshArticles := map[string]core.Article{}
+	/*
+	   Recover libgen articles
+	*/
+
+	var (
+		FreshArticlesReady    []core.Article
+		duplicates, processed int
+	)
+
+	files, _ := ioutil.ReadDir(folder)
+	left := len(files)
+
+	for _, f := range files {
+		fmt.Println(chalk.Green.Color("Processing: " + f.Name()))
+
+		if strings.Contains(f.Name(), ".json") {
+			articles := parsecore.ReadArticles(folder + f.Name())
+
+			for _, a := range articles {
+				_, ok := FreshArticles[a.Url]
+				if !ok {
+					if strings.Contains(a.Url, urlContains) {
+						formatted := a.FormatNewArticle()
+						FreshArticles[a.Url] = *formatted
+						processed++
+					}
+				} else {
+					duplicates++
+				}
+			}
+		}
+		left--
+		log.Println("Files Left:", left)
+	}
+
+	for _, v := range FreshArticles {
+		FreshArticlesReady = append(FreshArticlesReady, v)
+	}
+
+	core.WriteInFile("UltimateInventory/"+urlContains+"Documents.json", FreshArticlesReady)
+	log.Println("Duplicates:", duplicates)
+	log.Println("Processed:", processed)
+}

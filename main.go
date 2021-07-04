@@ -63,7 +63,9 @@ func TestingExecute() {
 	// 	fmt.Println("go LibrospdfgratismundoExecution(" + strconv.Itoa(i*5) + ", " + strconv.Itoa((i*5)+5) + ")")
 	// }
 
-	executions.ArchiveOrgExecution()
+	//executions.ArchiveOrgExecution()
+
+	data.RecoverLibgen("Inventory/")
 
 }
 
