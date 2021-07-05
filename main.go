@@ -52,7 +52,6 @@ func main() {
 		log.Println("Not found:", *execMode)
 		WebExecute()
 	}
-
 }
 
 func ProxyTesting() {
@@ -63,7 +62,8 @@ func TestingExecute() {
 	// 	fmt.Println("go LibrospdfgratismundoExecution(" + strconv.Itoa(i*5) + ", " + strconv.Itoa((i*5)+5) + ")")
 	// }
 
-	executions.ArchiveOrgExecution()
+	//executions.ArchiveOrgExecution()
+	//data.RecoverSource("Inventory/", "libgen.is")
 
 }
 func ParseExecuteLibgen() {
