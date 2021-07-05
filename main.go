@@ -38,6 +38,8 @@ func main() {
 		WebExecute()
 	case "parse":
 		ParseExecute()
+	case "parseLibgen":
+		ParseExecuteLibgen()
 	case "insert":
 		data.InsertArticles()
 	case "delete":
@@ -57,8 +59,6 @@ func ProxyTesting() {
 	parsecore.ProxyScraping("https://es.wikipedia.org/wiki/Los_%C3%81ngeles")
 }
 func TestingExecute() {
-	//mongodb.GETARTICLESTESTINGMONGO("Strong")
-
 	// for i := 0; i < 200; i++ {
 	// 	fmt.Println("go LibrospdfgratismundoExecution(" + strconv.Itoa(i*5) + ", " + strconv.Itoa((i*5)+5) + ")")
 	// }
@@ -66,15 +66,27 @@ func TestingExecute() {
 	executions.ArchiveOrgExecution()
 
 }
+func ParseExecuteLibgen() {
+	go executions.LibGenExecution()
+	go executions.LibGenExecution01()
+	go executions.LibGenExecution02()
+	go executions.LibGenExecution03()
+	go executions.LibGenExecution04()
+	go executions.LibGenExecution05()
+	go executions.LibGenExecution06()
+	go executions.LibGenExecution07()
+	executions.LibGenExecution08()
+}
 
 func ParseExecute() {
-	// go executions.LibGenExecution()
 	go executions.BookRixExecution()
 	go executions.FreeditorialExecution()
 	go executions.ManyBooksExecution()
 	go executions.LibrospdfgratismundoExecution()
-	//go executions.ArchiveOrgExecution()
 	executions.OpenlibraExecution()
+
+	//go executions.ArchiveOrgExecution()
+
 }
 
 func WebExecute() {

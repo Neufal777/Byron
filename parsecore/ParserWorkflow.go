@@ -52,8 +52,8 @@ func (s *Source) GetArticles(pageStart int, pageEnd int) {
 
 		if errs != nil {
 			log.Println("Ups, we have some errors")
-
 		}
+
 		if !core.ErrorsHandling(htmlFormat) {
 			matches := r.FindAllStringSubmatch(htmlFormat, -1)
 			fmt.Println(chalk.Green.Color("Processing page " + strconv.Itoa(i)))
@@ -183,24 +183,18 @@ func CheckRegex(s *Source, newArticle core.Article, articleHtmlFormat string) co
 		ArticleTitle, _ := regexp.Compile(s.TitleREGEX)
 		if len(ArticleTitle.FindStringSubmatch(articleHtmlFormat)) != 0 {
 			newArticle.Title = ArticleTitle.FindStringSubmatch(articleHtmlFormat)[1]
-		} else {
-			newArticle.Title = ""
 		}
 	}
 	if regexSet(s.AuthorREGEX) {
 		ArticleAuthors, _ := regexp.Compile(s.AuthorREGEX)
 		if len(ArticleAuthors.FindStringSubmatch(articleHtmlFormat)) != 0 {
 			newArticle.Author = ArticleAuthors.FindStringSubmatch(articleHtmlFormat)[1]
-		} else {
-			newArticle.Author = ""
 		}
 	}
 	if regexSet(s.PublisherREGEX) {
 		ArticlePublisher, _ := regexp.Compile(s.PublisherREGEX)
 		if len(ArticlePublisher.FindStringSubmatch(articleHtmlFormat)) != 0 {
 			newArticle.Publisher = ArticlePublisher.FindStringSubmatch(articleHtmlFormat)[1]
-		} else {
-			newArticle.Publisher = ""
 		}
 
 	}
@@ -208,8 +202,6 @@ func CheckRegex(s *Source, newArticle core.Article, articleHtmlFormat string) co
 		ArticleYear, _ := regexp.Compile(s.YearREGEX)
 		if len(ArticleYear.FindStringSubmatch(articleHtmlFormat)) != 0 {
 			newArticle.Year = ArticleYear.FindStringSubmatch(articleHtmlFormat)[1]
-		} else {
-			newArticle.Year = ""
 		}
 
 	}
@@ -217,16 +209,12 @@ func CheckRegex(s *Source, newArticle core.Article, articleHtmlFormat string) co
 		ArticleLang, _ := regexp.Compile(s.LanguageREGEX)
 		if len(ArticleLang.FindStringSubmatch(articleHtmlFormat)) != 0 {
 			newArticle.Language = ArticleLang.FindStringSubmatch(articleHtmlFormat)[1]
-		} else {
-			newArticle.Language = ""
 		}
 	}
 	if regexSet(s.IsbnREGEX) {
 		ArticleIsbn, _ := regexp.Compile(s.IsbnREGEX)
 		if len(ArticleIsbn.FindStringSubmatch(articleHtmlFormat)) != 0 {
 			newArticle.Isbn = ArticleIsbn.FindStringSubmatch(articleHtmlFormat)[1]
-		} else {
-			newArticle.Isbn = ""
 		}
 
 	}
@@ -234,16 +222,12 @@ func CheckRegex(s *Source, newArticle core.Article, articleHtmlFormat string) co
 		ArticleTime, _ := regexp.Compile(s.TimeREGEX)
 		if len(ArticleTime.FindStringSubmatch(articleHtmlFormat)) != 0 {
 			newArticle.Time = ArticleTime.FindStringSubmatch(articleHtmlFormat)[1]
-		} else {
-			newArticle.Time = ""
 		}
 	}
 	if regexSet(s.IdREGEX) {
 		ArticleId, _ := regexp.Compile(s.IdREGEX)
 		if len(ArticleId.FindStringSubmatch(articleHtmlFormat)) != 0 {
 			newArticle.Id = ArticleId.FindStringSubmatch(articleHtmlFormat)[1]
-		} else {
-			newArticle.Id = ""
 		}
 
 	}
@@ -251,16 +235,12 @@ func CheckRegex(s *Source, newArticle core.Article, articleHtmlFormat string) co
 		ArticleSize, _ := regexp.Compile(s.SizeREGEX)
 		if len(ArticleSize.FindStringSubmatch(articleHtmlFormat)) != 0 {
 			newArticle.Size = ArticleSize.FindStringSubmatch(articleHtmlFormat)[1]
-		} else {
-			newArticle.Size = ""
 		}
 	}
 	if regexSet(s.PageREGEX) {
 		ArticlePages, _ := regexp.Compile(s.PageREGEX)
 		if len(ArticlePages.FindStringSubmatch(articleHtmlFormat)) != 0 {
 			newArticle.Page = ArticlePages.FindStringSubmatch(articleHtmlFormat)[1]
-		} else {
-			newArticle.Page = ""
 		}
 
 	}
@@ -268,16 +248,12 @@ func CheckRegex(s *Source, newArticle core.Article, articleHtmlFormat string) co
 		ArticleExtension, _ := regexp.Compile(s.ExtensionREGEX)
 		if len(ArticleExtension.FindStringSubmatch(articleHtmlFormat)) != 0 {
 			newArticle.Extension = ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1]
-		} else {
-			newArticle.Extension = ""
 		}
 	}
 	if regexSet(s.DownloadUrlREGEX) {
 		ArticleDownload, _ := regexp.Compile(s.DownloadUrlREGEX)
 		if len(ArticleDownload.FindStringSubmatch(articleHtmlFormat)) != 0 {
 			newArticle.DownloadUrl = s.DownloadUrlComplete + ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1]
-		} else {
-			newArticle.DownloadUrl = ""
 		}
 	}
 
