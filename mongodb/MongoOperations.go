@@ -146,13 +146,12 @@ func GetArticlesRegex(search string) []core.Article {
 	}
 
 	query := bson.D{
-		{"$or", bson.A{
-			bson.D{{"Title", primitive.Regex{Pattern: search, Options: "is"}}},
-			bson.D{{"Isbn", primitive.Regex{Pattern: search, Options: "is"}}},
-			bson.D{{"Author", primitive.Regex{Pattern: search, Options: "is"}}},
+		primitive.E{Key: "$or", Value: bson.A{
+			bson.D{primitive.E{Key: "Title", Value: primitive.Regex{Pattern: search, Options: "is"}}},
+			bson.D{primitive.E{Key: "Isbn", Value: primitive.Regex{Pattern: search, Options: "is"}}},
+			bson.D{primitive.E{Key: "Author", Value: primitive.Regex{Pattern: search, Options: "is"}}},
 		}},
 	}
-
 	var articlesRetrieved []bson.M
 
 	filterCursor, err := byronArticlesCollection.Find(ctx, query)
@@ -243,10 +242,10 @@ func GETARTICLESTESTINGMONGO(search string) {
 
 	//query := bson.M{"Title": bson.M{"$regex": primitive.Regex{Pattern: search, Options: "is"}}}
 	query := bson.D{
-		{"$or", bson.A{
-			bson.D{{"Title", primitive.Regex{Pattern: search, Options: "is"}}},
-			bson.D{{"Isbn", primitive.Regex{Pattern: search, Options: "is"}}},
-			bson.D{{"Author", primitive.Regex{Pattern: search, Options: "is"}}},
+		primitive.E{Key: "$or", Value: bson.A{
+			bson.D{primitive.E{Key: "Title", Value: primitive.Regex{Pattern: search, Options: "is"}}},
+			bson.D{primitive.E{Key: "Isbn", Value: primitive.Regex{Pattern: search, Options: "is"}}},
+			bson.D{primitive.E{Key: "Author", Value: primitive.Regex{Pattern: search, Options: "is"}}},
 		}},
 	}
 
