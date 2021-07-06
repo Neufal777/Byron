@@ -37,19 +37,24 @@ func (art *Article) FormatNewArticle() *Article {
 		Format the article
 		1 - multiple: authors ISBN & LANGUAGE
 	*/
-	art.Authors = strings.TrimSpace(art.Author)
-	// art.Authors = utils.FixUnitedNames(art.Authors)
 
-	// art.Author = utils.FixUnitedNames(art.Author)
+	//Authors
+	art.Authors = strings.TrimSpace(art.Author)
+	art.Authors = utils.FixUnitedNames(art.Authors)
+
+	//Author
+	art.Author = utils.FixUnitedNames(art.Author)
 	art.Author = strings.ReplaceAll(art.Author, ",", ", ")
 	art.Author = strings.ReplaceAll(art.Author, ";", ", ")
 	art.Author = strings.ReplaceAll(art.Author, ".", ". ")
 	art.Author = strings.ReplaceAll(art.Author, "  ", " ")
 
+	//Isbn
 	art.Isbn = strings.ReplaceAll(art.Isbn, ",", ", ")
 	art.Isbn = strings.ReplaceAll(art.Isbn, ";", ", ")
 	art.Isbn = strings.ReplaceAll(art.Isbn, "  ", " ")
 
+	//Title
 	art.Title = strings.ReplaceAll(art.Title, ";", "; ")
 	art.Title = strings.ReplaceAll(art.Title, ":", ": ")
 	art.Title = strings.ReplaceAll(art.Title, "&nbsp;", " ")
@@ -104,7 +109,6 @@ func (art *Article) FormatNewArticle() *Article {
 
 func TitleFormat(title string, authors string) string {
 	authors = strings.TrimSpace(authors)
-
 	authors = strings.ReplaceAll(authors, ",", " ")
 	authors = strings.ReplaceAll(authors, ";", " ")
 

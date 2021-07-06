@@ -33,3 +33,4 @@ ExportedFeeds/
 *.env
 
 vendor/
+testings/

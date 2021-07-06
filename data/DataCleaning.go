@@ -14,14 +14,11 @@ import (
 /*
 	1- Process all the separated files
 	2- build only 1 file
-	3- delete duplicates
+	3- delete ALL duplicates
 */
 
 func DeleteDuplicates(folder string) {
 	FreshArticles := map[string]core.Article{}
-
-	//var FreshArticlesReady []core.Article
-	// var duplicates, processed int
 
 	var (
 		FreshArticlesReady    []core.Article
@@ -61,10 +58,10 @@ func DeleteDuplicates(folder string) {
 	log.Println("Processed:", processed)
 }
 
-func RecoverSource(folder string, urlContains string) {
+func RecoverSource(folder, source string) {
 	FreshArticles := map[string]core.Article{}
 	/*
-	   Recover libgen articles
+		Seperate FILES & ARTICLES by sourcename
 	*/
 
 	var (
@@ -84,7 +81,7 @@ func RecoverSource(folder string, urlContains string) {
 			for _, a := range articles {
 				_, ok := FreshArticles[a.Url]
 				if !ok {
-					if strings.Contains(a.Url, urlContains) {
+					if strings.Contains(a.Url, source) {
 						formatted := a.FormatNewArticle()
 						FreshArticles[a.Url] = *formatted
 						processed++
@@ -100,6 +97,6 @@ func RecoverSource(folder string, urlContains string) {
 		FreshArticlesReady = append(FreshArticlesReady, v)
 	}
 
-	core.WriteInFile("UltimateInventory/"+urlContains+"Documents.json", FreshArticlesReady)
+	core.WriteInFile("UltimateInventory/"+source+"Documents.json", FreshArticlesReady)
 	log.Println("Processed:", processed)
 }

@@ -41,7 +41,7 @@ func main() {
 	case "parseLibgen":
 		ParseExecuteLibgen()
 	case "insert":
-		data.InsertArticles()
+		data.InsertArticlesDatabase()
 	case "delete":
 		data.DeleteDuplicates("Inventory/")
 	case "test":
