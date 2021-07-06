@@ -19,6 +19,7 @@ import (
 type Source struct {
 	SourceName           string
 	UrlREGEX             string
+	IncompleteArticleUrl string
 	IdREGEX              string
 	SearchREGEX          string
 	DownloadUrlREGEX     string
@@ -35,7 +36,6 @@ type Source struct {
 	TimeREGEX            string
 	CompletePageUrlStart string
 	CompletePageUrlEnd   string
-	IncompleteArticleUrl string
 	AllUrls              []string
 	Search               string
 }

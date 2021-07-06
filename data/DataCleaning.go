@@ -36,7 +36,7 @@ func DeleteDuplicates(folder string) {
 
 			for _, a := range articles {
 				_, ok := FreshArticles[a.Url]
-				if !ok {
+				if !ok && a.Title != "" {
 					formatted := a.FormatNewArticle()
 					FreshArticles[a.Url] = *formatted
 					processed++
