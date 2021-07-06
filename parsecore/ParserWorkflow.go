@@ -47,7 +47,7 @@ func (s *Source) GetArticles(pageStart int, pageEnd int) {
 
 	for i := pageStart; i < pageEnd; i++ {
 
-		// fmt.Println(chalk.Green.Color("Downloading " + s.CompletePageUrlStart + strconv.Itoa(i) + s.CompletePageUrlEnd))
+		fmt.Println(chalk.Green.Color("Downloading " + s.CompletePageUrlStart + strconv.Itoa(i) + s.CompletePageUrlEnd))
 		htmlFormat, errs := ProxyScraping(s.CompletePageUrlStart + strconv.Itoa(i) + s.CompletePageUrlEnd)
 
 		if errs != nil {
@@ -56,14 +56,14 @@ func (s *Source) GetArticles(pageStart int, pageEnd int) {
 
 		if !core.ErrorsHandling(htmlFormat) {
 			matches := r.FindAllStringSubmatch(htmlFormat, -1)
-			// fmt.Println(chalk.Green.Color("Processing page " + strconv.Itoa(i)))
+			fmt.Println(chalk.Green.Color("Processing page " + strconv.Itoa(i)))
 
 			if len(matches) < 1 {
 				break
 			}
 
 			for _, m := range matches {
-				// fmt.Println(chalk.Green.Color("Saving " + m[1]))
+				fmt.Println(chalk.Green.Color("Saving " + m[1]))
 				s.AllUrls = append(s.AllUrls, s.IncompleteArticleUrl+m[1])
 				processed++
 
@@ -79,7 +79,7 @@ func (s *Source) GetArticles(pageStart int, pageEnd int) {
 }
 
 func (s *Source) ProcessArticles() {
-	// fmt.Println(chalk.Green.Color("Start processing Articles.."))
+	fmt.Println(chalk.Green.Color("Start processing Articles.."))
 
 	log.Println("Num of Total Articles:", len(s.AllUrls))
 	processed := 0
@@ -118,7 +118,7 @@ func (s *Source) ProcessArticles() {
 
 			dup := checkDuplicate(AllArticles, newArticleFormatted)
 
-			if dup == 0 {
+			if !dup {
 				AllArticlesUpdated := ReadArticles("Inventory/" + utils.GetMD5Hash(s.Search) + ".json")
 				AllArticlesUpdated = append(AllArticlesUpdated, *newArticleFormatted)
 				core.WriteInFile("Inventory/"+utils.GetMD5Hash(s.Search)+".json", AllArticlesUpdated)
@@ -132,13 +132,8 @@ func (s *Source) ProcessArticles() {
 				fmt.Println(chalk.Magenta.Color("Processed: " + strconv.Itoa(processed)))
 
 				/*
-					After that, download the file and save it
+					After that, download the file and save it [disabled for the moment]
 				*/
-				// core.FileDownload(
-				// 	ArticleDownload.FindStringSubmatch(articleHtmlFormat)[1],  //Download url
-				// 	ArticleId.FindStringSubmatch(articleHtmlFormat)[1],        //ID
-				// 	ArticleExtension.FindStringSubmatch(articleHtmlFormat)[1], //extension ex. .pdf
-				// )
 
 			} else {
 				fmt.Println(chalk.Magenta.Color("This article already exists, nothing to do here"))
@@ -152,15 +147,13 @@ func (s *Source) ProcessArticles() {
 	fmt.Println(chalk.Green.Color("All the documents were Downloaded :) "))
 }
 
-func checkDuplicate(AllArticles []core.Article, newArticleFormatted *core.Article) int {
-	duplicated := 0
+func checkDuplicate(AllArticles []core.Article, newArticleFormatted *core.Article) bool {
 	for i := 0; i < len(AllArticles); i++ {
 		if AllArticles[i].Url == newArticleFormatted.Url {
-			duplicated = 1
-			break
+			return true
 		}
 	}
-	return duplicated
+	return false
 }
 
 func ReadArticles(file string) []core.Article {
@@ -178,7 +171,6 @@ func ReadArticles(file string) []core.Article {
 }
 
 func CheckRegex(s *Source, newArticle core.Article, articleHtmlFormat string) core.Article {
-
 	if regexSet(s.TitleREGEX) {
 		ArticleTitle, _ := regexp.Compile(s.TitleREGEX)
 		if len(ArticleTitle.FindStringSubmatch(articleHtmlFormat)) != 0 {

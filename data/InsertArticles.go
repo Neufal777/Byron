@@ -11,7 +11,7 @@ import (
 	"github.com/ttacon/chalk"
 )
 
-func InsertArticles() {
+func InsertArticlesDatabase() {
 	var count int
 	articles := parsecore.ReadArticles("UltimateInventory/General_Collection.json")
 

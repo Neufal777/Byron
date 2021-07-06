@@ -45,14 +45,12 @@ func FileDownload(URL, ID, format string) {
 		fmt.Println(chalk.Magenta.Color("Given connection error, waiting to reconnect"))
 		time.Sleep(5 * time.Second)
 	}
-
 }
 
 func DownloadPDF(URL, fileName string) error {
 	exists := CheckIfFileExists(fileName)
 
 	if !exists {
-
 		fmt.Println(chalk.Magenta.Color("Downloading File.. "))
 		response, err := http.Get(URL)
 		if err != nil {
