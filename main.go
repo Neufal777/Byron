@@ -75,7 +75,15 @@ func ParseExecuteLibgen() {
 	go executions.LibGenExecution05()
 	go executions.LibGenExecution06()
 	go executions.LibGenExecution07()
-	executions.LibGenExecution08()
+	go executions.LibGenExecution08()
+	go executions.LibGenExecution09()
+	go executions.LibGenExecution10()
+	go executions.LibGenExecution11()
+	go executions.LibGenExecution12()
+	go executions.LibGenExecution13()
+	go executions.LibGenExecution13()
+	go executions.LibGenExecution14()
+	executions.LibGenExecution15()
 }
 
 func ParseExecute() {

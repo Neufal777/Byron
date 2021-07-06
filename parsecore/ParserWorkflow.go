@@ -47,7 +47,7 @@ func (s *Source) GetArticles(pageStart int, pageEnd int) {
 
 	for i := pageStart; i < pageEnd; i++ {
 
-		fmt.Println(chalk.Green.Color("Downloading " + s.CompletePageUrlStart + strconv.Itoa(i) + s.CompletePageUrlEnd))
+		// fmt.Println(chalk.Green.Color("Downloading " + s.CompletePageUrlStart + strconv.Itoa(i) + s.CompletePageUrlEnd))
 		htmlFormat, errs := ProxyScraping(s.CompletePageUrlStart + strconv.Itoa(i) + s.CompletePageUrlEnd)
 
 		if errs != nil {
@@ -56,14 +56,14 @@ func (s *Source) GetArticles(pageStart int, pageEnd int) {
 
 		if !core.ErrorsHandling(htmlFormat) {
 			matches := r.FindAllStringSubmatch(htmlFormat, -1)
-			fmt.Println(chalk.Green.Color("Processing page " + strconv.Itoa(i)))
+			// fmt.Println(chalk.Green.Color("Processing page " + strconv.Itoa(i)))
 
 			if len(matches) < 1 {
 				break
 			}
 
 			for _, m := range matches {
-				fmt.Println(chalk.Green.Color("Saving " + m[1]))
+				// fmt.Println(chalk.Green.Color("Saving " + m[1]))
 				s.AllUrls = append(s.AllUrls, s.IncompleteArticleUrl+m[1])
 				processed++
 
@@ -79,7 +79,7 @@ func (s *Source) GetArticles(pageStart int, pageEnd int) {
 }
 
 func (s *Source) ProcessArticles() {
-	fmt.Println(chalk.Green.Color("Start processing Articles.."))
+	// fmt.Println(chalk.Green.Color("Start processing Articles.."))
 
 	log.Println("Num of Total Articles:", len(s.AllUrls))
 	processed := 0
@@ -106,7 +106,7 @@ func (s *Source) ProcessArticles() {
 				Downloaded: 0,
 			}
 
-			log.Println("Article:", u)
+			// log.Println("Article:", u)
 			newArticle = CheckRegex(s, newArticle, articleHtmlFormat)
 
 			/*
@@ -127,7 +127,7 @@ func (s *Source) ProcessArticles() {
 					Display relevant information about the new Document
 				*/
 				//newArticle.DisplayInformation()
-				fmt.Println(chalk.Green.Color("Added correctly: " + newArticle.Title))
+				fmt.Println(chalk.Green.Color("Added correctly: " + newArticle.UniqueID))
 				processed++
 				fmt.Println(chalk.Magenta.Color("Processed: " + strconv.Itoa(processed)))
 

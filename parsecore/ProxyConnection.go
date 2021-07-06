@@ -1,7 +1,6 @@
 package parsecore
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -19,7 +18,7 @@ func ProxyScraping(url string) (string, []error) {
 
 	randomElement := r1.Intn(len(proxies))
 
-	fmt.Println("Using:", proxies[randomElement])
+	// fmt.Println("Using:", proxies[randomElement])
 
 	proxyInfo := strings.Split(proxies[randomElement], ":")
 
