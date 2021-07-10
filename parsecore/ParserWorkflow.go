@@ -67,7 +67,7 @@ func (s *Source) GetArticles(pageStart int, pageEnd int) {
 				s.AllUrls = append(s.AllUrls, s.IncompleteArticleUrl+m[1])
 				processed++
 
-				//DownloadList(s.IncompleteArticleUrl+m[1], s.Search)
+				//DownloadList(s.IncompleteArticleUrl+m[1], s.Search) //Disabled for storage reasons
 			}
 
 		} else {
