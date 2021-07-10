@@ -91,9 +91,9 @@ func ParseExecute() {
 	go executions.FreeditorialExecution()
 	go executions.ManyBooksExecution()
 	go executions.LibrospdfgratismundoExecution()
-	executions.OpenlibraExecution()
+	go executions.OpenlibraExecution()
 
-	//go executions.ArchiveOrgExecution()
+	executions.ArchiveOrgExecution()
 
 }
 

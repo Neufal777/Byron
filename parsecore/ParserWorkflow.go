@@ -19,6 +19,7 @@ import (
 type Source struct {
 	SourceName           string
 	UrlREGEX             string
+	IncompleteArticleUrl string
 	IdREGEX              string
 	SearchREGEX          string
 	DownloadUrlREGEX     string
@@ -35,7 +36,6 @@ type Source struct {
 	TimeREGEX            string
 	CompletePageUrlStart string
 	CompletePageUrlEnd   string
-	IncompleteArticleUrl string
 	AllUrls              []string
 	Search               string
 }
@@ -67,7 +67,7 @@ func (s *Source) GetArticles(pageStart int, pageEnd int) {
 				s.AllUrls = append(s.AllUrls, s.IncompleteArticleUrl+m[1])
 				processed++
 
-				//DownloadList(s.IncompleteArticleUrl+m[1], s.Search)
+				//DownloadList(s.IncompleteArticleUrl+m[1], s.Search) //Disabled for storage reasons
 			}
 
 		} else {
