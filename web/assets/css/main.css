@@ -300,3 +300,13 @@ a {
 .column9 a:hover {
 	color: #6cae75
 }
+
+.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	text-align: left;
+	padding: 15px;
+	color: grey;
+  }
