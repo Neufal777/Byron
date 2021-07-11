@@ -134,7 +134,8 @@ table thead tr {
 	color: #293655;
 	font-family: Arial, Helvetica, sans-serif;
 	font-style: italic;
-	text-shadow: -1px 0 9px rgba(41, 54, 85, .6)
+	text-shadow: -1px 0 9px rgba(41, 54, 85, .6);
+	letter-spacing: 10px;
 }
 
 table tbody tr {
@@ -185,7 +186,7 @@ tbody tr:hover {
 }
 
 .column3 {
-	width: 80px
+	width: 100px
 }
 
 .column4 {

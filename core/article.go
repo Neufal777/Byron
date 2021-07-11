@@ -100,6 +100,10 @@ func (art *Article) FormatNewArticle() *Article {
 		art.DownloadUrl = art.Url
 	}
 
+	if art.SourceName == "" {
+		art.SourceName = "Libgen"
+	}
+
 	if art.Id == "" {
 		art.Id = art.UniqueID
 	}
