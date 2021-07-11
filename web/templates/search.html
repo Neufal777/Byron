@@ -47,8 +47,8 @@
                            {{else}}
                            <td class=column1>{{.Title}}</td>
                            {{ end }}
-                           {{ $length := len .Author }} {{ if gt $length 25 }}
-                           <td class=column2>{{ slice .Author 0 25 }}...</td>
+                           {{ $length := len .Author }} {{ if gt $length 15 }}
+                           <td class=column2>{{ slice .Author 0 15 }}...</td>
                            {{else}}
                            {{ $length := len .Author }} {{ if gt $length 0 }}
                            <td class=column2>{{.Author}}</td>
