@@ -16,12 +16,11 @@ type Search struct {
 }
 
 func SearchResults(w http.ResponseWriter, r *http.Request) {
-
 	keys := r.URL.Query()
 	search := keys["search"][0]
 
 	search = strings.TrimSpace(search)
-	//art := mysqldb.GetArticlesDB("select * from byronarticles where title LIKE '%" + search + "%' OR isbn LIKE '%" + search + "%'")
+	//art := mysqldb.GetArticlesDB("select * from byronarticles where title LIKE '%" + search + "%' OR isbn LIKE '%" + search + "%'") //Mysql search (disabled, using mongodb)
 	art := mongodb.SearchArticles(search)
 
 	searchResults := Search{

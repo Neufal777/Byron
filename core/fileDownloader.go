@@ -16,7 +16,7 @@ import (
 	"github.com/ttacon/chalk"
 )
 
-func FileDownload(URL, ID, format string) {
+func FileDownload(URL, ID, format, regexFile string) {
 
 	/*
 		Check html, regex the download link and save the file :)
@@ -37,9 +37,8 @@ func FileDownload(URL, ID, format string) {
 
 	log.Println(DownloadHtmlFormat)
 	if !ErrorsHandling(DownloadHtmlFormat) {
-		downloadlinkRegex, _ := regexp.Compile("<h2><a href=.([^\"']*)")
+		downloadlinkRegex, _ := regexp.Compile(regexFile)
 		downloadlink := downloadlinkRegex.FindStringSubmatch(DownloadHtmlFormat)[1]
-
 		DownloadPDF(downloadlink, ID+"."+format)
 	} else {
 		fmt.Println(chalk.Magenta.Color("Given connection error, waiting to reconnect"))
@@ -58,7 +57,7 @@ func DownloadPDF(URL, fileName string) error {
 		}
 		defer response.Body.Close()
 
-		file, err := os.Create("Repository/" + fileName)
+		file, err := os.Create("Downloads/" + fileName)
 		if err != nil {
 			return err
 		}

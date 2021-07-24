@@ -35,7 +35,7 @@ type Article struct {
 func (art *Article) FormatNewArticle() *Article {
 	/*
 		Format the article
-		1 - multiple: authors ISBN & LANGUAGE
+		1 - multiple: authors ISBN & LANGUAGE, etc..
 	*/
 
 	//Authors
@@ -112,6 +112,9 @@ func (art *Article) FormatNewArticle() *Article {
 }
 
 func TitleFormat(title string, authors string) string {
+	/*
+		Delete some author names from the title, minimalism purpouse
+	*/
 	authors = strings.TrimSpace(authors)
 	authors = strings.ReplaceAll(authors, ",", " ")
 	authors = strings.ReplaceAll(authors, ";", " ")

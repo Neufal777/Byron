@@ -7,26 +7,32 @@ import (
 	"os"
 
 	"github.com/Byron/backend"
+	"github.com/Byron/core"
 	"github.com/Byron/data"
 	"github.com/Byron/executions"
 	"github.com/Byron/parsecore"
 	"github.com/gorilla/mux"
-	"github.com/ttacon/chalk"
+	"github.com/olekukonko/tablewriter"
 )
 
 func init() {
-	os.Setenv("MONGO_CONNECTION", "mongodb+srv://byron:Black_nebula000@byron.dqvrs.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
-	os.Setenv("MONGO_DATABASE", "byron")
-	os.Setenv("MONGO_COLLECTION", "byronArticles")
-
 	/*
-		Setting variables
+		Setting variables & configuration
 	*/
-	log.Println(chalk.Magenta.Color("Setting up variables"))
-	log.Println(chalk.Green.Color("Mongo conenction: " + os.Getenv("MONGO_CONNECTION")))
-	log.Println(chalk.Green.Color("Mongo database: " + os.Getenv("MONGO_DATABASE")))
-	log.Println(chalk.Green.Color("Mongo collection: " + os.Getenv("MONGO_COLLECTION")))
+	data := [][]string{
+		{"MONGO_CONNECTION", os.Getenv("MONGO_CONNECTION")},
+		{"MONGO_DATABASE", os.Getenv("MONGO_DATABASE")},
+		{"MONGO_COLLECTION", os.Getenv("MONGO_COLLECTION")},
+	}
 
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"Key", "Value"})
+
+	for _, v := range data {
+		table.Append(v)
+	}
+
+	table.Render()
 }
 
 func main() {
@@ -38,8 +44,6 @@ func main() {
 		WebExecute()
 	case "parse":
 		ParseExecute()
-	case "parseLibgen":
-		ParseExecuteLibgen()
 	case "insert":
 		data.InsertArticlesDatabase()
 	case "delete":
@@ -58,42 +62,15 @@ func ProxyTesting() {
 	parsecore.ProxyScraping("https://es.wikipedia.org/wiki/Los_%C3%81ngeles")
 }
 func TestingExecute() {
-	// for i := 0; i < 200; i++ {
-	// 	fmt.Println("go LibrospdfgratismundoExecution(" + strconv.Itoa(i*5) + ", " + strconv.Itoa((i*5)+5) + ")")
-	// }
-
+	core.DownloadPDF("https://alex.smola.org/drafts/thebook.pdf", "Machinelearning9893.pdf")
 	//executions.ArchiveOrgExecution()
 	//data.RecoverSource("Inventory/", "libgen.is")
 
 }
-func ParseExecuteLibgen() {
-	go executions.LibGenExecution()
-	go executions.LibGenExecution01()
-	go executions.LibGenExecution02()
-	go executions.LibGenExecution03()
-	go executions.LibGenExecution04()
-	go executions.LibGenExecution05()
-	go executions.LibGenExecution06()
-	go executions.LibGenExecution07()
-	go executions.LibGenExecution08()
-	go executions.LibGenExecution09()
-	go executions.LibGenExecution10()
-	go executions.LibGenExecution11()
-	go executions.LibGenExecution12()
-	go executions.LibGenExecution13()
-	go executions.LibGenExecution13()
-	go executions.LibGenExecution14()
-	executions.LibGenExecution15()
-}
 
 func ParseExecute() {
-	go executions.BookRixExecution()
-	go executions.FreeditorialExecution()
-	go executions.ManyBooksExecution()
-	go executions.LibrospdfgratismundoExecution()
-	go executions.OpenlibraExecution()
 
-	executions.ArchiveOrgExecution()
+	executions.FreeditorialExecution()
 
 }
 
