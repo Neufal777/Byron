@@ -6,7 +6,6 @@ import (
 )
 
 func RegexNoResults() {
-
 	/*
 		Deal regex with no results
 	*/

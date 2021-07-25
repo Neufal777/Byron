@@ -42,16 +42,21 @@ type Source struct {
 
 func (s *Source) GetArticles(pageStart int, pageEnd int) {
 
-	r, _ := regexp.Compile(s.UrlREGEX)
-	processed := 0
+	var (
+		r, _      = regexp.Compile(s.UrlREGEX)
+		processed = 0
+	)
 
 	for i := pageStart; i < pageEnd; i++ {
+		var (
+			processingPage   = s.CompletePageUrlStart + strconv.Itoa(i) + s.CompletePageUrlEnd
+			htmlFormat, errs = ProxyScraping(processingPage)
+		)
 
-		fmt.Println(chalk.Green.Color("Downloading " + s.CompletePageUrlStart + strconv.Itoa(i) + s.CompletePageUrlEnd))
-		htmlFormat, errs := ProxyScraping(s.CompletePageUrlStart + strconv.Itoa(i) + s.CompletePageUrlEnd)
+		fmt.Println(chalk.Green.Color("Downloading " + processingPage))
 
 		if errs != nil {
-			log.Println("Ups, we have some errors")
+			log.Println("Ups, we have some errors", errs)
 		}
 
 		if !core.ErrorsHandling(htmlFormat) {
@@ -66,8 +71,7 @@ func (s *Source) GetArticles(pageStart int, pageEnd int) {
 				fmt.Println(chalk.Green.Color("Saving " + m[1]))
 				s.AllUrls = append(s.AllUrls, s.IncompleteArticleUrl+m[1])
 				processed++
-
-				//DownloadList(s.IncompleteArticleUrl+m[1], s.Search) //Disabled for storage reasons
+				//DownloadList(s.IncompleteArticleUrl+m[1], s.Search) //Download disabled for storage reasons
 			}
 
 		} else {
@@ -106,8 +110,8 @@ func (s *Source) ProcessArticles() {
 				Downloaded: 0,
 			}
 
-			// log.Println("Article:", u)
-			newArticle = CheckRegex(s, newArticle, articleHtmlFormat)
+			log.Println("Article:", u)
+			newArticle = CheckRegexField(s, newArticle, articleHtmlFormat)
 
 			/*
 				Append and download because it's new
@@ -126,21 +130,15 @@ func (s *Source) ProcessArticles() {
 				/*
 					Display relevant information about the new Document
 				*/
-				//newArticle.DisplayInformation()
+				newArticle.DisplayInformation()
 				fmt.Println(chalk.Green.Color("Added correctly: " + newArticle.UniqueID))
 				processed++
 				fmt.Println(chalk.Magenta.Color("Processed: " + strconv.Itoa(processed)))
-
-				/*
-					After that, download the file and save it [disabled for the moment]
-				*/
 
 			} else {
 				fmt.Println(chalk.Magenta.Color("This article already exists, nothing to do here"))
 			}
 
-		} else {
-			fmt.Println(chalk.Magenta.Color("Given 503. waiting to reconnect"))
 		}
 	}
 
@@ -170,7 +168,7 @@ func ReadArticles(file string) []core.Article {
 	return Articles
 }
 
-func CheckRegex(s *Source, newArticle core.Article, articleHtmlFormat string) core.Article {
+func CheckRegexField(s *Source, newArticle core.Article, articleHtmlFormat string) core.Article {
 	if regexSet(s.TitleREGEX) {
 		ArticleTitle, _ := regexp.Compile(s.TitleREGEX)
 		if len(ArticleTitle.FindStringSubmatch(articleHtmlFormat)) != 0 {

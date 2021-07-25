@@ -1,6 +1,7 @@
 package core
 
 import (
+	"regexp"
 	"strings"
 
 	"github.com/Byron/utils"
@@ -40,10 +41,10 @@ func (art *Article) FormatNewArticle() *Article {
 
 	//Authors
 	art.Authors = strings.TrimSpace(art.Author)
-	art.Authors = utils.FixUnitedNames(art.Authors)
+	art.Authors = FixUnitedNames(art.Authors)
 
 	//Author
-	art.Author = utils.FixUnitedNames(art.Author)
+	art.Author = FixUnitedNames(art.Author)
 	art.Author = strings.ReplaceAll(art.Author, ",", ", ")
 	art.Author = strings.ReplaceAll(art.Author, ";", ", ")
 	art.Author = strings.ReplaceAll(art.Author, ".", ". ")
@@ -134,4 +135,26 @@ func TitleFormat(title string, authors string) string {
 	title = strings.TrimSpace(title)
 
 	return title
+}
+
+func FixUnitedNames(name string) string {
+	var formatted string
+	re := regexp.MustCompile(`[A-Z][^A-Z]*`)
+
+	submatchall := re.FindAllString(name, -1)
+	for _, element := range submatchall {
+		formatted += element + " "
+	}
+
+	/*
+		Formatting final name
+	*/
+	formatted = strings.ReplaceAll(formatted, "-", "")
+	formatted = strings.ReplaceAll(formatted, " )", ")")
+	formatted = strings.ReplaceAll(formatted, "(", " (")
+	formatted = strings.ReplaceAll(formatted, "( ", "(")
+	formatted = strings.ReplaceAll(formatted, "  ", " ")
+	formatted = strings.TrimSpace(formatted)
+
+	return formatted
 }
