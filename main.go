@@ -7,10 +7,7 @@ import (
 	"os"
 
 	"github.com/Byron/backend"
-	"github.com/Byron/core"
 	"github.com/Byron/data"
-	"github.com/Byron/executions"
-	"github.com/Byron/parsecore"
 	"github.com/gorilla/mux"
 	"github.com/olekukonko/tablewriter"
 )
@@ -50,29 +47,14 @@ func main() {
 		data.DeleteDuplicates("Inventory/")
 	case "test":
 		TestingExecute()
-	case "proxy":
-		ProxyTesting()
 	default:
 		log.Println("Not found:", *execMode)
 		WebExecute()
 	}
 }
 
-func ProxyTesting() {
-	parsecore.ProxyScraping("https://es.wikipedia.org/wiki/Los_%C3%81ngeles")
-}
-func TestingExecute() {
-	core.DownloadPDF("https://alex.smola.org/drafts/thebook.pdf", "Machinelearning9893.pdf")
-	//executions.ArchiveOrgExecution()
-	//data.RecoverSource("Inventory/", "libgen.is")
-
-}
-
-func ParseExecute() {
-
-	executions.FreeditorialExecution()
-
-}
+func TestingExecute() {}
+func ParseExecute()   {}
 
 func WebExecute() {
 	r := mux.NewRouter()
@@ -81,11 +63,9 @@ func WebExecute() {
 	fh := http.FileServer(http.Dir("./web/assets/"))
 	r.PathPrefix("/web/assets/").Handler(http.StripPrefix("/web/assets/", fh))
 
-	//web handlers
 	r.HandleFunc("/search", backend.SearchResults).Methods("GET")
 	r.HandleFunc("/", backend.HomeSearchBar)
 
-	//identify and assign PORT
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8888"
