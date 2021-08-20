@@ -20,7 +20,6 @@ func SearchResults(w http.ResponseWriter, r *http.Request) {
 	search := keys["search"][0]
 
 	search = strings.TrimSpace(search)
-	//art := mysqldb.GetArticlesDB("select * from byronarticles where title LIKE '%" + search + "%' OR isbn LIKE '%" + search + "%'") //Mysql search (disabled, using mongodb)
 	art := mongodb.SearchArticles(search)
 
 	searchResults := Search{
