@@ -1,7 +1,6 @@
 package core
 
 import (
-	"regexp"
 	"strings"
 
 	"github.com/Byron/utils"
@@ -41,26 +40,12 @@ func (art *Article) FormatNewArticle() *Article {
 
 	//Authors
 	art.Authors = strings.TrimSpace(art.Author)
-	art.Authors = FixUnitedNames(art.Authors)
+	art.Authors = utils.FixUnitedNames(art.Authors)
 
-	//Author
-	art.Author = FixUnitedNames(art.Author)
-	art.Author = strings.ReplaceAll(art.Author, ",", ", ")
-	art.Author = strings.ReplaceAll(art.Author, ";", ", ")
-	art.Author = strings.ReplaceAll(art.Author, ".", ". ")
-	art.Author = strings.ReplaceAll(art.Author, "  ", " ")
-
-	//Isbn
-	art.Isbn = strings.ReplaceAll(art.Isbn, ",", ", ")
-	art.Isbn = strings.ReplaceAll(art.Isbn, ";", ", ")
-	art.Isbn = strings.ReplaceAll(art.Isbn, "  ", " ")
-
-	//Title
-	art.Title = strings.ReplaceAll(art.Title, ";", "; ")
-	art.Title = strings.ReplaceAll(art.Title, ":", ": ")
-	art.Title = strings.ReplaceAll(art.Title, "&nbsp;", " ")
-	art.Title = strings.ReplaceAll(art.Title, "&#8211;", "-")
-	art.Title = strings.ReplaceAll(art.Title, "  ", " ")
+	//Cleaning content
+	art.Author = utils.CleanAuthor(art.Author)
+	art.Isbn = utils.CleanIsbn(art.Isbn)
+	art.Title = utils.CleanTitle(art.Title)
 
 	art.Language = strings.TrimSpace(art.Language)
 	art.Extension = strings.TrimSpace(art.Extension)
@@ -91,6 +76,7 @@ func (art *Article) FormatNewArticle() *Article {
 			Ammount: memory[0],
 			Size:    memory[1],
 		}
+
 	}
 
 	art.Title = TitleFormat(art.Title, art.Authors)
@@ -135,26 +121,4 @@ func TitleFormat(title string, authors string) string {
 	title = strings.TrimSpace(title)
 
 	return title
-}
-
-func FixUnitedNames(name string) string {
-	var formatted string
-	re := regexp.MustCompile(`[A-Z][^A-Z]*`)
-
-	submatchall := re.FindAllString(name, -1)
-	for _, element := range submatchall {
-		formatted += element + " "
-	}
-
-	/*
-		Formatting final name
-	*/
-	formatted = strings.ReplaceAll(formatted, "-", "")
-	formatted = strings.ReplaceAll(formatted, " )", ")")
-	formatted = strings.ReplaceAll(formatted, "(", " (")
-	formatted = strings.ReplaceAll(formatted, "( ", "(")
-	formatted = strings.ReplaceAll(formatted, "  ", " ")
-	formatted = strings.TrimSpace(formatted)
-
-	return formatted
 }

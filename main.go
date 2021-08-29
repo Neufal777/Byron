@@ -8,6 +8,7 @@ import (
 
 	"github.com/Byron/backend"
 	"github.com/Byron/data"
+	"github.com/Byron/executions"
 	"github.com/gorilla/mux"
 	"github.com/olekukonko/tablewriter"
 )
@@ -54,7 +55,9 @@ func main() {
 }
 
 func TestingExecute() {}
-func ParseExecute()   {}
+func ParseExecute() {
+	executions.OpenlibraExecution()
+}
 
 func WebExecute() {
 	r := mux.NewRouter()

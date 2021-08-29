@@ -102,7 +102,6 @@ func (s *Source) ProcessArticles() {
 		}
 
 		if !core.ErrorsHandling(articleHtmlFormat) {
-
 			newArticle := core.Article{
 				SourceName: s.SourceName,
 				Url:        u,
@@ -130,6 +129,7 @@ func (s *Source) ProcessArticles() {
 				/*
 					Display relevant information about the new Document
 				*/
+
 				newArticle.DisplayInformation()
 				fmt.Println(chalk.Green.Color("Added correctly: " + newArticle.UniqueID))
 				processed++

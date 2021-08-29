@@ -1,21 +1,20 @@
 package executions
 
 import (
+	"log"
 	"strconv"
 
 	"github.com/Byron/parsecore"
 )
 
 func ArchiveOrgExecution() {
-	go ArchiveOrgSingleExecution(0, 20)
-	go ArchiveOrgSingleExecution(20, 40)
-	go ArchiveOrgSingleExecution(40, 60)
-	go ArchiveOrgSingleExecution(60, 80)
-	go ArchiveOrgSingleExecution(80, 100)
-	go ArchiveOrgSingleExecution(100, 120)
-	go ArchiveOrgSingleExecution(120, 140)
-	ArchiveOrgSingleExecution(140, 180)
+	for i := 0; i < 140; i++ {
+		log.Println("Running from:", i, "to", i+20)
+		go ArchiveOrgSingleExecution(i, i+20)
+		i += 19
+	}
 
+	ArchiveOrgSingleExecution(140, 180)
 }
 
 func ArchiveOrgSingleExecution(start int, end int) {

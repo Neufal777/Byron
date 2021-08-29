@@ -1,9 +1,12 @@
 package executions
 
-import "github.com/Byron/parsecore"
+import (
+	"log"
+
+	"github.com/Byron/parsecore"
+)
 
 func ManyBooksExecution() {
-
 	categories := []string{
 		"https://manybooks.net/categories/ADV",
 		"https://manybooks.net/categories/AFR",
@@ -68,66 +71,12 @@ func ManyBooksExecution() {
 		"https://manybooks.net/categories/CHI",
 	}
 
-	go ManyBooksSingleExecution(categories[0])
-	go ManyBooksSingleExecution(categories[1])
-	go ManyBooksSingleExecution(categories[2])
-	go ManyBooksSingleExecution(categories[3])
-	go ManyBooksSingleExecution(categories[4])
-	go ManyBooksSingleExecution(categories[5])
-	go ManyBooksSingleExecution(categories[6])
-	go ManyBooksSingleExecution(categories[7])
-	go ManyBooksSingleExecution(categories[8])
-	go ManyBooksSingleExecution(categories[9])
-	go ManyBooksSingleExecution(categories[10])
-	go ManyBooksSingleExecution(categories[11])
-	go ManyBooksSingleExecution(categories[12])
-	go ManyBooksSingleExecution(categories[13])
-	go ManyBooksSingleExecution(categories[14])
-	go ManyBooksSingleExecution(categories[15])
-	go ManyBooksSingleExecution(categories[16])
-	go ManyBooksSingleExecution(categories[17])
-	go ManyBooksSingleExecution(categories[18])
-	go ManyBooksSingleExecution(categories[19])
-	go ManyBooksSingleExecution(categories[20])
-	go ManyBooksSingleExecution(categories[21])
-	go ManyBooksSingleExecution(categories[22])
-	go ManyBooksSingleExecution(categories[23])
-	go ManyBooksSingleExecution(categories[24])
-	go ManyBooksSingleExecution(categories[25])
-	go ManyBooksSingleExecution(categories[26])
-	go ManyBooksSingleExecution(categories[27])
-	go ManyBooksSingleExecution(categories[28])
-	go ManyBooksSingleExecution(categories[29])
-	go ManyBooksSingleExecution(categories[30])
-	go ManyBooksSingleExecution(categories[31])
-	go ManyBooksSingleExecution(categories[32])
-	go ManyBooksSingleExecution(categories[33])
-	go ManyBooksSingleExecution(categories[34])
-	go ManyBooksSingleExecution(categories[35])
-	go ManyBooksSingleExecution(categories[36])
-	go ManyBooksSingleExecution(categories[37])
-	go ManyBooksSingleExecution(categories[38])
-	go ManyBooksSingleExecution(categories[39])
-	go ManyBooksSingleExecution(categories[40])
-	go ManyBooksSingleExecution(categories[41])
-	go ManyBooksSingleExecution(categories[42])
-	go ManyBooksSingleExecution(categories[43])
-	go ManyBooksSingleExecution(categories[44])
-	go ManyBooksSingleExecution(categories[45])
-	go ManyBooksSingleExecution(categories[46])
-	go ManyBooksSingleExecution(categories[47])
-	go ManyBooksSingleExecution(categories[48])
-	go ManyBooksSingleExecution(categories[49])
-	go ManyBooksSingleExecution(categories[50])
-	go ManyBooksSingleExecution(categories[51])
-	go ManyBooksSingleExecution(categories[52])
-	go ManyBooksSingleExecution(categories[53])
-	go ManyBooksSingleExecution(categories[54])
-	go ManyBooksSingleExecution(categories[55])
-	go ManyBooksSingleExecution(categories[56])
-	go ManyBooksSingleExecution(categories[57])
-	go ManyBooksSingleExecution(categories[58])
-	go ManyBooksSingleExecution(categories[59])
+	for i := 0; i < len(categories)-1; i++ {
+		log.Println("Running: ", categories[i], "ID num:", i)
+		go ManyBooksSingleExecution(categories[i])
+
+	}
+
 	ManyBooksSingleExecution(categories[60])
 }
 

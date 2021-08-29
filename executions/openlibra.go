@@ -1,21 +1,20 @@
 package executions
 
 import (
+	"log"
 	"strconv"
 
 	"github.com/Byron/parsecore"
 )
 
 func OpenlibraExecution() {
-	go OpenlibraSingleExecution(0, 20)
-	go OpenlibraSingleExecution(20, 40)
-	go OpenlibraSingleExecution(40, 60)
-	go OpenlibraSingleExecution(60, 80)
-	go OpenlibraSingleExecution(80, 100)
-	go OpenlibraSingleExecution(100, 120)
-	go OpenlibraSingleExecution(120, 140)
-	OpenlibraSingleExecution(140, 180)
+	for i := 0; i < 140; i++ {
+		log.Println("Running from:", i, "to", i+10)
+		go OpenlibraSingleExecution(i, i+10)
+		i += 9
+	}
 
+	OpenlibraSingleExecution(140, 180)
 }
 
 func OpenlibraSingleExecution(start int, end int) {
