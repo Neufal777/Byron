@@ -21,7 +21,6 @@ func CleanTitle(title string) string {
 
 	return title
 }
-
 func CleanAuthor(author string) string {
 	author = FixUnitedNames(author)
 	author = strings.ReplaceAll(author, ",", ", ")
@@ -31,7 +30,6 @@ func CleanAuthor(author string) string {
 
 	return author
 }
-
 func CleanName(name string) string {
 	name = strings.ReplaceAll(name, "-", "")
 	name = strings.ReplaceAll(name, " )", ")")

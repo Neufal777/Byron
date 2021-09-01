@@ -56,7 +56,13 @@ func main() {
 
 func TestingExecute() {}
 func ParseExecute() {
-	executions.OpenlibraExecution()
+	go executions.OpenlibraExecution()
+	go executions.ArchiveOrgExecution()
+	go executions.BookRixExecution()
+	go executions.FreeditorialExecution()
+	go executions.LibrospdfgratismundoExecution()
+	executions.ManyBooksExecution()
+
 }
 
 func WebExecute() {
