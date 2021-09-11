@@ -25,10 +25,8 @@
                      <thead>
                         <tr class=table100-head>
                            <th class=column1><b>Title</b></th>
-                           <th class=column2><b>Author</b></th>
                            <th class=column3><b>Isbn</b></th>
                            <th class=column5><b>Size</b></th>
-                           <th class=column6><b>Year</b></th>
                            <th class=column7><b>Source</b></th>
                            <th class=column8><b>Language</b></th>
                            <th class=column9><b>⬇</b></th>
@@ -38,35 +36,27 @@
                         {{range .Articles}}
                         <tr>
                            {{ $length := len .Title }} {{ if gt $length 65 }}
-                           <td class=column1>{{ slice .Title 0 65 }}...</td>
+                           <td class=column1>{{ slice .Title 0 65 }}... <br>
+                              <h4 class="authorTitle">
+                                 {{.Author}} - {{.Year}}
+                              </h4>
+                           </td>
                            {{else}}
-                           <td class=column1>{{.Title}}</td>
-                           {{ end }}
-                           {{ $length := len .Author }} {{ if gt $length 15 }}
-                           <td class=column2>{{ slice .Author 0 15 }}...</td>
-                           {{else}}
-                           {{ $length := len .Author }} {{ if gt $length 0 }}
-                           <td class=column2>{{.Author}}</td>
-                           {{else}}
-                           <td class=column2>-</td>
-                           {{ end }}
+                           <td class=column1>{{.Title}} <br>
+                              <h4 class="authorTitle">
+                                 {{.Author}} - {{.Year}}
+                              </h4>
+                           </td>
                            {{ end }}
                            {{ $length := len .Isbn }} {{ if gt $length 0 }}
                            <td class=column3>{{.Isbn}}</td>
                            {{else}}
-                           <td class=column3>No available</td>
+                           <td class=column3>-</td>
                            {{ end }}
-                        
                            {{ $length := len .FileSize.Ammount }} {{ if gt $length 0 }}
                            <td class=column5>{{.FileSize.Ammount}} {{.FileSize.Size}}</td>
                            {{else}}
                            <td class=column5>-</td>
-                           {{ end }}
-
-                           {{ $length := len .Year }} {{ if gt $length 0 }}
-                           <td class=column6>{{.Year}}</td>
-                           {{else}}
-                           <td class=column6>-</td>
                            {{ end }}
                            <td class=column7>{{.SourceName}}</td>
                            {{ $length := len .Language }} {{ if gt $length 0 }}
@@ -74,7 +64,7 @@
                            {{else}}
                            <td class=column8>-</td>
                            {{ end }}
-                           <td class=column9><a href={{.DownloadUrl}} target=_blank>Download</a></td>
+                           <td class=column9><a href={{.DownloadUrl}} target=_blank>⬇</a></td>
                         </tr>
                         {{end}}
                      </tbody>

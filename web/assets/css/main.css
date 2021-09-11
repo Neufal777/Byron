@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Pirata+One|Rubik:900');
 @charset "UTF-8";
 * {
 	padding: 0;
@@ -130,12 +131,11 @@ table thead tr {
 }
 
 .TitleByron {
-	font-size: 45px;
-	color: #293655;
-	font-family: Arial, Helvetica, sans-serif;
-	font-style: italic;
-	text-shadow: -1px 0 9px rgba(41, 54, 85, .6);
-	letter-spacing: 10px;
+text-transform: Uppercase;
+margin-bottom: .5em;
+font-family: 'Rubik', sans-serif;
+font-size: 6rem;
+color: #293655; 
 }
 
 table tbody tr {
@@ -241,7 +241,7 @@ tbody tr:hover {
 		position: absolute;
 		width: 40%;
 		left: 20px;
-		top: 0
+		top: 0;
 	}
 	.column4,
 	.column5,
@@ -257,9 +257,13 @@ tbody tr:hover {
 		width: 100%
 	}
 	tbody tr {
-		font-size: 14px
+		font-size: 14px;
+
+		
 	}
 }
+
+
 
 @media (max-width:576px) {
 	.container-table100 {
@@ -310,3 +314,11 @@ a {
 	padding: 15px;
 	color: grey;
   }
+
+
+.authorTitle{
+	font-size: 14px;
+	color: grey;
+	font-weight: 100;
+	margin-top: 5px;
+}

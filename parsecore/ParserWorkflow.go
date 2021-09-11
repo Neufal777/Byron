@@ -109,7 +109,7 @@ func (s *Source) ProcessArticles() {
 				Downloaded: 0,
 			}
 
-			log.Println("Article:", u)
+			//log.Println("Article:", u)
 			newArticle = CheckRegexField(s, newArticle, articleHtmlFormat)
 
 			/*
