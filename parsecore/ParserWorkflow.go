@@ -53,7 +53,7 @@ func (s *Source) GetArticles(pageStart int, pageEnd int) {
 			htmlFormat, errs = ProxyScraping(processingPage)
 		)
 
-		fmt.Println(chalk.Green.Color("Downloading " + processingPage))
+		//fmt.Println(chalk.Green.Color("Downloading " + processingPage))
 
 		if errs != nil {
 			log.Println("Ups, we have some errors", errs)
@@ -61,14 +61,14 @@ func (s *Source) GetArticles(pageStart int, pageEnd int) {
 
 		if !core.ErrorsHandling(htmlFormat) {
 			matches := r.FindAllStringSubmatch(htmlFormat, -1)
-			fmt.Println(chalk.Green.Color("Processing page " + strconv.Itoa(i)))
+			//fmt.Println(chalk.Green.Color("Processing page " + strconv.Itoa(i)))
 
 			if len(matches) < 1 {
 				break
 			}
 
 			for _, m := range matches {
-				fmt.Println(chalk.Green.Color("Saving " + m[1]))
+				//fmt.Println(chalk.Green.Color("Saving " + m[1]))
 				s.AllUrls = append(s.AllUrls, s.IncompleteArticleUrl+m[1])
 				processed++
 				//DownloadList(s.IncompleteArticleUrl+m[1], s.Search) //Download disabled for storage reasons
@@ -130,7 +130,7 @@ func (s *Source) ProcessArticles() {
 					Display relevant information about the new Document
 				*/
 
-				newArticle.DisplayInformation()
+				//newArticle.DisplayInformation()
 				fmt.Println(chalk.Green.Color("Added correctly: " + newArticle.UniqueID))
 				processed++
 				fmt.Println(chalk.Magenta.Color("Processed: " + strconv.Itoa(processed)))

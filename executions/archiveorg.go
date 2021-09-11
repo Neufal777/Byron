@@ -1,7 +1,6 @@
 package executions
 
 import (
-	"log"
 	"strconv"
 
 	"github.com/Byron/parsecore"
@@ -9,7 +8,7 @@ import (
 
 func ArchiveOrgExecution() {
 	for i := 0; i < 140; i++ {
-		log.Println("Running from:", i, "to", i+20)
+		//log.Println("Running from:", i, "to", i+20)
 		go ArchiveOrgSingleExecution(i, i+20)
 		i += 19
 	}

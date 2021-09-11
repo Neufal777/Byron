@@ -1,7 +1,6 @@
 package executions
 
 import (
-	"log"
 	"strconv"
 
 	"github.com/Byron/parsecore"
@@ -9,7 +8,7 @@ import (
 
 func BookRixExecution() {
 	for i := 0; i < 9600; i++ {
-		log.Println("Running from:", i, "to", i+150)
+		//log.Println("Running from:", i, "to", i+150)
 		go BookRixSingleExecution(i, i+150)
 		i += 149
 	}

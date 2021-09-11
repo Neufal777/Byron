@@ -1,25 +1,22 @@
 package parsecore
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
-	"math/rand"
 	"strings"
-	"time"
 
 	"github.com/parnurzeal/gorequest"
 )
 
 func ProxyScraping(url string) (string, []error) {
-	s1 := rand.NewSource(time.Now().UnixNano())
-	r1 := rand.New(s1)
+	//s1 := rand.NewSource(time.Now().UnixNano())
+	//r1 := rand.New(s1)
 
-	proxies := ProxiesCleaner()
+	//proxies := ProxiesCleaner()
 
-	randomElement := r1.Intn(len(proxies))
+	//randomElement := r1.Intn(len(proxies))
 
-	fmt.Println("Using:", proxies[randomElement])
+	//fmt.Println("Using:", proxies[randomElement])
 
 	//proxyInfo := strings.Split(proxies[randomElement], ":")
 
