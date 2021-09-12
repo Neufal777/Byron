@@ -14,6 +14,7 @@ import (
 	"github.com/ttacon/chalk"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func MongoSearchByUrl(url string) bool {
@@ -152,9 +153,10 @@ func GetArticlesRegex(search string) []core.Article {
 			bson.D{primitive.E{Key: "Author", Value: primitive.Regex{Pattern: search, Options: "is"}}},
 		}},
 	}
+
 	var articlesRetrieved []bson.M
 
-	filterCursor, err := byronArticlesCollection.Find(ctx, query)
+	filterCursor, err := byronArticlesCollection.Find(ctx, query, options.Find().SetSort(bson.M{"Year": 1}).SetLimit(10000))
 
 	if err != nil {
 		log.Panic(err)

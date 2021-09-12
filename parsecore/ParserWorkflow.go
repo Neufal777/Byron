@@ -84,7 +84,6 @@ func (s *Source) GetArticles(pageStart int, pageEnd int) {
 
 func (s *Source) ProcessArticles() {
 	fmt.Println(chalk.Green.Color("Start processing Articles.."))
-
 	log.Println("Num of Total Articles:", len(s.AllUrls))
 	processed := 0
 
@@ -136,7 +135,7 @@ func (s *Source) ProcessArticles() {
 				fmt.Println(chalk.Magenta.Color("Processed: " + strconv.Itoa(processed)))
 
 			} else {
-				fmt.Println(chalk.Magenta.Color("This article already exists, nothing to do here"))
+				//fmt.Println(chalk.Magenta.Color("This article already exists, nothing to do here"))
 			}
 
 		}
