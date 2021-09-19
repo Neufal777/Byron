@@ -45,7 +45,7 @@ func main() {
 	case "insert":
 		data.InsertArticlesDatabase()
 	case "delete":
-		data.DeleteDuplicates("Inventory/")
+		data.DeleteDuplicates("Inventory/", "UltimateInventory/General_Collection.json")
 	case "test":
 		TestingExecute()
 	default:
@@ -54,7 +54,10 @@ func main() {
 	}
 }
 
-func TestingExecute() {}
+func TestingExecute() {
+	//testings.SingleLoad("0b8e35d8162a89f5aca0614e784683bb 12.20.43.json")
+	data.GetAllDuplicates("s")
+}
 func ParseExecute() {
 	go executions.OpenlibraExecution()
 	go executions.ArchiveOrgExecution()

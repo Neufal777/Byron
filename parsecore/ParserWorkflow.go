@@ -83,8 +83,11 @@ func (s *Source) GetArticles(pageStart int, pageEnd int) {
 }
 
 func (s *Source) ProcessArticles() {
+
+	//Log information
 	fmt.Println(chalk.Green.Color("Start processing Articles.."))
 	log.Println("Num of Total Articles:", len(s.AllUrls))
+
 	processed := 0
 
 	//randomize urls processing

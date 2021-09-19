@@ -102,22 +102,25 @@ func TitleFormat(title string, authors string) string {
 	/*
 		Delete some author names from the title, minimalism purpouse
 	*/
-	authors = strings.TrimSpace(authors)
-	authors = strings.ReplaceAll(authors, ",", " ")
-	authors = strings.ReplaceAll(authors, ";", " ")
+	var (
+		titleToReplace  = []string{"-", ",", ";", "   ", "  "}
+		authorToReplace = []string{",", ";"}
+	)
 
+	for _, tr := range authorToReplace {
+		authors = strings.ReplaceAll(authors, tr, " ")
+	}
+
+	authors = strings.TrimSpace(authors)
 	authorsList := strings.Split(authors, " ")
 
 	for _, a := range authorsList {
 		title = strings.Replace(title, a, "", -1)
 	}
 
-	title = strings.Replace(title, "-", "", -1)
-	title = strings.Replace(title, ",", " ", -1)
-	title = strings.Replace(title, ";", " ", -1)
-	title = strings.Replace(title, "   ", " ", -1)
-	title = strings.Replace(title, "  ", " ", -1)
-
+	for _, tr := range titleToReplace {
+		title = strings.Replace(title, tr, " ", -1)
+	}
 	title = strings.TrimSpace(title)
 
 	return title

@@ -1,8 +1,11 @@
 package testings
 
 import (
+	"fmt"
 	"log"
 	"regexp"
+
+	"github.com/Byron/core"
 )
 
 func RegexNoResults() {
@@ -22,4 +25,15 @@ func RegexNoResults() {
 		log.Println("Title:", titleFormat)
 	}
 
+}
+
+func SingleLoad(filename string) {
+
+	file := core.CheckIfFileExists(filename)
+
+	if file {
+		fmt.Println("this file already exists!")
+	}
+
+	log.Println("Done!")
 }

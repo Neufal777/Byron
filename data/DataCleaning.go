@@ -17,16 +17,15 @@ import (
 	3- delete ALL duplicates
 */
 
-func DeleteDuplicates(folder string) {
+func DeleteDuplicates(folder, destination string) {
 	FreshArticles := map[string]core.Article{}
 
 	var (
 		FreshArticlesReady    []core.Article
 		duplicates, processed int
+		files, _              = ioutil.ReadDir(folder)
+		left                  = len(files)
 	)
-
-	files, _ := ioutil.ReadDir(folder)
-	left := len(files)
 
 	for _, f := range files {
 		fmt.Println(chalk.Green.Color("Processing: " + f.Name()))
@@ -53,7 +52,7 @@ func DeleteDuplicates(folder string) {
 		FreshArticlesReady = append(FreshArticlesReady, v)
 	}
 
-	core.WriteInFile("UltimateInventory/General_Collection.json", FreshArticlesReady)
+	core.WriteInFile(destination, FreshArticlesReady)
 	log.Println("Duplicates:", duplicates)
 	log.Println("Processed:", processed)
 }
@@ -99,4 +98,38 @@ func RecoverSource(folder, source string) {
 
 	core.WriteInFile("UltimateInventory/"+source+"Documents.json", FreshArticlesReady)
 	log.Println("Processed:", processed)
+}
+
+func GetAllDuplicates(filterby string) {
+	files, _ := ioutil.ReadDir("UltimateInventory/")
+	var count int
+
+	titleDups := map[string]int{}
+	for _, f := range files {
+
+		if strings.Contains(f.Name(), ".json") {
+
+			//1- Open the file
+			//2- check dups
+			articles := parsecore.ReadArticles("UltimateInventory/" + f.Name())
+
+			for _, a := range articles {
+				_, ok := titleDups[a.Title]
+				if !ok {
+					titleDups[a.Title] = 1
+				} else {
+					titleDups[a.Title] += 1
+				}
+			}
+		}
+	}
+
+	for k, v := range titleDups {
+		if v > 10 {
+			log.Println(k, ":", v)
+			count++
+		}
+	}
+
+	fmt.Println("Total titles with duplicates:", count)
 }
