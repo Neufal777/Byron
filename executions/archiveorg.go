@@ -30,6 +30,5 @@ func ArchiveOrgSingleExecution(start int, end int) {
 		AllUrls:              nil,
 		Search:               "Start:" + strconv.Itoa(start) + "ArchiveOrg" + strconv.Itoa(end),
 	}
-
 	source.GetArticles(start, end)
 }
