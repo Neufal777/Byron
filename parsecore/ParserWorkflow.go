@@ -135,7 +135,7 @@ func (s *Source) ProcessArticles() {
 				fmt.Println(chalk.Magenta.Color("Processed: " + strconv.Itoa(processed)))
 
 			} else {
-				//fmt.Println(chalk.Magenta.Color("This article already exists, nothing to do here"))
+				fmt.Println(chalk.Magenta.Color("This article already exists, nothing to do here"))
 			}
 
 		}

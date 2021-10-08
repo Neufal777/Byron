@@ -17,11 +17,9 @@ import (
 )
 
 func FileDownload(URL, ID, format, regexFile string) {
-
 	/*
 		Check html, regex the download link and save the file :)
 	*/
-
 	resp, err := http.Get(URL)
 	if err != nil {
 		log.Println(err)

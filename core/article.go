@@ -1,6 +1,7 @@
 package core
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/Byron/utils"
@@ -121,4 +122,26 @@ func TitleFormat(title string, authors string) string {
 	title = strings.TrimSpace(title)
 
 	return title
+}
+
+func (art *Article) DisplayInformation() {
+	/*
+		Displays relevant information about the article
+	*/
+
+	fmt.Println("ID: " + art.Id)
+	fmt.Println("Unique ID: " + art.UniqueID)
+	fmt.Println("Title: " + art.Title)
+	fmt.Println("Search: " + art.Search)
+	fmt.Println("Language: " + art.Language)
+	fmt.Println("Download: " + art.DownloadUrl)
+	fmt.Println("Isbn: " + art.Isbn)
+	fmt.Println("Year: " + art.Year)
+	fmt.Println("Publisher: " + art.Publisher)
+	fmt.Println("Authors: " + art.Author)
+	fmt.Println("Extension: " + art.Extension)
+	fmt.Println("Pages: " + art.Page)
+	fmt.Println("Size: " + art.Size)
+	fmt.Println("Memory: ", art.FileSize)
+	fmt.Println("Time: " + art.Time)
 }
