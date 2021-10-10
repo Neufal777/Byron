@@ -1,6 +1,7 @@
 package executions
 
 import (
+	"log"
 	"strconv"
 
 	"github.com/Byron/parsecore"
@@ -8,7 +9,7 @@ import (
 
 func LibrospdfgratismundoExecution() {
 	for i := 0; i < 260; i++ {
-		//log.Println("Running from:", i, "to", i+5)
+		log.Println("Running from:", i, "to", i+5)
 		go LibrospdfgratismundoSingleExecution(i, i+5)
 		i += 4
 	}

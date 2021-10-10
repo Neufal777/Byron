@@ -1,6 +1,8 @@
 package executions
 
 import (
+	"log"
+
 	"github.com/Byron/parsecore"
 )
 
@@ -70,7 +72,7 @@ func ManyBooksExecution() {
 	}
 
 	for i := 0; i < len(categories)-1; i++ {
-		//log.Println("Running: ", categories[i], "ID num:", i)
+		log.Println("Running: ", categories[i], "ID num:", i)
 		go ManyBooksSingleExecution(categories[i])
 
 	}

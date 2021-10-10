@@ -1,6 +1,7 @@
 package executions
 
 import (
+	"log"
 	"strconv"
 
 	"github.com/Byron/parsecore"
@@ -8,7 +9,7 @@ import (
 
 func OpenlibraExecution() {
 	for i := 0; i < 140; i++ {
-		//log.Println("Running from:", i, "to", i+10)
+		log.Println("Running from:", i, "to", i+10)
 		go OpenlibraSingleExecution(i, i+10)
 		i += 9
 	}

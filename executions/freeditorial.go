@@ -1,6 +1,7 @@
 package executions
 
 import (
+	"log"
 	"strconv"
 
 	"github.com/Byron/parsecore"
@@ -8,7 +9,7 @@ import (
 
 func FreeditorialExecution() {
 	for i := 0; i < 4500; i++ {
-		//log.Println("Running from:", i, "to", i+150)
+		log.Println("Running from:", i, "to", i+150)
 		go FreeditorialSingleExecution(i, i+150)
 		i += 149
 	}
