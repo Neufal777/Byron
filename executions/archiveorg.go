@@ -22,6 +22,7 @@ func ArchiveOrgSingleExecution(start int, end int) {
 	source := parsecore.Source{
 		SourceName:           "ArchiveOrg",
 		UrlREGEX:             "<a href=./details/([^\"']*)",
+		DownloadUrlREGEX:     "<a href=./details/([^\"']*)",
 		IncompleteArticleUrl: "https://archive.org/details/",
 		TitleREGEX:           "<span class=.breaker-breaker. itemprop=.name.>([^<]*)",
 		YearREGEX:            "<span itemprop=.datePublished.>([^<]*)",

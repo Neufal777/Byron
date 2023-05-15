@@ -8,7 +8,7 @@ import (
 )
 
 func BookRixExecution() {
-	for i := 0; i < 9600; i++ {
+	for i := 0; i < 9668; i++ {
 		log.Println("Running from:", i, "to", i+150)
 		go BookRixSingleExecution(i, i+150)
 		i += 149
@@ -23,7 +23,7 @@ func BookRixSingleExecution(start int, end int) {
 		SourceName:           "BookRix",
 		UrlREGEX:             "<big class=.item-title.><a class=.word-break. href=.([^\"']*)",
 		IdREGEX:              "",
-		DownloadUrlREGEX:     "<a class=.button blue withIcon read. [^>]*href=.([^\"']*)",
+		DownloadUrlREGEX:     "<big class=.item-title.><a class=.word-break. href=.([^\"']*)",
 		DownloadUrlComplete:  "https://www.bookrix.com",
 		TitleREGEX:           "<h2 class=.break-word.>([^<]*)",
 		AuthorREGEX:          "<a rel=.author. href=[^>]*>([^<]*)",

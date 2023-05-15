@@ -423,9 +423,9 @@ func ZBooksSingleExecution(urlCat string) {
 	source := parsecore.Source{
 		SourceName:           "ZBooks",
 		UrlREGEX:             "<h3 itemprop=.name.>[^>]*<a href=.([^\"']*)",
-		IncompleteArticleUrl: "https://es1lib.org",
+		IncompleteArticleUrl: "https://zlibrary.to/",
 		DownloadUrlREGEX:     "<a class=.btn btn-primary dlButton addDownloadedBook. href=.([^\"']*)",
-		DownloadUrlComplete:  "https://es1lib.org",
+		DownloadUrlComplete:  "https://zlibrary.to/",
 		TitleREGEX:           "<h1 itemprop=.name.[^>]*>([^<]*)",
 		YearREGEX:            "<div class=.property_label.>Año:</div>[^>]*<div class=.property_value.>([^<]*)",
 		AuthorREGEX:          "<div class=.authors.>[^>]*>([^<]*)",
@@ -433,7 +433,7 @@ func ZBooksSingleExecution(urlCat string) {
 		SizeREGEX:            "<div class=.property_label.>Archivo:</div>[^>]*<div class=.property_value.>([^<]*)",
 		PageREGEX:            "<div class=.property_value.><span title=.Pages paperback.>([^<]*)",
 		LanguageREGEX:        "<div class=.property_label.>Idioma:</div>[^>]*>([^<]*)",
-		CompletePageUrlStart: "https://es1lib.org/s/" + urlCat + "?page=",
+		CompletePageUrlStart: "https://zlibrary.to/" + urlCat + "?page=",
 		AllUrls:              nil,
 		Search:               "Zbooks" + urlCat,
 	}
