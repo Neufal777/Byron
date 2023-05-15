@@ -16,7 +16,6 @@
 Byron
 
 
-*.json
 Inventory/
 .DS_Store
 keywords.go

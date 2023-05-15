@@ -1,0 +1,15 @@
+{
+    "name": "neufal79/byron",
+    "autoload": {
+        "psr-4": {
+            "Neufal79\\Byron\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Naoufal Dahouli",
+            "email": "neufal777@gmail.com"
+        }
+    ],
+    "require": {}
+}
