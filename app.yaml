@@ -1,0 +1,10 @@
+runtime: go116
+
+env_variables:
+  MONGO_DATABASE: "byron"
+  MONGO_COLLECTION: "byronBooks"
+  MONGO_CONNECTION: "mongodb+srv://neufal79:neufal79000@cluster0.jdu7mnr.mongodb.net/"
+
+handlers:
+- url: /.*
+  script: auto
