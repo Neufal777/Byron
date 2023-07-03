@@ -1,4 +1,6 @@
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
+github.com/Neufal777/wallapop-go v0.0.0-20230624082357-1f0c83eca513 h1:2BbatvJD4pnISXKC7KzS36oKjnRb5Hyh6ZZ26Hckbbc=
+github.com/Neufal777/wallapop-go v0.0.0-20230624082357-1f0c83eca513/go.mod h1:fNIA8ryx/utIrL0AMgAk0iB38ZSi0bjdT0+9x3qz8Qg=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

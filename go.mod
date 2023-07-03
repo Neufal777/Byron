@@ -4,6 +4,7 @@ module github.com/Byron
 go 1.16
 
 require (
+	github.com/Neufal777/wallapop-go v0.0.0-20230624082357-1f0c83eca513 // indirect
 	github.com/elazarl/goproxy v0.0.0-20210801061803-8e322dfb79c4 // indirect
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/gorilla/mux v1.8.0
