@@ -17,6 +17,11 @@ func init() {
 	/*
 		Setting variables & configuration
 	*/
+
+	os.Setenv("MONGO_CONNECTION", "mongodb+srv://naoufaldracco:7BnUTsAzTEIYlfMPv@cluster0.rs85hn9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0mongodb+srv://naoufaldracco:7BnUTsAzTEIYlfMPv@cluster0.rs85hn9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+	os.Setenv("MONGO_DATABASE", "dracco_library")
+	os.Setenv("MONGO_COLLECTION", "library")
+
 	data := [][]string{
 		{"MONGO_CONNECTION", os.Getenv("MONGO_CONNECTION")},
 		{"MONGO_DATABASE", os.Getenv("MONGO_DATABASE")},
@@ -56,13 +61,6 @@ func main() {
 
 func TestingExecute() {}
 func ParseExecute() {
-	executions.ManyBooksExecution()
-	// executions.ArchiveOrgExecution()
-	// executions.ArchiveOrgExecution()
-	executions.FreeditorialExecution()
-	executions.LibGenExecution01()
-	executions.LibrospdfgratismundoExecution()
-	executions.OpenlibraExecution()
 	executions.ZBooksExecution()
 }
 

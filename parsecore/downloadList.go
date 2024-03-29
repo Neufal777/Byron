@@ -16,7 +16,6 @@ func DownloadList(url, search string) {
 	duplicated := 0
 
 	for _, c := range allList {
-
 		if c == url {
 			duplicated = 1
 		}

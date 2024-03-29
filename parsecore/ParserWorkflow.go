@@ -49,13 +49,8 @@ func (s *Source) GetArticles(pageStart int, pageEnd int) {
 	for i := pageStart; i < pageEnd; i++ {
 		var (
 			processingPage   = s.CompletePageUrlStart + strconv.Itoa(i) + s.CompletePageUrlEnd
-			htmlFormat, errs = GetHTML(processingPage)
+			htmlFormat, errs = ProxyScraping(processingPage)
 		)
-
-		log.Println("Processing page", processingPage)
-		// log.Println("htmlFormat", htmlFormat)
-
-		// fmt.Println(chalk.Green.Color("Downloading " + processingPage))
 
 		if errs != nil {
 			log.Println("Ups, we have some errors", errs)
@@ -63,14 +58,14 @@ func (s *Source) GetArticles(pageStart int, pageEnd int) {
 
 		if !core.ErrorsHandling(htmlFormat) {
 			matches := r.FindAllStringSubmatch(htmlFormat, -1)
-			// fmt.Println(chalk.Green.Color("Processing page " + strconv.Itoa(i)))
+			fmt.Println(chalk.Green.Color("Processing page " + strconv.Itoa(i)))
 
 			if len(matches) < 1 {
 				break
 			}
 
 			for _, m := range matches {
-				// fmt.Println(chalk.Green.Color("Saving " + s.IncompleteArticleUrl + m[1]))
+				fmt.Println(chalk.Green.Color("Saving " + s.IncompleteArticleUrl + m[1]))
 				s.AllUrls = append(s.AllUrls, s.IncompleteArticleUrl+m[1])
 				processed++
 				//DownloadList(s.IncompleteArticleUrl+m[1], s.Search) //Download disabled for storage reasons
@@ -96,7 +91,7 @@ func (s *Source) ProcessArticles() {
 	for _, u := range s.AllUrls {
 		time.Sleep(1 * time.Second)
 
-		articleHtmlFormat, errs := GetHTML(u)
+		articleHtmlFormat, errs := ProxyScraping(u)
 		if errs != nil {
 			log.Println("Ups, we have some errors")
 

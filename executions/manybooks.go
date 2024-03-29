@@ -81,7 +81,6 @@ func ManyBooksExecution() {
 }
 
 func ManyBooksSingleExecution(urlCat string) {
-
 	source := parsecore.Source{
 		SourceName:           "ManyBooks",
 		UrlREGEX:             "about=./titles/([^\"']*)",
