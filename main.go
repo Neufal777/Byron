@@ -14,11 +14,9 @@ import (
 )
 
 func init() {
-	/*
-		Setting variables & configuration
-	*/
-
-	os.Setenv("MONGO_CONNECTION", "mongodb+srv://naoufaldracco:7BnUTsAzTEIYlfMPv@cluster0.rs85hn9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0mongodb+srv://naoufaldracco:7BnUTsAzTEIYlfMPv@cluster0.rs85hn9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+	
+	// Setting variables & configuration
+	os.Setenv("MONGO_CONNECTION", "MONGO_CONNECTION")
 	os.Setenv("MONGO_DATABASE", "dracco_library")
 	os.Setenv("MONGO_COLLECTION", "library")
 
