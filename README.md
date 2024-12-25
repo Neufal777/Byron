@@ -37,27 +37,10 @@ go get github.com/Neufal777/Byron
 
 ```python
 func main() {
-
-	Categories := []string{
-		"machine learning",
-		"artificial Inteligence",
-		"neuroscience",
-		"maths",
-		"biology",
-		"medicine",
-		"mit",
-		"genomic",
-		"physics",
-		"chemistry",
-		"universe",
-		"paper",
-	}
+	Categories := []string{"machine learning", "artificial Inteligence"}
 
 	for _, c := range Categories {
-
-		fmt.Println(chalk.Magenta.Color("processing " + c))
 		core.LIBGENDownloadAll(c)
-
 	}
 
 }
